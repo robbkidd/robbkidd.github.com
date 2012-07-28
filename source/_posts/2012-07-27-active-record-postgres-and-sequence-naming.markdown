@@ -13,6 +13,8 @@ sequence for the table's primary key.
 
 A demonstration may be in order.
 
+<!-- more -->
+
 ```
 robb@neoldian ~/code/pg_seq » rails generate model Product name:string description:text
       invoke  active_record
@@ -78,16 +80,18 @@ Indexes:
     "products_pkey" PRIMARY KEY, btree (id)
 ```
 
+The who the what?
+
 On line 4, the next value for the `widgets.id` column is coming
-from a sequence named `products_id_seq`. The who the what? This
-is not catastrophic for small code bases, but imagine coming across
-this database months or years from now. "Why's the widget table
-have a sequence named 'products'?"
+from a sequence named `products_id_seq`. This is not catastrophic
+for small code bases, but imagine coming across this database
+months or years from now. "Why's the widget table have a sequence
+named 'products'?"
 
 The good news is that
 [AR v3.2.7 includes a fix for this](https://github.com/rails/rails/pull/7031).
-When you rename a table, if the name of sequence for the table's
-primary key matches the AR default "tablename_columnname_id", then
+When you rename a table, if the name of the sequence for the table's
+primary key matches the AR default "tablename_columnname_seq", then
 the sequence will be renamed as well. (I suppose the next order of
 business is to get that index renamed, too.)
 
