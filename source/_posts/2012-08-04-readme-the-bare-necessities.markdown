@@ -90,8 +90,8 @@ to include a table of contents in your PDF for easy navigation.
 
 ## Leveling Up?
 
-Tim Preston-Werner of GitHub fame has an argument for [README Driven
-Development](http://tom.preston-werner.com/2010/08/23/readme-driven-development.html).
+Tim Preston-Werner of GitHub fame has an argument for 
+[README Driven Development](http://tom.preston-werner.com/2010/08/23/readme-driven-development.html).
 Before you test-drive, before you behavior-drive, document your vision
 for what your code will do and write some examples of code you wish you
 had. Give that a read and let me know what you think.
