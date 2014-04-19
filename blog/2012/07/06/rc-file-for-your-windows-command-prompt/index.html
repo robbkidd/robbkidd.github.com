@@ -5,14 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Slightly Ahead of Behind the Curve</title>
+  <title>RC file for your Windows Command Prompt - Slightly Ahead of Behind the Curve</title>
   <meta name="author" content="Robb Kidd">
 
   
-  <meta name="description" content="I spoke
-at ChefConf 2014 this week. A
-few folks who used their Google Fu on me said, &#8220;That&#8217;s not your blog, is
-it? Nothing has been &hellip;">
+  <meta name="description" content="I had trouble today with my Windows %HOME% changing and throwing off
+Vagrant&#8217;s awareness of what boxes are installed.
+This may be your problem &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +20,7 @@ it? Nothing has been &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://thekidds.org/">
+  <link rel="canonical" href="http://thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -78,152 +77,12 @@ it? Nothing has been &hellip;">
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/04/18/yes-this-blog-is-stale/">Yes This Blog Is Stale.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-18T16:48:00-04:00" pubdate data-updated="true">Apr 18<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I <a href="http://chefconf2014.busyconf.com/schedule#activity_52ddec32fc59cd00880000c4">spoke</a>
-at <a href="http://chefconf.opscode.com/chefconf/">ChefConf 2014</a> this week. A
-few folks who used their Google Fu on me said, &#8220;That&#8217;s not your blog, is
-it? Nothing has been posted in forever!&#8221;</p>
-
-<p>I come from a long-ish career in the security and defense industry
-where we are notorious for <em>not</em> talking about how we do things. It is
-taking time and effort to break habits of holding all cards close to the
-chest.</p>
-
-<p>So, yes. This is my blog. Yes, it is stale. I seem to only write when I&#8217;ve
-spoken somewhere—which isn&#8217;t that often. I&#8217;m working on doing more of
-both of these things.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/04/readme-the-bare-necessities/">README: The Bare Necessities</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-04T19:35:00-04:00" pubdate data-updated="true">Aug 4<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I gave a lightning talk at Steel City Ruby Conf 2012 today on writing a
-decent README. Instead of putting the slides up somewhere, I thought I
-would write up a more detailed post of the talk&#8217;s points.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/08/04/readme-the-bare-necessities/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/27/active-record-postgres-and-sequence-naming/">Active Record, PostgreSQL and Sequence Naming</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-27T16:33:00-04:00" pubdate data-updated="true">Jul 27<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>If you use PostgreSQL to back your Active Record models, you should
-check the current names for your tables and their sequences. Prior to
-Active Record 3.2.7, renaming a table did not rename the associated
-sequence for the table&#8217;s primary key.</p>
-
-<p>A demonstration may be in order.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/07/27/active-record-postgres-and-sequence-naming/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/07/06/rc-file-for-your-windows-command-prompt/">RC File for Your Windows Command Prompt</a></h1>
+      <h1 class="entry-title">RC File for Your Windows Command Prompt</h1>
     
     
       <p class="meta">
@@ -246,7 +105,7 @@ sequence for the table&#8217;s primary key.</p>
   </header>
 
 
-  <div class="entry-content"><p>I had trouble today with my Windows <code>%HOME%</code> changing and throwing off
+<div class="entry-content"><p>I had trouble today with my Windows <code>%HOME%</code> changing and throwing off
 <a href="http://vagrantup.com">Vagrant</a>&#8217;s awareness of what boxes are installed.
 This may be your problem if Vagrant on Windows was working happily for
 you and then barks about no boxes.</p>
@@ -318,81 +177,16 @@ on the AD network, Vagrant was no longer aware of the base boxes because
 </span></code></pre></td></tr></table></div></figure>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/05/one-unity-launcher/">One Unity Launcher</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Robb Kidd</span></span>
 
-<time datetime="2012-04-05T14:43:00-04:00" pubdate data-updated="true">Apr 5<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>T&#8217;was decided that <a href="http://www.omgubuntu.co.uk/2012/03/ubuntu-12-04-multi-monitor-to-be/">the default behavior for Unity&#8217;s launcher will be to appear only on the primary monitor in Ubuntu 12.04</a>.
-For some reason, when I upgraded to 12.04 (beta) today, my setting was
-for the launcher to appear on ALL desktops. Not a fan of it on all desktops.</p>
-
-<p>For those who want to change this setting, you&#8217;ll need to install the Compiz
-configuration manager.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo aptitude install compizconfig-settings-manager</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Once installed, run it.</p>
-
-<ol>
-<li>Hover the Dash Home (Ubuntu icon on launcher)</li>
-<li>Type in <code>compiz</code> and click on the <code>CompizConfig Settings Manager</code> icon that appears.</li>
-<li>Select <code>Desktop</code> on the left.</li>
-<li>Click on <code>Ubuntu Unity Plugin</code> on the right.</li>
-<li>Select the <code>Experimental</code> tab and scroll all the way down.</li>
-</ol>
-
-
-<p>The setting for where launchers appear is <code>Launcher Monitors</code>. As of
- today (2012/04/05), you can select either <code>Primary Desktop</code> or <code>All Desktops</code>.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/07/11/give-your-gems-some-context-for-selinux/">Give Your Gems Some Context for SELinux</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -404,59 +198,46 @@ configuration manager.</p>
   
 
 
-<time datetime="2011-07-11T18:55:00-04:00" pubdate data-updated="true">Jul 11<span>th</span>, 2011</time>
-        
-      </p>
+<time datetime="2012-07-06T14:41:00-04:00" pubdate data-updated="true">Jul 6<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/vagrant/'>Vagrant</a>, <a class='category' href='/blog/categories/windows/'>Windows</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/" data-via="robbkidd" data-counturl="http://thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/" >Tweet</a>
+  
+  
+  
+</div>
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/05/one-unity-launcher/" title="Previous Post: One Unity Launcher">&laquo; One Unity Launcher</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/07/27/active-record-postgres-and-sequence-naming/" title="Next Post: Active Record, PostgreSQL and Sequence Naming">Active Record, PostgreSQL and Sequence Naming &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
 
-  <div class="entry-content"><p>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app&#8211;e.g. failed to map segment from shared object: Permission denied&#8211;despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo chcon -R -h -t httpd_sys_content_t &lt;gems path&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><code>chcon</code> :: Changes the security context for those executables and libraries.</li>
-<li><code>-R</code> :: (recursive) All the files here, please.</li>
-<li><code>-h</code> :: Affect symbolic links instead of any referenced file.</li>
-<li><code>-t httpd_sys_content_t</code> :: Set the TYPE in the security context.</li>
-</ul>
-
-
-<p>We deploy with capistrano, so I have added this as a task called after
-<code>bundle:install</code> vendors my gems to <code>&lt;appdir&gt;/shared/bundle</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:application</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">after</span> <span class="s1">&#39;bundle:install&#39;</span><span class="p">,</span> <span class="s1">&#39;application:update_selinux&#39;</span>
-</span><span class='line'>  <span class="n">task</span> <span class="ss">:update_selinux</span><span class="p">,</span> <span class="ss">:roles</span> <span class="o">=&gt;</span> <span class="ss">:web</span> <span class="k">do</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;Updating SELinux context for bundled gems&#39;</span>
-</span><span class='line'>    <span class="n">run</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">try_sudo</span><span class="si">}</span><span class="s2"> chcon -R -h -t httpd_sys_content_t </span><span class="si">#{</span><span class="n">applicationdir</span><span class="si">}</span><span class="s2">/shared/bundle/&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -489,7 +270,7 @@ configuration manager.</p>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/robbkidd">@robbkidd</a> on GitHub
@@ -519,7 +300,7 @@ configuration manager.</p>
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -539,6 +320,7 @@ configuration manager.</p>
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -553,7 +335,10 @@ configuration manager.</p>
       var disqus_shortname = 'thekidds-org';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/';
+        var disqus_url = 'http://thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

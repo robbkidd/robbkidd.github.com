@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>README: the Bare Necessities - Slightly Ahead of Behind the Curve</title>
+  <meta name="author" content="Robb Kidd">
+
+  
+  <meta name="description" content="I gave a lightning talk at Steel City Ruby Conf 2012 today on writing a
+decent README. Instead of putting the slides up somewhere, I thought I
+would &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thekidds.org/blog/2012/08/04/readme-the-bare-necessities/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Slightly Ahead of Behind the Curve" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-33215856-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Slightly Ahead of Behind the Curve</a></h1>
+  
+    <h2>Brain droppings found here.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thekidds.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about/">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">README: The Bare Necessities</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-04T19:35:00-04:00" pubdate data-updated="true">Aug 4<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I gave a lightning talk at Steel City Ruby Conf 2012 today on writing a
+decent README. Instead of putting the slides up somewhere, I thought I
+would write up a more detailed post of the talk&#8217;s points.</p>
+
+<!-- more -->
+
+
+<h2>Your README should &#8230;</h2>
+
+<h3>&#8230; explain why your code exists</h3>
+
+<p>Tell me why you wrote this code. Give me a vision statement or an
+elevator pitch. &#8220;Unlike all the other code on the internet, my project
+is awesome.&#8221; Then follow up with how your project scratches an itch
+differently than others.</p>
+
+<h3>&#8230; demonstrate how to install and use the code</h3>
+
+<p>It could be as simple as:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install awesome_tool</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'awesome_tool'
+</span><span class='line'>
+</span><span class='line'>awesome_tool do
+</span><span class='line'>  awesome_stuff
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If things get complicated, use subsections or wiki pages, but try to
+provide steps and examples in the README and link to the complicated
+stuff.</p>
+
+<p>As far as examples of use are concerned, start with the most common and
+valuable example of using your tool. Help me understand how to make my
+life better with your awesomeness.</p>
+
+<h3>&#8230; declare copyright and licensing</h3>
+
+<p>Tell me your licensing terms. Can I copy your code? Can I distribute it?
+Can I modify it?</p>
+
+<h3>&#8230; describe how to contribute</h3>
+
+<p>If I can modify it, how do I get those modifications back to you, the
+maintainer? Do you expect code to follow certain conventions? Do you
+expect to have tests submitted with the patch? (In general, the answer
+here is &#8220;yes.&#8221;)</p>
+
+<p>Provide instructions on setting up the tool&#8217;s development environment.
+Tell me how to run your tests. There is nothing like trying to document
+this sort of thing to cause you to throw up your arms and automate this
+stuff which only makes your code more awesome.</p>
+
+<h3>&#8230; give credit</h3>
+
+<p>Take credit! You wrote an awesome tool! Give credit to contributors.
+This encourages others to contribute more awesomeness. List
+authors/contributors, link to a CONTRIBUTORS file or punt to GitHub and
+link to the contributors graph.</p>
+
+<h3>&#8230; be plain text</h3>
+
+<p>Write your README in plain text. We&#8217;ve got decades of convention that
+READMEs are readable on a simple terminal with your PAGER of choice.
+Don&#8217;t fight that.</p>
+
+<p>I would go farther and recommend you <a href="https://raw.github.com/robbkidd/activerecord-netezza-adapter/master/README.md">write your README in Markdown</a>. It
+is a simple plain text markup that is refreshingly free of noisy markup
+like HTML tags that I have to ignore. The benefit is that some tools
+like GitHub and GitLabHQ
+<a href="https://github.com/robbkidd/activerecord-netezza-adapter/blob/master/README.md">turn your README.md into a web page</a>.
+Yay! Your project has a README <em>and</em> a web page with structure,
+hyperlinks and syntax-highlighted code blocks.</p>
+
+<p>Even better, a tool called <a href="http://johnmacfarlane.net/pandoc/">PanDoc</a>
+can turn your README.md into a PDF. If you provided headings and
+sub-headings (with hash marks &#8220;#&#8221;) in your markdown, you can tell PanDoc
+to include a table of contents in your PDF for easy navigation.</p>
+
+<h2>Leveling Up?</h2>
+
+<p>Tim Preston-Werner of GitHub fame has an argument for
+<a href="http://tom.preston-werner.com/2010/08/23/readme-driven-development.html">README Driven Development</a>.
+Before you test-drive, before you behavior-drive, document your vision
+for what your code will do and write some examples of code you wish you
+had. Give that a read and let me know what you think.</p>
+
+<h2>What next?</h2>
+
+<p>What sort of documentation you produce after your essential README
+depends on what your awesome tool really is, how it is used and what
+sort of audience you expect to have for the docs. Library code probably
+benefits best from rdoc-style embedded comments that can be compiled
+into a library reference. Web APIs can be documented with guide-style
+pages providing the lay of the land with references to tests written
+specifically as examples of use.</p>
+
+<p>End-user documentation can be deviously tricky. Simple, but
+time-consuming to write at the beginning, end-user docs end up
+atrophying, quickly becoming documents filled with misdirection as your
+tool grows. I&#8217;ve got a vision of end-user documentation being written in
+something like Cucumber to include steps that can capture named
+screenshots of the UI state at points in the scenarios. Markdown
+documentation&#8211;possibly contained in the preamble section of the
+Cucumber features&#8211;would reference the named screenshots. Run the
+documentation Cucumber scenarios, run the markdown through PanDoc and
+you&#8217;ve got end-user documentation with up-to-date screenshots. No more
+weeks spent manually screenshotting your app while you monkey-push
+buttons and enter data to get the app in the right state for the
+documentation scenario just because you changed the order of the nav
+bar.</p>
+
+<p>I&#8217;ve not cracked this last nut. If you are interested in when I do, let
+me know. If <em>you</em> have cracked this nut or have some insight into how, I
+would love to talk to you. If there is interest, I plan on writing more
+here or in another venue where collaboration can occur about techniques
+to make documentation less painful.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Robb Kidd</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-04T19:35:00-04:00" pubdate data-updated="true">Aug 4<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://thekidds.org/blog/2012/08/04/readme-the-bare-necessities/" data-via="robbkidd" data-counturl="http://thekidds.org/blog/2012/08/04/readme-the-bare-necessities/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/07/27/active-record-postgres-and-sequence-naming/" title="Previous Post: Active Record, PostgreSQL and Sequence Naming">&laquo; Active Record, PostgreSQL and Sequence Naming</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/04/18/yes-this-blog-is-stale/" title="Next Post: Yes this blog is stale.">Yes this blog is stale. &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/yes-this-blog-is-stale/">Yes this blog is stale.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/04/readme-the-bare-necessities/">README: the Bare Necessities</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/27/active-record-postgres-and-sequence-naming/">Active Record, PostgreSQL and Sequence Naming</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/06/rc-file-for-your-windows-command-prompt/">RC file for your Windows Command Prompt</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/05/one-unity-launcher/">One Unity Launcher</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/robbkidd">@robbkidd</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'robbkidd',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("robbkidd", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/robbkidd" class="twitter-follow-button" data-show-count="false">Follow @robbkidd</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Robb Kidd -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'thekidds-org';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://thekidds.org/blog/2012/08/04/readme-the-bare-necessities/';
+        var disqus_url = 'http://thekidds.org/blog/2012/08/04/readme-the-bare-necessities/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

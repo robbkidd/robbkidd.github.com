@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: RHEL | Slightly Ahead of Behind the Curve]]></title>
+  <link href="http://thekidds.org/blog/categories/rhel/atom.xml" rel="self"/>
+  <link href="http://thekidds.org/"/>
+  <updated>2014-04-19T12:02:21-04:00</updated>
+  <id>http://thekidds.org/</id>
+  <author>
+    <name><![CDATA[Robb Kidd]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Give Your Gems Some Context for SELinux]]></title>
+    <link href="http://thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux/"/>
+    <updated>2011-07-11T18:55:00-04:00</updated>
+    <id>http://thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux</id>
+    <content type="html"><![CDATA[<p>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app--e.g. failed to map segment from shared object: Permission denied--despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</p>
+
+<p><code>
+sudo chcon -R -h -t httpd_sys_content_t &lt;gems path&gt;
+</code></p>
+
+<ul>
+<li><code>chcon</code> :: Changes the security context for those executables and libraries.</li>
+<li><code>-R</code> :: (recursive) All the files here, please.</li>
+<li><code>-h</code> :: Affect symbolic links instead of any referenced file.</li>
+<li><code>-t httpd_sys_content_t</code> :: Set the TYPE in the security context.</li>
+</ul>
+
+
+<p>We deploy with capistrano, so I have added this as a task called after
+<code>bundle:install</code> vendors my gems to <code>&lt;appdir&gt;/shared/bundle</code>.</p>
+
+<p>```ruby
+namespace :application do
+  after 'bundle:install', 'application:update_selinux'
+  task :update_selinux, :roles => :web do</p>
+
+<pre><code>puts 'Updating SELinux context for bundled gems'
+run "#{try_sudo} chcon -R -h -t httpd_sys_content_t #{applicationdir}/shared/bundle/"
+</code></pre>
+
+<p>  end
+end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

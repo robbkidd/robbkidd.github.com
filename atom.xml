@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Slightly Ahead of Behind the Curve]]></title>
+  <link href="http://thekidds.org/atom.xml" rel="self"/>
+  <link href="http://thekidds.org/"/>
+  <updated>2014-04-19T12:02:21-04:00</updated>
+  <id>http://thekidds.org/</id>
+  <author>
+    <name><![CDATA[Robb Kidd]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Yes this blog is stale.]]></title>
+    <link href="http://thekidds.org/blog/2014/04/18/yes-this-blog-is-stale/"/>
+    <updated>2014-04-18T16:48:00-04:00</updated>
+    <id>http://thekidds.org/blog/2014/04/18/yes-this-blog-is-stale</id>
+    <content type="html"><![CDATA[<p>I <a href="http://chefconf2014.busyconf.com/schedule#activity_52ddec32fc59cd00880000c4">spoke</a>
+at <a href="http://chefconf.opscode.com/chefconf/">ChefConf 2014</a> this week. A
+few folks who used their Google Fu on me said, &#8220;That&#8217;s not your blog, is
+it? Nothing has been posted in forever!&#8221;</p>
+
+<p>I come from a long-ish career in the security and defense industry
+where we are notorious for <em>not</em> talking about how we do things. It is
+taking time and effort to break habits of holding all cards close to the
+chest.</p>
+
+<p>So, yes. This is my blog. Yes, it is stale. I seem to only write when I&#8217;ve
+spoken somewhere—which isn&#8217;t that often. I&#8217;m working on doing more of
+both of these things.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[README: the Bare Necessities]]></title>
+    <link href="http://thekidds.org/blog/2012/08/04/readme-the-bare-necessities/"/>
+    <updated>2012-08-04T19:35:00-04:00</updated>
+    <id>http://thekidds.org/blog/2012/08/04/readme-the-bare-necessities</id>
+    <content type="html"><![CDATA[<p>I gave a lightning talk at Steel City Ruby Conf 2012 today on writing a
+decent README. Instead of putting the slides up somewhere, I thought I
+would write up a more detailed post of the talk&#8217;s points.</p>
+
+<!-- more -->
+
+
+<h2>Your README should &#8230;</h2>
+
+<h3>&#8230; explain why your code exists</h3>
+
+<p>Tell me why you wrote this code. Give me a vision statement or an
+elevator pitch. &#8220;Unlike all the other code on the internet, my project
+is awesome.&#8221; Then follow up with how your project scratches an itch
+differently than others.</p>
+
+<h3>&#8230; demonstrate how to install and use the code</h3>
+
+<p>It could be as simple as:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install awesome_tool</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'awesome_tool'
+</span><span class='line'>
+</span><span class='line'>awesome_tool do
+</span><span class='line'>  awesome_stuff
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If things get complicated, use subsections or wiki pages, but try to
+provide steps and examples in the README and link to the complicated
+stuff.</p>
+
+<p>As far as examples of use are concerned, start with the most common and
+valuable example of using your tool. Help me understand how to make my
+life better with your awesomeness.</p>
+
+<h3>&#8230; declare copyright and licensing</h3>
+
+<p>Tell me your licensing terms. Can I copy your code? Can I distribute it?
+Can I modify it?</p>
+
+<h3>&#8230; describe how to contribute</h3>
+
+<p>If I can modify it, how do I get those modifications back to you, the
+maintainer? Do you expect code to follow certain conventions? Do you
+expect to have tests submitted with the patch? (In general, the answer
+here is &#8220;yes.&#8221;)</p>
+
+<p>Provide instructions on setting up the tool&#8217;s development environment.
+Tell me how to run your tests. There is nothing like trying to document
+this sort of thing to cause you to throw up your arms and automate this
+stuff which only makes your code more awesome.</p>
+
+<h3>&#8230; give credit</h3>
+
+<p>Take credit! You wrote an awesome tool! Give credit to contributors.
+This encourages others to contribute more awesomeness. List
+authors/contributors, link to a CONTRIBUTORS file or punt to GitHub and
+link to the contributors graph.</p>
+
+<h3>&#8230; be plain text</h3>
+
+<p>Write your README in plain text. We&#8217;ve got decades of convention that
+READMEs are readable on a simple terminal with your PAGER of choice.
+Don&#8217;t fight that.</p>
+
+<p>I would go farther and recommend you <a href="https://raw.github.com/robbkidd/activerecord-netezza-adapter/master/README.md">write your README in Markdown</a>. It
+is a simple plain text markup that is refreshingly free of noisy markup
+like HTML tags that I have to ignore. The benefit is that some tools
+like GitHub and GitLabHQ
+<a href="https://github.com/robbkidd/activerecord-netezza-adapter/blob/master/README.md">turn your README.md into a web page</a>.
+Yay! Your project has a README <em>and</em> a web page with structure,
+hyperlinks and syntax-highlighted code blocks.</p>
+
+<p>Even better, a tool called <a href="http://johnmacfarlane.net/pandoc/">PanDoc</a>
+can turn your README.md into a PDF. If you provided headings and
+sub-headings (with hash marks &#8220;#&#8221;) in your markdown, you can tell PanDoc
+to include a table of contents in your PDF for easy navigation.</p>
+
+<h2>Leveling Up?</h2>
+
+<p>Tim Preston-Werner of GitHub fame has an argument for
+<a href="http://tom.preston-werner.com/2010/08/23/readme-driven-development.html">README Driven Development</a>.
+Before you test-drive, before you behavior-drive, document your vision
+for what your code will do and write some examples of code you wish you
+had. Give that a read and let me know what you think.</p>
+
+<h2>What next?</h2>
+
+<p>What sort of documentation you produce after your essential README
+depends on what your awesome tool really is, how it is used and what
+sort of audience you expect to have for the docs. Library code probably
+benefits best from rdoc-style embedded comments that can be compiled
+into a library reference. Web APIs can be documented with guide-style
+pages providing the lay of the land with references to tests written
+specifically as examples of use.</p>
+
+<p>End-user documentation can be deviously tricky. Simple, but
+time-consuming to write at the beginning, end-user docs end up
+atrophying, quickly becoming documents filled with misdirection as your
+tool grows. I&#8217;ve got a vision of end-user documentation being written in
+something like Cucumber to include steps that can capture named
+screenshots of the UI state at points in the scenarios. Markdown
+documentation&#8211;possibly contained in the preamble section of the
+Cucumber features&#8211;would reference the named screenshots. Run the
+documentation Cucumber scenarios, run the markdown through PanDoc and
+you&#8217;ve got end-user documentation with up-to-date screenshots. No more
+weeks spent manually screenshotting your app while you monkey-push
+buttons and enter data to get the app in the right state for the
+documentation scenario just because you changed the order of the nav
+bar.</p>
+
+<p>I&#8217;ve not cracked this last nut. If you are interested in when I do, let
+me know. If <em>you</em> have cracked this nut or have some insight into how, I
+would love to talk to you. If there is interest, I plan on writing more
+here or in another venue where collaboration can occur about techniques
+to make documentation less painful.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Active Record, PostgreSQL and Sequence Naming]]></title>
+    <link href="http://thekidds.org/blog/2012/07/27/active-record-postgres-and-sequence-naming/"/>
+    <updated>2012-07-27T16:33:00-04:00</updated>
+    <id>http://thekidds.org/blog/2012/07/27/active-record-postgres-and-sequence-naming</id>
+    <content type="html"><![CDATA[<p>If you use PostgreSQL to back your Active Record models, you should
+check the current names for your tables and their sequences. Prior to
+Active Record 3.2.7, renaming a table did not rename the associated
+sequence for the table&#8217;s primary key.</p>
+
+<p>A demonstration may be in order.</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>robb@neoldian ~/code/pg_seq » rails generate model Product name:string description:text
+</span><span class='line'>      invoke  active_record
+</span><span class='line'>      create    db/migrate/20120727210734_create_products.rb
+</span><span class='line'>      create    app/models/product.rb
+</span><span class='line'>      invoke    test_unit
+</span><span class='line'>      create      test/unit/product_test.rb
+</span><span class='line'>      create      test/fixtures/products.yml
+</span><span class='line'>
+</span><span class='line'>robb@neoldian ~/code/pg_seq » rake db:migrate
+</span><span class='line'>==  CreateProducts: migrating =================================================
+</span><span class='line'>-- create_table(:products)
+</span><span class='line'>NOTICE:  CREATE TABLE will create implicit sequence "products_id_seq" for serial column "products.id"
+</span><span class='line'>NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "products_pkey" for table "products"
+</span><span class='line'>   -&gt; 0.0194s
+</span><span class='line'>==  CreateProducts: migrated (0.0196s) ========================================</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that on line 11 the <code>CREATE TABLE</code> created an implicit sequence
+<code>products_id_seq</code> for serial column <code>products.id</code>.</p>
+
+<p>Let&#8217;s rename the table.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>robb@neoldian ~/code/pg_seq » rails generate migration RenameProductsToWidgets
+</span><span class='line'>      invoke  active_record
+</span><span class='line'>      create    db/migrate/20120727211235_rename_products_to_widgets.rb
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>db/migrate/20120727211235_rename_products_to_widgets.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">RenameProductsToWidgets</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">up</span>
+</span><span class='line'>    <span class="n">rename_table</span> <span class="ss">:products</span><span class="p">,</span> <span class="ss">:widgets</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">down</span>
+</span><span class='line'>    <span class="n">rename_table</span> <span class="ss">:widgets</span><span class="p">,</span> <span class="ss">:products</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>robb@neoldian ~/code/pg_seq » rake db:migrate
+</span><span class='line'><span class="o">==</span>  RenameProductsToWidgets: <span class="nv">migrating</span> <span class="o">========================================</span>
+</span><span class='line'>-- rename_table<span class="o">(</span>:products, :widgets<span class="o">)</span>
+</span><span class='line'>   -&gt; 0.0019s
+</span><span class='line'><span class="o">==</span>  RenameProductsToWidgets: migrated <span class="o">(</span>0.0020s<span class="o">)</span> <span class="o">===============================</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What do you expect the sequence for the <code>id</code> column in the <code>widgets</code>
+table to be named at this point? <code>widgets_id_seq</code>?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>                                  Table <span class="s2">&quot;public.widgets&quot;</span>
+</span><span class='line'>   Column    |            Type             |                       Modifiers
+</span><span class='line'>-------------+-----------------------------+-------------------------------------------------------
+</span><span class='line'> id          | integer                     | not null default nextval<span class="o">(</span><span class="s1">&#39;products_id_seq&#39;</span>::regclass<span class="o">)</span>
+</span><span class='line'> name        | character varying<span class="o">(</span>255<span class="o">)</span>      |
+</span><span class='line'> description | text                        |
+</span><span class='line'> created_at  | timestamp without <span class="nb">time </span>zone | not null
+</span><span class='line'> updated_at  | timestamp without <span class="nb">time </span>zone | not null
+</span><span class='line'>Indexes:
+</span><span class='line'><span class="s2">&quot;products_pkey&quot;</span> PRIMARY KEY, btree <span class="o">(</span>id<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The who the what?</p>
+
+<p>On line 4, the next value for the <code>widgets.id</code> column is coming
+from a sequence named <code>products_id_seq</code>. This is not catastrophic
+for small code bases, but imagine coming across this database
+months or years from now. &#8220;Why&#8217;s the widget table have a sequence
+named &#8216;products&#8217;?&#8221;</p>
+
+<p>The good news is that
+<a href="https://github.com/rails/rails/pull/7031">AR v3.2.7 includes a fix for this</a>.
+When you rename a table, if the name of the sequence for the table&#8217;s
+primary key matches the AR default &#8220;tablename_columnname_seq&#8221;, then
+the sequence will be renamed as well. (I suppose the next order of
+business is to get that index renamed, too.)</p>
+
+<p>So you might want to go take a look at your PostgreSQL tables. Their sequences
+probably have names that do not make any sense now.</p>
+
+<p>You can use this gist in your Rails console as a quick way to check.</p>
+
+<div><script src='https://gist.github.com/3190645.js?file='></script>
+<noscript><pre><code>&lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;https://github.com/gist/3190645&quot;&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;</code></pre></noscript></div>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RC file for your Windows Command Prompt]]></title>
+    <link href="http://thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/"/>
+    <updated>2012-07-06T14:41:00-04:00</updated>
+    <id>http://thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt</id>
+    <content type="html"><![CDATA[<p>I had trouble today with my Windows <code>%HOME%</code> changing and throwing off
+<a href="http://vagrantup.com">Vagrant</a>&#8217;s awareness of what boxes are installed.
+This may be your problem if Vagrant on Windows was working happily for
+you and then barks about no boxes.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>C:\Users\you&gt; vagrant box list
+</span><span class='line'>There are no installed boxes! Use `vagrant box add` to add some.
+</span><span class='line'>
+</span><span class='line'>C:\Users\you&gt;dir /b .vagrant.d\boxes
+</span><span class='line'>base-i-really-exist
+</span><span class='line'>centos-does-too
+</span><span class='line'>
+</span><span class='line'>C:\Users\you&gt;echo %HOME%
+</span><span class='line'>&lt;somewhere not C:\Users\you&gt;
+</span><span class='line'>
+</span><span class='line'>C:\Users\you&gt;set HOME=%USERPROFILE%
+</span><span class='line'>
+</span><span class='line'>C:\Users\you&gt;vagrant box list
+</span><span class='line'>base-i-really-exist
+</span><span class='line'>centos-does-too</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>%HOME%</code> was different depending on whether I logged into Windows while
+on my Active Directory managed network or while I was offline. When on
+the AD network, <code>%HOME%</code> is set by policy to a mapped drive. When offline,
+<code>%HOME%</code> is my Windows <code>%USERPROFILE%</code>. I installed Vagrant and some base
+boxes while off my AD network and everything worked as expected. Base boxes
+were added to <code>%USERPROFILE%/.vagrant.d/</code>. Back in the office and logged in
+on the AD network, Vagrant was no longer aware of the base boxes because
+<code>%HOME%</code> now pointed at my personal mapped drive.</p>
+
+<p>Creating a batch file to set <code>%HOME%</code> to <code>%USERPROFILE%</code> solved the problem.</p>
+
+<figure class='code'><figcaption><span>cmdrc.bat</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bat'><span class='line'><span class="c">REM %USERPROFILE%/cmdrc.bat</span>
+</span><span class='line'><span class="p">@</span><span class="k">echo</span> <span class="k">off</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nv">HOME</span><span class="o">=</span><span class="nv">%USERPROFILE%</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For UNIXy goodness, name it <code>cmdrc.bat</code>, place it in <code>%USERPROFILE%</code> and then add the following to the registry so that this file is run whenever a command prompt opens.</p>
+
+<figure class='code'><figcaption><span>cmdrc.reg</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Windows Registry Editor Version 5.00
+</span><span class='line'>
+</span><span class='line'>[HKEY_CURRENT_USER\Software\Microsoft\Command Processor]
+</span><span class='line'>&quot;AutoRun&quot;=&quot;%USERPROFILE%\\cmdrc.bat&quot;
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[One Unity Launcher]]></title>
+    <link href="http://thekidds.org/blog/2012/04/05/one-unity-launcher/"/>
+    <updated>2012-04-05T14:43:00-04:00</updated>
+    <id>http://thekidds.org/blog/2012/04/05/one-unity-launcher</id>
+    <content type="html"><![CDATA[<p>T&#8217;was decided that <a href="http://www.omgubuntu.co.uk/2012/03/ubuntu-12-04-multi-monitor-to-be/">the default behavior for Unity&#8217;s launcher will be to appear only on the primary monitor in Ubuntu 12.04</a>.
+For some reason, when I upgraded to 12.04 (beta) today, my setting was
+for the launcher to appear on ALL desktops. Not a fan of it on all desktops.</p>
+
+<p>For those who want to change this setting, you&#8217;ll need to install the Compiz
+configuration manager.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo aptitude install compizconfig-settings-manager</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once installed, run it.</p>
+
+<ol>
+<li>Hover the Dash Home (Ubuntu icon on launcher)</li>
+<li>Type in <code>compiz</code> and click on the <code>CompizConfig Settings Manager</code> icon that appears.</li>
+<li>Select <code>Desktop</code> on the left.</li>
+<li>Click on <code>Ubuntu Unity Plugin</code> on the right.</li>
+<li>Select the <code>Experimental</code> tab and scroll all the way down.</li>
+</ol>
+
+
+<p>The setting for where launchers appear is <code>Launcher Monitors</code>. As of
+ today (2012/04/05), you can select either <code>Primary Desktop</code> or <code>All Desktops</code>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Give Your Gems Some Context for SELinux]]></title>
+    <link href="http://thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux/"/>
+    <updated>2011-07-11T18:55:00-04:00</updated>
+    <id>http://thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux</id>
+    <content type="html"><![CDATA[<p>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app&#8211;e.g. failed to map segment from shared object: Permission denied&#8211;despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo chcon -R -h -t httpd_sys_content_t &lt;gems path&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>chcon</code> :: Changes the security context for those executables and libraries.</li>
+<li><code>-R</code> :: (recursive) All the files here, please.</li>
+<li><code>-h</code> :: Affect symbolic links instead of any referenced file.</li>
+<li><code>-t httpd_sys_content_t</code> :: Set the TYPE in the security context.</li>
+</ul>
+
+
+<p>We deploy with capistrano, so I have added this as a task called after
+<code>bundle:install</code> vendors my gems to <code>&lt;appdir&gt;/shared/bundle</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:application</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">after</span> <span class="s1">&#39;bundle:install&#39;</span><span class="p">,</span> <span class="s1">&#39;application:update_selinux&#39;</span>
+</span><span class='line'>  <span class="n">task</span> <span class="ss">:update_selinux</span><span class="p">,</span> <span class="ss">:roles</span> <span class="o">=&gt;</span> <span class="ss">:web</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;Updating SELinux context for bundled gems&#39;</span>
+</span><span class='line'>    <span class="n">run</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">try_sudo</span><span class="si">}</span><span class="s2"> chcon -R -h -t httpd_sys_content_t </span><span class="si">#{</span><span class="n">applicationdir</span><span class="si">}</span><span class="s2">/shared/bundle/&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+</feed>
