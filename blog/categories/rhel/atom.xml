@@ -4,7 +4,7 @@
   <title><![CDATA[Category: RHEL | Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/blog/categories/rhel/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2014-04-19T12:51:43-04:00</updated>
+  <updated>2014-04-19T13:59:34-04:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -18,7 +18,7 @@
     <link href="http://thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux/"/>
     <updated>2011-07-11T18:55:00-04:00</updated>
     <id>http://thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux</id>
-    <content type="html"><![CDATA[<p>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app--e.g. failed to map segment from shared object: Permission denied--despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</p>
+    <content type="html"><![CDATA[<p>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app&mdash;e.g. failed to map segment from shared object: Permission denied&mdash;despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</p>
 
 <p><code>
 sudo chcon -R -h -t httpd_sys_content_t &lt;gems path&gt;
@@ -37,7 +37,7 @@ sudo chcon -R -h -t httpd_sys_content_t &lt;gems path&gt;
 
 <p>```ruby
 namespace :application do
-  after 'bundle:install', 'application:update_selinux'
+  after &lsquo;bundle:install&rsquo;, &lsquo;application:update_selinux&rsquo;
   task :update_selinux, :roles => :web do</p>
 
 <pre><code>puts 'Updating SELinux context for bundled gems'

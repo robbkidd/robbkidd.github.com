@@ -9,7 +9,7 @@
   <meta name="author" content="Robb Kidd">
 
   
-  <meta name="description" content="T&#8217;was decided that the default behavior for Unity&#8217;s launcher will be to appear only on the primary monitor in Ubuntu 12.04.
+  <meta name="description" content="T&#8217;was decided that the default behavior for Unity&rsquo;s launcher will be to appear only on the primary monitor in Ubuntu 12.04.
 For some &hellip;">
   
 
@@ -19,13 +19,14 @@ For some &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://thekidds.org/blog/2012/04/05/one-unity-launcher/">
+  <link rel="canonical" href="http://thekidds.org/blog/2012/04/05/one-unity-launcher">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Slightly Ahead of Behind the Curve" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -104,11 +105,11 @@ For some &hellip;">
   </header>
 
 
-<div class="entry-content"><p>T&#8217;was decided that <a href="http://www.omgubuntu.co.uk/2012/03/ubuntu-12-04-multi-monitor-to-be/">the default behavior for Unity&#8217;s launcher will be to appear only on the primary monitor in Ubuntu 12.04</a>.
+<div class="entry-content"><p>T&#8217;was decided that <a href="http://www.omgubuntu.co.uk/2012/03/ubuntu-12-04-multi-monitor-to-be/">the default behavior for Unity&rsquo;s launcher will be to appear only on the primary monitor in Ubuntu 12.04</a>.
 For some reason, when I upgraded to 12.04 (beta) today, my setting was
 for the launcher to appear on ALL desktops. Not a fan of it on all desktops.</p>
 
-<p>For those who want to change this setting, you&#8217;ll need to install the Compiz
+<p>For those who want to change this setting, you&rsquo;ll need to install the Compiz
 configuration manager.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -164,7 +165,7 @@ configuration manager.</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://thekidds.org/blog/2012/04/05/one-unity-launcher/" data-via="robbkidd" data-counturl="http://thekidds.org/blog/2012/04/05/one-unity-launcher/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://thekidds.org/blog/2012/04/05/one-unity-launcher/" data-via="robbkidd" data-counturl="http://thekidds.org/blog/2012/04/05/one-unity-launcher/" >Tweet</a>
   
   
   
@@ -201,11 +202,11 @@ configuration manager.</p>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/04/18/yes-this-blog-is-stale/">Yes this blog is stale.</a>
+        <a href="/blog/2014/04/18/yes-this-blog-is-stale/">Yes This Blog Is Stale.</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/08/04/readme-the-bare-necessities/">README: the Bare Necessities</a>
+        <a href="/blog/2012/08/04/readme-the-bare-necessities/">README: The Bare Necessities</a>
       </li>
     
       <li class="post">
@@ -213,7 +214,7 @@ configuration manager.</p>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/07/06/rc-file-for-your-windows-command-prompt/">RC file for your Windows Command Prompt</a>
+        <a href="/blog/2012/07/06/rc-file-for-your-windows-command-prompt/">RC File for Your Windows Command Prompt</a>
       </li>
     
   </ul>
@@ -228,7 +229,7 @@ configuration manager.</p>
   <a href="https://github.com/robbkidd">@robbkidd</a> on GitHub
   
   <script type="text/javascript">
-    $.domReady(function(){
+    $(document).ready(function(){
         if (!window.jXHR){
             var jxhr = document.createElement('script');
             jxhr.type = 'text/javascript';
@@ -246,23 +247,6 @@ configuration manager.</p>
     });
   </script>
   <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating...</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("robbkidd", 4, false);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/robbkidd" class="twitter-follow-button" data-show-count="false">Follow @robbkidd</a>
-  
 </section>
 
 
@@ -294,7 +278,7 @@ configuration manager.</p>
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -310,7 +294,7 @@ configuration manager.</p>
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>

@@ -4,7 +4,7 @@
   <title><![CDATA[Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2014-04-19T12:51:43-04:00</updated>
+  <updated>2014-04-19T13:59:34-04:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -35,7 +35,7 @@ and Hashicorp. We use Vagrant in our chef repo to spin up a VM for each of our n
 types and perform chef runs to populate caches of things retrieved from
 the network.</li>
 <li><a href="https://github.com/fgrehm/vagrant-cachier">vagrant-cachier</a> by <a href="http://fabiorehm.com/">Fabio Rehm</a>
-is used for centralizing the node&#8217;s Chef cache into a single shared
+is used for centralizing the node&rsquo;s Chef cache into a single shared
 folder located in the chef repo. We do not use it for caching APT
 packages.</li>
 <li><a href="https://www.unix-ag.uni-kl.de/~bloch/acng/">apt-cacher-ng</a> (ACNG) is what we
@@ -59,48 +59,48 @@ is out chef-solo-oriented world.</li>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Yes this blog is stale.]]></title>
+    <title type="html"><![CDATA[Yes This Blog Is Stale.]]></title>
     <link href="http://thekidds.org/blog/2014/04/18/yes-this-blog-is-stale/"/>
     <updated>2014-04-18T16:48:00-04:00</updated>
     <id>http://thekidds.org/blog/2014/04/18/yes-this-blog-is-stale</id>
     <content type="html"><![CDATA[<p>I <a href="http://chefconf2014.busyconf.com/schedule#activity_52ddec32fc59cd00880000c4">spoke</a>
 at <a href="http://chefconf.opscode.com/chefconf/">ChefConf 2014</a> this week. A
-few folks who used their Google Fu on me said, &#8220;That&#8217;s not your blog, is
-it? Nothing has been posted in forever!&#8221;</p>
+few folks who used their Google Fu on me said, &ldquo;That&rsquo;s not your blog, is
+it? Nothing has been posted in forever!&rdquo;</p>
 
 <p>I come from a long-ish career in the security and defense industry
 where we are notorious for <em>not</em> talking about how we do things. It is
 taking time and effort to break habits of holding all cards close to the
 chest.</p>
 
-<p>So, yes. This is my blog. Yes, it is stale. I seem to only write when I&#8217;ve
-spoken somewhere—which isn&#8217;t that often. I&#8217;m working on doing more of
+<p>So, yes. This is my blog. Yes, it is stale. I seem to only write when I&rsquo;ve
+spoken somewhere—which isn&rsquo;t that often. I&rsquo;m working on doing more of
 both of these things.</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[README: the Bare Necessities]]></title>
+    <title type="html"><![CDATA[README: The Bare Necessities]]></title>
     <link href="http://thekidds.org/blog/2012/08/04/readme-the-bare-necessities/"/>
     <updated>2012-08-04T19:35:00-04:00</updated>
     <id>http://thekidds.org/blog/2012/08/04/readme-the-bare-necessities</id>
     <content type="html"><![CDATA[<p>I gave a lightning talk at Steel City Ruby Conf 2012 today on writing a
 decent README. Instead of putting the slides up somewhere, I thought I
-would write up a more detailed post of the talk&#8217;s points.</p>
+would write up a more detailed post of the talk&rsquo;s points.</p>
 
 <!-- more -->
 
 
-<h2>Your README should &#8230;</h2>
+<h2>Your README should &hellip;</h2>
 
-<h3>&#8230; explain why your code exists</h3>
+<h3>&hellip; explain why your code exists</h3>
 
 <p>Tell me why you wrote this code. Give me a vision statement or an
-elevator pitch. &#8220;Unlike all the other code on the internet, my project
-is awesome.&#8221; Then follow up with how your project scratches an itch
+elevator pitch. &ldquo;Unlike all the other code on the internet, my project
+is awesome.&rdquo; Then follow up with how your project scratches an itch
 differently than others.</p>
 
-<h3>&#8230; demonstrate how to install and use the code</h3>
+<h3>&hellip; demonstrate how to install and use the code</h3>
 
 <p>It could be as simple as:</p>
 
@@ -130,35 +130,35 @@ stuff.</p>
 valuable example of using your tool. Help me understand how to make my
 life better with your awesomeness.</p>
 
-<h3>&#8230; declare copyright and licensing</h3>
+<h3>&hellip; declare copyright and licensing</h3>
 
 <p>Tell me your licensing terms. Can I copy your code? Can I distribute it?
 Can I modify it?</p>
 
-<h3>&#8230; describe how to contribute</h3>
+<h3>&hellip; describe how to contribute</h3>
 
 <p>If I can modify it, how do I get those modifications back to you, the
 maintainer? Do you expect code to follow certain conventions? Do you
 expect to have tests submitted with the patch? (In general, the answer
-here is &#8220;yes.&#8221;)</p>
+here is &ldquo;yes.&rdquo;)</p>
 
-<p>Provide instructions on setting up the tool&#8217;s development environment.
+<p>Provide instructions on setting up the tool&rsquo;s development environment.
 Tell me how to run your tests. There is nothing like trying to document
 this sort of thing to cause you to throw up your arms and automate this
 stuff which only makes your code more awesome.</p>
 
-<h3>&#8230; give credit</h3>
+<h3>&hellip; give credit</h3>
 
 <p>Take credit! You wrote an awesome tool! Give credit to contributors.
 This encourages others to contribute more awesomeness. List
 authors/contributors, link to a CONTRIBUTORS file or punt to GitHub and
 link to the contributors graph.</p>
 
-<h3>&#8230; be plain text</h3>
+<h3>&hellip; be plain text</h3>
 
-<p>Write your README in plain text. We&#8217;ve got decades of convention that
+<p>Write your README in plain text. We&rsquo;ve got decades of convention that
 READMEs are readable on a simple terminal with your PAGER of choice.
-Don&#8217;t fight that.</p>
+Don&rsquo;t fight that.</p>
 
 <p>I would go farther and recommend you <a href="https://raw.github.com/robbkidd/activerecord-netezza-adapter/master/README.md">write your README in Markdown</a>. It
 is a simple plain text markup that is refreshingly free of noisy markup
@@ -170,7 +170,7 @@ hyperlinks and syntax-highlighted code blocks.</p>
 
 <p>Even better, a tool called <a href="http://johnmacfarlane.net/pandoc/">PanDoc</a>
 can turn your README.md into a PDF. If you provided headings and
-sub-headings (with hash marks &#8220;#&#8221;) in your markdown, you can tell PanDoc
+sub-headings (with hash marks &ldquo;#&rdquo;) in your markdown, you can tell PanDoc
 to include a table of contents in your PDF for easy navigation.</p>
 
 <h2>Leveling Up?</h2>
@@ -194,19 +194,19 @@ specifically as examples of use.</p>
 <p>End-user documentation can be deviously tricky. Simple, but
 time-consuming to write at the beginning, end-user docs end up
 atrophying, quickly becoming documents filled with misdirection as your
-tool grows. I&#8217;ve got a vision of end-user documentation being written in
+tool grows. I&rsquo;ve got a vision of end-user documentation being written in
 something like Cucumber to include steps that can capture named
 screenshots of the UI state at points in the scenarios. Markdown
-documentation&#8211;possibly contained in the preamble section of the
-Cucumber features&#8211;would reference the named screenshots. Run the
+documentation&mdash;possibly contained in the preamble section of the
+Cucumber features&mdash;would reference the named screenshots. Run the
 documentation Cucumber scenarios, run the markdown through PanDoc and
-you&#8217;ve got end-user documentation with up-to-date screenshots. No more
+you&rsquo;ve got end-user documentation with up-to-date screenshots. No more
 weeks spent manually screenshotting your app while you monkey-push
 buttons and enter data to get the app in the right state for the
 documentation scenario just because you changed the order of the nav
 bar.</p>
 
-<p>I&#8217;ve not cracked this last nut. If you are interested in when I do, let
+<p>I&rsquo;ve not cracked this last nut. If you are interested in when I do, let
 me know. If <em>you</em> have cracked this nut or have some insight into how, I
 would love to talk to you. If there is interest, I plan on writing more
 here or in another venue where collaboration can occur about techniques
@@ -222,7 +222,7 @@ to make documentation less painful.</p>
     <content type="html"><![CDATA[<p>If you use PostgreSQL to back your Active Record models, you should
 check the current names for your tables and their sequences. Prior to
 Active Record 3.2.7, renaming a table did not rename the associated
-sequence for the table&#8217;s primary key.</p>
+sequence for the table&rsquo;s primary key.</p>
 
 <p>A demonstration may be in order.</p>
 
@@ -266,7 +266,7 @@ sequence for the table&#8217;s primary key.</p>
 <p>Note that on line 11 the <code>CREATE TABLE</code> created an implicit sequence
 <code>products_id_seq</code> for serial column <code>products.id</code>.</p>
 
-<p>Let&#8217;s rename the table.</p>
+<p>Let&rsquo;s rename the table.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -346,13 +346,13 @@ table to be named at this point? <code>widgets_id_seq</code>?</p>
 <p>On line 4, the next value for the <code>widgets.id</code> column is coming
 from a sequence named <code>products_id_seq</code>. This is not catastrophic
 for small code bases, but imagine coming across this database
-months or years from now. &#8220;Why&#8217;s the widget table have a sequence
-named &#8216;products&#8217;?&#8221;</p>
+months or years from now. &ldquo;Why&rsquo;s the widget table have a sequence
+named &lsquo;products&rsquo;?&rdquo;</p>
 
 <p>The good news is that
 <a href="https://github.com/rails/rails/pull/7031">AR v3.2.7 includes a fix for this</a>.
-When you rename a table, if the name of the sequence for the table&#8217;s
-primary key matches the AR default &#8220;tablename_columnname_seq&#8221;, then
+When you rename a table, if the name of the sequence for the table&rsquo;s
+primary key matches the AR default &ldquo;tablename_columnname_seq&rdquo;, then
 the sequence will be renamed as well. (I suppose the next order of
 business is to get that index renamed, too.)</p>
 
@@ -361,7 +361,7 @@ probably have names that do not make any sense now.</p>
 
 <p>You can use this gist in your Rails console as a quick way to check.</p>
 
-<div><script src='https://gist.github.com/3190645.js?file='></script>
+<div><script src='https://gist.github.com/3190645.js'></script>
 <noscript><pre><code>&lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;https://github.com/gist/3190645&quot;&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;</code></pre></noscript></div>
 
 
@@ -370,12 +370,12 @@ probably have names that do not make any sense now.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[RC file for your Windows Command Prompt]]></title>
+    <title type="html"><![CDATA[RC File for Your Windows Command Prompt]]></title>
     <link href="http://thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/"/>
     <updated>2012-07-06T14:41:00-04:00</updated>
     <id>http://thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt</id>
     <content type="html"><![CDATA[<p>I had trouble today with my Windows <code>%HOME%</code> changing and throwing off
-<a href="http://vagrantup.com">Vagrant</a>&#8217;s awareness of what boxes are installed.
+<a href="http://vagrantup.com">Vagrant</a>&rsquo;s awareness of what boxes are installed.
 This may be your problem if Vagrant on Windows was working happily for
 you and then barks about no boxes.</p>
 
@@ -453,11 +453,11 @@ on the AD network, Vagrant was no longer aware of the base boxes because
     <link href="http://thekidds.org/blog/2012/04/05/one-unity-launcher/"/>
     <updated>2012-04-05T14:43:00-04:00</updated>
     <id>http://thekidds.org/blog/2012/04/05/one-unity-launcher</id>
-    <content type="html"><![CDATA[<p>T&#8217;was decided that <a href="http://www.omgubuntu.co.uk/2012/03/ubuntu-12-04-multi-monitor-to-be/">the default behavior for Unity&#8217;s launcher will be to appear only on the primary monitor in Ubuntu 12.04</a>.
+    <content type="html"><![CDATA[<p>T&#8217;was decided that <a href="http://www.omgubuntu.co.uk/2012/03/ubuntu-12-04-multi-monitor-to-be/">the default behavior for Unity&rsquo;s launcher will be to appear only on the primary monitor in Ubuntu 12.04</a>.
 For some reason, when I upgraded to 12.04 (beta) today, my setting was
 for the launcher to appear on ALL desktops. Not a fan of it on all desktops.</p>
 
-<p>For those who want to change this setting, you&#8217;ll need to install the Compiz
+<p>For those who want to change this setting, you&rsquo;ll need to install the Compiz
 configuration manager.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -485,7 +485,7 @@ configuration manager.</p>
     <link href="http://thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux/"/>
     <updated>2011-07-11T18:55:00-04:00</updated>
     <id>http://thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux</id>
-    <content type="html"><![CDATA[<p>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app&#8211;e.g. failed to map segment from shared object: Permission denied&#8211;despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</p>
+    <content type="html"><![CDATA[<p>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app&mdash;e.g. failed to map segment from shared object: Permission denied&mdash;despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>sudo chcon -R -h -t httpd_sys_content_t &lt;gems path&gt;</span></code></pre></td></tr></table></div></figure>

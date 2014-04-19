@@ -4,7 +4,7 @@
   <title><![CDATA[Category: PostgreSQL | Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/blog/categories/postgresql/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2014-04-19T12:51:43-04:00</updated>
+  <updated>2014-04-19T13:59:34-04:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<p>If you use PostgreSQL to back your Active Record models, you should
 check the current names for your tables and their sequences. Prior to
 Active Record 3.2.7, renaming a table did not rename the associated
-sequence for the table's primary key.</p>
+sequence for the table&rsquo;s primary key.</p>
 
 <p>A demonstration may be in order.</p>
 
@@ -41,17 +41,17 @@ robb@neoldian ~/code/pg_seq » rails generate model Product name:string descript
 
 <p>robb@neoldian ~/code/pg_seq » rake db:migrate
 ==  CreateProducts: migrating =================================================
--- create_table(:products)
-NOTICE:  CREATE TABLE will create implicit sequence "products_id_seq" for serial column "products.id"
-NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "products_pkey" for table "products"
-   -> 0.0194s
+&mdash; create_table(:products)
+NOTICE:  CREATE TABLE will create implicit sequence &ldquo;products_id_seq&rdquo; for serial column &ldquo;products.id&rdquo;
+NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index &ldquo;products_pkey&rdquo; for table &ldquo;products&rdquo;
+   &ndash;> 0.0194s
 ==  CreateProducts: migrated (0.0196s) ========================================
 ```</p>
 
 <p>Note that on line 11 the <code>CREATE TABLE</code> created an implicit sequence
 <code>products_id_seq</code> for serial column <code>products.id</code>.</p>
 
-<p>Let's rename the table.</p>
+<p>Let&rsquo;s rename the table.</p>
 
 <p>```bash
 robb@neoldian ~/code/pg_seq » rails generate migration RenameProductsToWidgets</p>
@@ -97,8 +97,8 @@ table to be named at this point? <code>widgets_id_seq</code>?</p>
 </code></pre>
 
 <p>   Column    |            Type             |                       Modifiers
--------------+-----------------------------+-------------------------------------------------------
- id          | integer                     | not null default nextval('products_id_seq'::regclass)
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;
+ id          | integer                     | not null default nextval(&lsquo;products_id_seq&rsquo;::regclass)
  name        | character varying(255)      |
  description | text                        |
  created_at  | timestamp without time zone | not null
@@ -115,13 +115,13 @@ Indexes:</p>
 <p>On line 4, the next value for the <code>widgets.id</code> column is coming
 from a sequence named <code>products_id_seq</code>. This is not catastrophic
 for small code bases, but imagine coming across this database
-months or years from now. "Why's the widget table have a sequence
-named 'products'?"</p>
+months or years from now. &ldquo;Why&rsquo;s the widget table have a sequence
+named &lsquo;products&rsquo;?&rdquo;</p>
 
 <p>The good news is that
 <a href="https://github.com/rails/rails/pull/7031">AR v3.2.7 includes a fix for this</a>.
-When you rename a table, if the name of the sequence for the table's
-primary key matches the AR default "tablename_columnname_seq", then
+When you rename a table, if the name of the sequence for the table&rsquo;s
+primary key matches the AR default &ldquo;tablename_columnname_seq&rdquo;, then
 the sequence will be renamed as well. (I suppose the next order of
 business is to get that index renamed, too.)</p>
 
@@ -130,7 +130,7 @@ probably have names that do not make any sense now.</p>
 
 <p>You can use this gist in your Rails console as a quick way to check.</p>
 
-<p><div><script src='https://gist.github.com/3190645.js?file='></script>
+<p><div><script src='https://gist.github.com/3190645.js'></script>
 <noscript><pre><code>&lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;https://github.com/gist/3190645&quot;&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;</code></pre></noscript></div>
 </p>
 ]]></content>

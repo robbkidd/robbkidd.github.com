@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ubuntu | Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/blog/categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2014-04-19T12:51:43-04:00</updated>
+  <updated>2014-04-19T13:59:34-04:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -18,11 +18,11 @@
     <link href="http://thekidds.org/blog/2012/04/05/one-unity-launcher/"/>
     <updated>2012-04-05T14:43:00-04:00</updated>
     <id>http://thekidds.org/blog/2012/04/05/one-unity-launcher</id>
-    <content type="html"><![CDATA[<p>T'was decided that <a href="http://www.omgubuntu.co.uk/2012/03/ubuntu-12-04-multi-monitor-to-be/">the default behavior for Unity's launcher will be to appear only on the primary monitor in Ubuntu 12.04</a>.
+    <content type="html"><![CDATA[<p>T'was decided that <a href="http://www.omgubuntu.co.uk/2012/03/ubuntu-12-04-multi-monitor-to-be/">the default behavior for Unity&rsquo;s launcher will be to appear only on the primary monitor in Ubuntu 12.04</a>.
 For some reason, when I upgraded to 12.04 (beta) today, my setting was
 for the launcher to appear on ALL desktops. Not a fan of it on all desktops.</p>
 
-<p>For those who want to change this setting, you'll need to install the Compiz
+<p>For those who want to change this setting, you&rsquo;ll need to install the Compiz
 configuration manager.</p>
 
 <p><code>

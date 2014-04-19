@@ -4,7 +4,7 @@
   <title><![CDATA[Category: chef | Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/blog/categories/chef/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2014-04-19T12:51:43-04:00</updated>
+  <updated>2014-04-19T13:59:34-04:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -35,7 +35,7 @@ and Hashicorp. We use Vagrant in our chef repo to spin up a VM for each of our n
 types and perform chef runs to populate caches of things retrieved from
 the network.</li>
 <li><a href="https://github.com/fgrehm/vagrant-cachier">vagrant-cachier</a> by <a href="http://fabiorehm.com/">Fabio Rehm</a>
-is used for centralizing the node's Chef cache into a single shared
+is used for centralizing the node&rsquo;s Chef cache into a single shared
 folder located in the chef repo. We do not use it for caching APT
 packages.</li>
 <li><a href="https://www.unix-ag.uni-kl.de/~bloch/acng/">apt-cacher-ng</a> (ACNG) is what we

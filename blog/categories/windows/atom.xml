@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Windows | Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/blog/categories/windows/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2014-04-19T12:51:43-04:00</updated>
+  <updated>2014-04-19T13:59:34-04:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -19,7 +19,7 @@
     <updated>2012-07-06T14:41:00-04:00</updated>
     <id>http://thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt</id>
     <content type="html"><![CDATA[<p>I had trouble today with my Windows <code>%HOME%</code> changing and throwing off
-<a href="http://vagrantup.com">Vagrant</a>'s awareness of what boxes are installed.
+<a href="http://vagrantup.com">Vagrant</a>&rsquo;s awareness of what boxes are installed.
 This may be your problem if Vagrant on Windows was working happily for
 you and then barks about no boxes.</p>
 
@@ -65,7 +65,7 @@ REM %USERPROFILE%/cmdrc.bat
 Windows Registry Editor Version 5.00</p>
 
 <p>[HKEY_CURRENT_USER\Software\Microsoft\Command Processor]
-"AutoRun"="%USERPROFILE%\cmdrc.bat"
+&ldquo;AutoRun&rdquo;=&ldquo;%USERPROFILE%\cmdrc.bat&rdquo;
 ```</p>
 ]]></content>
   </entry>
