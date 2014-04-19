@@ -5,11 +5,15 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Rails - Slightly Ahead of Behind the Curve</title>
+  <title>Mind the Gap: Resources - Slightly Ahead of Behind the Curve</title>
   <meta name="author" content="Robb Kidd">
 
   
-  <meta name="description" content="Category: Rails">
+  <meta name="description" content="I spoke this week at ChefConf
+about how we use Chef at my company to produce
+an installer for our on-premises product.
+Slides for the talk are
+up, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +22,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://thekidds.orgblog/categories/rails/">
+  <link rel="canonical" href="http://thekidds.org/blog/2014/04/19/mind-the-gap-resources/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,36 +80,127 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Rails</h1>
+    
+      <h1 class="entry-title">Mind the Gap: Resources</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-19T12:20:00-04:00" pubdate data-updated="true">Apr 19<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>I spoke this week at <a href="http://chefconf.opscode.com/chefconf/">ChefConf</a>
+about how we use Chef at <a href="http://www.lgscout.com">my company</a> to produce
+an installer for our on-premises product.
+<a href="https://speakerdeck.com/robbkidd/mind-the-gap">Slides for the talk</a> are
+up, but not very useful without my rambling that went with them. Instead of
+making attendees madly write down the resources slide, here are links to the
+resources and tools I mentioned in the talk.</p>
 
-  
-  <h2>2012</h2>
-
-<article>
-  
-<h1><a href="/blog/2012/07/27/active-record-postgres-and-sequence-naming/">Active Record, PostgreSQL and Sequence Naming</a></h1>
-<time datetime="2012-07-27T16:33:00-04:00" pubdate><span class='month'>Jul</span> <span class='day'>27</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/postgresql/'>PostgreSQL</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a></span>
-</footer>
+<!-- more -->
 
 
-</article>
+<ul>
+<li><a href="http://vagrantup.com">Vagrant</a> from <a href="http://about.me/mitchellh">Mitchell Hashimoto</a>
+and Hashicorp. We use Vagrant in our chef repo to spin up a VM for each of our node
+types and perform chef runs to populate caches of things retrieved from
+the network.</li>
+<li><a href="https://github.com/fgrehm/vagrant-cachier">vagrant-cachier</a> by <a href="http://fabiorehm.com/">Fabio Rehm</a>
+is used for centralizing the node&#8217;s Chef cache into a single shared
+folder located in the chef repo. We do not use it for caching APT
+packages.</li>
+<li><a href="https://www.unix-ag.uni-kl.de/~bloch/acng/">apt-cacher-ng</a> (ACNG) is what we
+use for caching APT packages. On one node at chef compile time, ACNG
+is installed and configured. All nodes are configured to <code>apt-get</code> with
+the ACNG node as their proxy. After a successful convergence on all
+nodes, the ACNG cache of downloaded packages is copied into the chef
+repo.</li>
+<li><a href="https://github.com/jordansissel/fpm">fpm</a> by <a href="http://www.semicomplete.com/">Jordan Sissel</a>
+is the wonderment with which we package our own components and package
+up the chef repo with a chef installer and the populated caches. Super
+time saver for producing a variety of package formats.</li>
+<li><a href="https://matschaffer.github.io/knife-solo/">knife-solo</a> by <a href="http://matschaffer.com/">Mat Schaffer</a>
+was not explicitly mentioned in the talk, but gets a shout out at the
+end and here. <code>knife-solo</code> has made our lives easier by letting us get
+our chef repo up onto test and staging servers and starting a chef run
+is out chef-solo-oriented world.</li>
+</ul>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Robb Kidd</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-19T12:20:00-04:00" pubdate data-updated="true">Apr 19<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/chef/'>chef</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://thekidds.org/blog/2014/04/19/mind-the-gap-resources/" data-via="robbkidd" data-counturl="http://thekidds.org/blog/2014/04/19/mind-the-gap-resources/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/18/yes-this-blog-is-stale/" title="Previous Post: Yes this blog is stale.">&laquo; Yes this blog is stale.</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -206,7 +301,10 @@
       var disqus_shortname = 'thekidds-org';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://thekidds.org/blog/2014/04/19/mind-the-gap-resources/';
+        var disqus_url = 'http://thekidds.org/blog/2014/04/19/mind-the-gap-resources/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
