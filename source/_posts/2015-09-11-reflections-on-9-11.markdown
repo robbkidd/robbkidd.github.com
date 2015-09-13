@@ -30,10 +30,11 @@ Fuck.
 
 I spent some time re-wiring the Center's training room presentation system to
 get the news on the big screen. A bunch of NCMEC folks crowded in to try to keep
-up with the news. I checked in with my then-fiance via text and then told my
-boss that I was leaving the office to head back to the fire department. Then I
-started what turned into a three hour haul back out to Manassas as I joined
-everyone leaving the city.
+up with the news. I told my boss that I was leaving the office to head back to
+the fire department. Then I started what turned into a three hour haul back out
+to Manassas as I joined everyone leaving the city.  [UPDATE: Wife corrected me,
+I didn't text. I stopped by the library at which she worked to check in and let
+her know I was headed back to duty. I remember cell network was overloaded.]
 
 Stonewall Jackson, Prince William County station 11, was a rally site for County
 resources that day. Equipment was brought in. Fresh-faced recruits from the
