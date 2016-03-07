@@ -4,7 +4,7 @@
   <title><![CDATA[Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2015-09-13T18:17:40-04:00</updated>
+  <updated>2016-03-07T17:05:36-05:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -12,6 +12,226 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Closer to Environmental Bliss With Direnv]]></title>
+    <link href="http://thekidds.org/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/"/>
+    <updated>2016-03-07T16:10:55-05:00</updated>
+    <id>http://thekidds.org/blog/2016/03/07/closer-to-environmental-bliss-with-direnv</id>
+    <content type="html"><![CDATA[<p>I was a long time user of <a href="https://rvm.io/">RVM</a> for installing and switching
+Rubies. It made my life pretty easy even as I listened to others struggle with
+it. I was a little uncomfortable putting other things like project-specific
+environment variables in my <code>.rvmrc</code> files. It seemed dirty, but it worked and I
+rolled with it for many years.</p>
+
+<p>Eventually, I tried something different. I&rsquo;d been sold on the idea of using
+multiple, simpler tools together. Here&rsquo;s the result.</p>
+
+<!-- more -->
+
+
+<h2>Installing a Ruby: <code>ruby-install</code></h2>
+
+<p><code>brew install ruby-install</code></p>
+
+<p>And then <code>ruby-install ruby-2.2</code> got me the Ruby I wanted. &ldquo;Too simple,&rdquo; I
+thought. &ldquo;Now I won&rsquo;t be able to say I want to use that version.&rdquo;</p>
+
+<h2>Use a Ruby: <code>chruby</code></h2>
+
+<p><code>brew install chruby</code></p>
+
+<p>And then <code>chruby</code> spat out a list of installed Rubies.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>» chruby
+</span><span class='line'>   ruby-2.2.4</span></code></pre></td></tr></table></div></figure>
+
+
+<p>OK.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>» chruby ruby-2.2.4
+</span><span class='line'>» chruby
+</span><span class='line'> * ruby-2.2.4
+</span><span class='line'>» ruby --version                                                           1 ↵
+</span><span class='line'>ruby 2.2.4p230 (2015-12-16 revision 53155) [x86_64-darwin15]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&ldquo;Hunh,&rdquo; thinks I. <code>chruby</code> will by default find Rubies installed in the default
+directory used by <code>ruby-install</code>: <code>/opt/rubies/</code> and <code>~/.rubies/</code>.</p>
+
+<p>&ldquo;OK. But now I have to run that for each project to get the Ruby the project
+needs.&rdquo;</p>
+
+<h2>Project-Specific Environments: <code>direnv</code></h2>
+
+<p>Enter <code>direnv</code>.</p>
+
+<p><code>brew install direnv</code></p>
+
+<p>Then create an <code>.envrc</code> file in a project root directory with the appropriate
+commands for the project. It can be made pretty convenient by adding the
+following function to a <code>.direnvrc</code> file in your HOME directory.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># add to ~/.direnvrc</span>
+</span><span class='line'>use_ruby<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="c"># enable the chruby command in an environment</span>
+</span><span class='line'>  <span class="nb">source</span> /usr/local/opt/chruby/share/chruby/chruby.sh
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># desired Ruby version as first parameter</span>
+</span><span class='line'>  <span class="nb">local </span><span class="nv">ver</span><span class="o">=</span><span class="nv">$1</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># if version not given as parameter and there is a .ruby-version file, get</span>
+</span><span class='line'>  <span class="c"># version from the file</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$ver</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="o">[[</span> -f .ruby-version <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span><span class="nv">ver</span><span class="o">=</span><span class="k">$(</span>cat .ruby-version<span class="k">)</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># if the version still isn&#39;t set, error cause we don&#39;t know what to do</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$ver</span> <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span><span class="nb">echo </span>Unknown ruby version
+</span><span class='line'>    <span class="nb">exit </span>1
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># switch to the desired ruby version</span>
+</span><span class='line'>  chruby <span class="nv">$ver</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># Sets the GEM_HOME environment variable to `$PWD/.direnv/ruby/RUBY_VERSION`.</span>
+</span><span class='line'>  <span class="c"># This forces the installation of any gems into the project’s sub-folder. If</span>
+</span><span class='line'>  <span class="c"># you’re using bundler it will create wrapper programs that can be invoked</span>
+</span><span class='line'>  <span class="c"># directly instead of using the `bundle exec` prefix.</span>
+</span><span class='line'>  layout_ruby
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Thanks to <a href="http://tooky.co.uk/using-direnv-and-chruby-together/">Steve Tooke</a>
+for most of the above.</p>
+
+<p>So one of my projects is a Rails app. It&rsquo;s <code>.envrc</code> looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># .envrc for a Rails project</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">RUBY_GC_MALLOC_LIMIT</span><span class="o">=</span>90000000
+</span><span class='line'><span class="nb">export </span><span class="nv">RUBY_GC_HEAP_FREE_SLOTS</span><span class="o">=</span>200000
+</span><span class='line'>
+</span><span class='line'>use ruby 2.2.4
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This sets some environment variables suitable for testing and switches my Ruby
+environment around. I get Ruby version 2.2.4 and GEM_HOME, GEM_PATH, and
+GEM_ROOT adjusted to bring in global gems from the 2.2.4 install and
+project-specific gems from <code>&lt;project-root&gt;/.direnv/ruby</code> thanks to direnv&rsquo;s
+<code>layout ruby</code> <a href="https://direnv.readthedocs.org/en/latest/commands/direnv-stdlib/#layout-ruby">feature</a>.
+I recommend adding <code>.direnv</code> to your project&rsquo;s <code>.gitignore</code>.</p>
+
+<h2>Bonus Round &ndash; Chef DK!</h2>
+
+<p>I use Chef and the recommended way to install Chef on a development workstation
+is to <a href="https://downloads.chef.io/chef-dk/">install the Chef DK</a>. Chef DK
+includes its own embedded Ruby and gem environment and <code>chruby</code> knows nothing
+about it. We can use <code>direnv</code> to twiddle the environment for Chef projects.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># add to ~/.direnvrc</span>
+</span><span class='line'>use_chefdk<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nv">EXPANDED_HOME</span><span class="o">=</span><span class="sb">`</span>expand_path ~<span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># Override the GEM environment</span>
+</span><span class='line'>
+</span><span class='line'>  log_status <span class="s2">&quot;Overriding default Ruby environment to use ChefDK&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">export </span><span class="nv">GEM_ROOT</span><span class="o">=</span><span class="s2">&quot;/opt/chefdk/embedded/lib/ruby/gems/2.1.0&quot;</span>
+</span><span class='line'>  <span class="nb">export </span><span class="nv">GEM_HOME</span><span class="o">=</span><span class="s2">&quot;$EXPANDED_HOME/.chefdk/gem/ruby/2.1.0&quot;</span>
+</span><span class='line'>  <span class="nb">export </span><span class="nv">GEM_PATH</span><span class="o">=</span><span class="s2">&quot;$EXPANDED_HOME/.chefdk/gem/ruby/2.1.0:/opt/chefdk/embedded/lib/ruby/gems/2.1.0&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># Ensure ChefDK and its embedded tools are first in the PATH</span>
+</span><span class='line'>
+</span><span class='line'>  log_status <span class="s2">&quot;Ensuring ChefDK and it&#39;s embedded tools are first in the PATH&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  PATH_add <span class="nv">$EXPANDED_HOME</span>/.chefdk/gem/ruby/2.1.0/bin/
+</span><span class='line'>  PATH_add /opt/chefdk/embedded/bin
+</span><span class='line'>  PATH_add /opt/chefdk/bin
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Thanks to <a href="https://github.com/schisamo">Seth Chisamore</a> for the Chef DK
+function.</p>
+
+<p>Now my <code>.envrc</code> files in Chef projects have a line like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># .envrc in a Chef project</span>
+</span><span class='line'>use chefdk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Eventually, I&rsquo;m going to have to solve the hard-coded Ruby version in the paths
+internal to Chef DK. But it&rsquo;s working for now and I can happily switch between
+Chef DK projects and projects needing their own Rubies (e.g. Rails sites).</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Reflections on 9-11.]]></title>
@@ -359,7 +579,7 @@ sequence for the table&rsquo;s primary key.</p>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">RenameProductsToWidgets</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">RenameProductsToWidgets</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Migration</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">up</span>
 </span><span class='line'>    <span class="n">rename_table</span> <span class="ss">:products</span><span class="p">,</span> <span class="ss">:widgets</span>
 </span><span class='line'>  <span class="k">end</span>
@@ -433,7 +653,17 @@ probably have names that do not make any sense now.</p>
 <p>You can use this gist in your Rails console as a quick way to check.</p>
 
 <div><script src='https://gist.github.com/3190645.js'></script>
-<noscript><pre><code>&lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;https://github.com/gist/3190645&quot;&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;</code></pre></noscript></div>
+<noscript><pre><code>def check_table_and_sequence_names
+  connection = ActiveRecord::Base.connection
+  if connection.adapter_name == &quot;PostgreSQL&quot;
+    table_names = connection.tables.keep_if { |t| t !~ /schema_migrations/ }
+    table_names.map { |t| [t, connection.pk_and_sequence_for(t)].flatten }
+  end
+end
+
+check_table_and_sequence_names
+# =&gt; [[&quot;tablename&quot;, &quot;primarykeyname&quot;, &quot;sequencename&quot;]] 
+</code></pre></noscript></div>
 
 
 

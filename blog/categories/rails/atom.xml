@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2015-09-13T18:17:40-04:00</updated>
+  <updated>2016-03-07T17:05:36-05:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -131,7 +131,17 @@ probably have names that do not make any sense now.</p>
 <p>You can use this gist in your Rails console as a quick way to check.</p>
 
 <p><div><script src='https://gist.github.com/3190645.js'></script>
-<noscript><pre><code>&lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;https://github.com/gist/3190645&quot;&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;</code></pre></noscript></div>
+<noscript><pre><code>def check_table_and_sequence_names
+  connection = ActiveRecord::Base.connection
+  if connection.adapter_name == &quot;PostgreSQL&quot;
+    table_names = connection.tables.keep_if { |t| t !~ /schema_migrations/ }
+    table_names.map { |t| [t, connection.pk_and_sequence_for(t)].flatten }
+  end
+end
+
+check_table_and_sequence_names
+# =&gt; [[&quot;tablename&quot;, &quot;primarykeyname&quot;, &quot;sequencename&quot;]] 
+</code></pre></noscript></div>
 </p>
 ]]></content>
   </entry>
