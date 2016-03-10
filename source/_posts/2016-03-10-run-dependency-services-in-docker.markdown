@@ -25,7 +25,7 @@ of services running on localhost.
 
 ## PostgreSQL
 
-For PostgreSQL, I updated the database configuration to accept an IP address
+For PostgreSQL, we update the database configuration to accept an IP address
 from an environment variable, otherwise use localhost as it did before.
 
 ```erb config/database.yml
@@ -41,12 +41,12 @@ test:
   host: <%= ENV['POSTGRES_IP'] || 'localhost' %>
 ```
 
-NOTE: You will still need a version of PostgreSQL installed—but not services
+NOTE: We will still need a version of PostgreSQL installed—but not services
 *running*—on the local filesystem for development libraries to be available to
 be able to build the `pg` gem. Configure bundler to know where to find
-PostgreSQL libraries. For example, if you have
+PostgreSQL libraries. For example, we have
 [PostgreSQL installed via Homebrew](https://www.codefellows.org/blog/three-battle-tested-ways-to-install-postgresql),
-you would run the following to configure bundler:
+so we run the following to configure bundler:
 
 ```bash
 $ bundle config build.pg --with-pg-config=/usr/local/bin/pg_config
@@ -89,7 +89,7 @@ $ docker-machine create --driver virtualbox default
 ```
 
 * Set the environment variables for the application configuration. This can be
-done by hand or you can automate the setup with something like `direnv`. See
+done by hand or we can automate the setup with something like `direnv`. See
 [Closer to Environmental Bliss with Direnv](/blog/2016/03/07/closer-to-environmental-bliss-with-direnv) for more on direnv.
 
 ```bash environment setup
@@ -108,7 +108,7 @@ Docker Machine VM. Now we can actually run PostgreSQL and Redis.
 $ docker info
 ```
 
-That should return lots of information about your running Docker services in the
+That should return lots of information about the running Docker services in the
 VM.
 
 ```bash start postgresql
@@ -142,9 +142,10 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 5009b1db0c08        postgres:9.3        "/docker-entrypoint.s"   4 seconds ago       Up 3 seconds        0.0.0.0:5432->5432/tcp   derelicte-pg
 ```
 
-At this point, with your application configured and the services running, you
-can start running tests and a development server on your workstation. PostgreSQL
-and Redis are safely listening on a host-only interface on the Docker Machine VM. If you would like to scrap the services and start fresh you can stop the containers individually.
+At this point, with the application configured and the services running, we can
+start running tests and a development server on the workstation. PostgreSQL and
+Redis are safely listening on a host-only interface on the Docker Machine VM. To
+scrap the services and start fresh, stop the containers individually.
 
 ```bash blow away the database and redis containers - WILL LOSE DATA
 $ docker rm -f derelicte-redis
@@ -153,7 +154,7 @@ $ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 ```
 
-Then, if you put those run commands into a rake task:
+Then, if those run commands are in a rake task:
 
 ```bash run those containers again
 $ time be rake setup:docker
@@ -167,12 +168,15 @@ $ time be rake db:create db:migrate db:seed db:test:prepare
 bundle exec rake db:create db:migrate db:seed db:test:prepare  4.41s user 1.64s system 73% cpu 8.175 total
 ```
 
-Aww yeah, 4 second recreate and 8 second setup and I'm ready to test.
+Aww yeah, 4 second recreate and 8 second setup and we're ready to test.
 
 ![It's beautiful!](/images/beautiful.gif)
 
-You can blow away the entire Docker Machine VM for even more pave-the-earth
-destruction, but this will destroy *all* the containers in that VM. Beware if you start using the same Docker Machine for more than one project.
+We can blow away the entire Docker Machine VM for even more pave-the-earth
+destruction, but this will destroy *all* the containers in that VM and will
+lengthen the next startup because images will need to be downloaded from
+DockerHub again. Beware if using the same Docker Machine for more than
+one project.
 
 ```bash destroy and recreate the docker machine
 $ docker-machine rm default
@@ -183,6 +187,6 @@ Successfully removed default
 $ docker-machine create -d virtualbox default
 ```
 
-You will need to reinitialize the environment variables set earlier—super handy
-if you control them with direnv: `direnv reload`—because the docker-machine IP
-may have changed after being recreated.
+We should reinitialize the environment variables set earlier—super handy if you
+control them with direnv: `direnv reload`—because the docker-machine IP may have
+changed after being recreated.
