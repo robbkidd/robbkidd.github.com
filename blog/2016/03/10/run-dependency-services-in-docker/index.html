@@ -125,7 +125,7 @@ of services running on localhost.</p>
 
 <h2>PostgreSQL</h2>
 
-<p>For PostgreSQL, I updated the database configuration to accept an IP address
+<p>For PostgreSQL, we update the database configuration to accept an IP address
 from an environment variable, otherwise use localhost as it did before.</p>
 
 <figure class='code'><figcaption><span>config/database.yml</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -151,12 +151,12 @@ from an environment variable, otherwise use localhost as it did before.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>NOTE: You will still need a version of PostgreSQL installed—but not services
+<p>NOTE: We will still need a version of PostgreSQL installed—but not services
 <em>running</em>—on the local filesystem for development libraries to be available to
 be able to build the <code>pg</code> gem. Configure bundler to know where to find
-PostgreSQL libraries. For example, if you have
+PostgreSQL libraries. For example, we have
 <a href="https://www.codefellows.org/blog/three-battle-tested-ways-to-install-postgresql">PostgreSQL installed via Homebrew</a>,
-you would run the following to configure bundler:</p>
+so we run the following to configure bundler:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>bundle config build.pg --with-pg-config<span class="o">=</span>/usr/local/bin/pg_config
@@ -211,7 +211,7 @@ uses. Virtualbox is the easiest to get started with.</p>
 
 <ul>
 <li>Set the environment variables for the application configuration. This can be
-done by hand or you can automate the setup with something like <code>direnv</code>. See
+done by hand or we can automate the setup with something like <code>direnv</code>. See
 <a href="/blog/2016/03/07/closer-to-environmental-bliss-with-direnv">Closer to Environmental Bliss with Direnv</a> for more on direnv.</li>
 </ul>
 
@@ -237,7 +237,7 @@ Docker Machine VM. Now we can actually run PostgreSQL and Redis.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>That should return lots of information about your running Docker services in the
+<p>That should return lots of information about the running Docker services in the
 VM.</p>
 
 <figure class='code'><figcaption><span>start postgresql</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -288,9 +288,10 @@ docker runs with <code>db:create</code>, <code>db:migrate</code>, <code>db:test:
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>At this point, with your application configured and the services running, you
-can start running tests and a development server on your workstation. PostgreSQL
-and Redis are safely listening on a host-only interface on the Docker Machine VM. If you would like to scrap the services and start fresh you can stop the containers individually.</p>
+<p>At this point, with the application configured and the services running, we can
+start running tests and a development server on the workstation. PostgreSQL and
+Redis are safely listening on a host-only interface on the Docker Machine VM. To
+scrap the services and start fresh, stop the containers individually.</p>
 
 <figure class='code'><figcaption><span>blow away the database and redis containers - WILL LOSE DATA</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -303,7 +304,7 @@ and Redis are safely listening on a host-only interface on the Docker Machine VM
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Then, if you put those run commands into a rake task:</p>
+<p>Then, if those run commands are in a rake task:</p>
 
 <figure class='code'><figcaption><span>run those containers again</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -326,12 +327,15 @@ and Redis are safely listening on a host-only interface on the Docker Machine VM
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Aww yeah, 4 second recreate and 8 second setup and I&rsquo;m ready to test.</p>
+<p>Aww yeah, 4 second recreate and 8 second setup and we&rsquo;re ready to test.</p>
 
 <p><img src="/images/beautiful.gif" alt="It's beautiful!" /></p>
 
-<p>You can blow away the entire Docker Machine VM for even more pave-the-earth
-destruction, but this will destroy <em>all</em> the containers in that VM. Beware if you start using the same Docker Machine for more than one project.</p>
+<p>We can blow away the entire Docker Machine VM for even more pave-the-earth
+destruction, but this will destroy <em>all</em> the containers in that VM and will
+lengthen the next startup because images will need to be downloaded from
+DockerHub again. Beware if using the same Docker Machine for more than
+one project.</p>
 
 <figure class='code'><figcaption><span>destroy and recreate the docker machine</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -348,9 +352,9 @@ destruction, but this will destroy <em>all</em> the containers in that VM. Bewar
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>You will need to reinitialize the environment variables set earlier—super handy
-if you control them with direnv: <code>direnv reload</code>—because the docker-machine IP
-may have changed after being recreated.</p>
+<p>We should reinitialize the environment variables set earlier—super handy if you
+control them with direnv: <code>direnv reload</code>—because the docker-machine IP may have
+changed after being recreated.</p>
 </div>
 
 
@@ -422,11 +426,11 @@ may have changed after being recreated.</p>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar/">Cramming a Sinatra App Into a JAR</a>
+        <a href="/blog/2014/04/19/mind-the-gap-resources/">Mind the Gap: Resources</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/04/19/mind-the-gap-resources/">Mind the Gap: Resources</a>
+        <a href="/blog/2014/04/18/yes-this-blog-is-stale/">Yes This Blog Is Stale.</a>
       </li>
     
   </ul>
