@@ -1,0 +1,544 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Cramming a Sinatra App Into a JAR - Slightly Ahead of Behind the Curve</title>
+  <meta name="author" content="Robb Kidd">
+
+  
+  <meta name="description" content="We recently solved a problem for allowing our internal users to easily update
+records in a legacy data store by providing a simple web interface via &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thekidds.org/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Slightly Ahead of Behind the Curve" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-33215856-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Slightly Ahead of Behind the Curve</a></h1>
+  
+    <h2>Brain droppings found here.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thekidds.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about/">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Cramming a Sinatra App Into a JAR</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-06T14:36:54-04:00" pubdate data-updated="true">May 6<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>We recently solved a problem for allowing our internal users to easily update
+records in a legacy data store by providing a simple web interface via a Sinatra
+app. Sweet! Now we have to deploy it: Ruby runtime in production. Oh. Nuts. How?</p>
+
+<!-- more -->
+
+
+<p>The new hotness would be to generate a Docker image of the app, but the
+organization is still considering the security implications of Docker containers
+in production. Deploy to a Linux host and use the distribution&rsquo;s Ruby package?
+No, version is too old. Chef or Puppet to install an up-to-date MRI Ruby runtime
+on the host? Maybe, but we like to put as many of the dependencies into a
+component package as possible. Omnibus? On the to-learn list and our users would
+really like to use this interface soon. What one, trustworthy thing could I
+easily put on the server to let it run a Sinatra app?</p>
+
+<p>Java.</p>
+
+<p>Oh yeah. JRuby.</p>
+
+<p>An introduction to a fake version of the app might be in order for me to show
+the work.</p>
+
+<p>The libraries used in the app and to package the app as a JAR file.</p>
+
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s2">&quot;https://rubygems.org&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gem</span> <span class="s2">&quot;haml&quot;</span>      <span class="c1"># It&#39;s a simple app, yo.</span>
+</span><span class='line'><span class="n">gem</span> <span class="s2">&quot;sinatra&quot;</span>   <span class="c1"># Sing for me, Frank.</span>
+</span><span class='line'><span class="n">gem</span> <span class="s2">&quot;puma&quot;</span>      <span class="c1"># JRuby-friendly app server</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;pry&#39;</span>     <span class="c1"># prettier irb</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;warbler&#39;</span> <span class="c1"># heavy lifter for JAR&#39;ing the app</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The core of the app itself.</p>
+
+<figure class='code'><figcaption><span>lib/awesome_sauce.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">AwesomeSauce</span> <span class="o">&lt;</span> <span class="ss">Sinatra</span><span class="p">:</span><span class="ss">:Application</span>
+</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;haml&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">haml</span> <span class="ss">:root_sauciness</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The view for <code>:root_sauciness</code>.</p>
+
+<figure class='code'><figcaption><span>views/root_sauciness.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">!!!</span> <span class="no">XML</span>
+</span><span class='line'><span class="o">!!!</span>
+</span><span class='line'><span class="o">%</span><span class="n">html</span>
+</span><span class='line'> <span class="o">%</span><span class="n">head</span>
+</span><span class='line'>  <span class="o">%</span><span class="n">title</span> <span class="no">Awesome</span> <span class="no">Sauce</span>
+</span><span class='line'>  <span class="o">%</span><span class="n">meta</span><span class="p">{</span> <span class="s1">&#39;http-equiv&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="ss">:content</span> <span class="o">=&gt;</span> <span class="s1">&#39;text/html; charset=utf-8&#39;</span> <span class="p">}</span>
+</span><span class='line'> <span class="o">%</span><span class="n">body</span>
+</span><span class='line'> <span class="o">%</span><span class="n">h1</span> <span class="no">The</span> <span class="n">root</span> <span class="n">of</span> <span class="n">the</span> <span class="n">sauce</span> <span class="n">is</span> <span class="n">awesome</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A rackup file. Why not <code>config.ru</code>? Because by putting it in <code>bin/</code>, Warbler
+will create a JAR, not a WAR, and will by default use this file as the first
+thing run by the JAR.</p>
+
+<figure class='code'><figcaption><span>bin/web.ru</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#!/usr/bin/env jruby</span>
+</span><span class='line'>
+</span><span class='line'><span class="vg">$LOAD_PATH</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span><span class="si">}</span><span class="s2">/../lib&quot;</span><span class="p">))</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;puma&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;awesome_sauce&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">configure</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:views</span><span class="p">,</span> <span class="s1">&#39;./views&#39;</span> <span class="c1"># foreshadowing: this line will change later</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:server</span><span class="p">,</span> <span class="sx">%w[puma]</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">AwesomeSauce</span><span class="o">.</span><span class="n">run!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A Warbler configuration for making the JAR.</p>
+
+<figure class='code'><figcaption><span>config/warble.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Warbler</span><span class="p">:</span><span class="ss">:Config</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="sx">%w(executable)</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">dirs</span> <span class="o">=</span> <span class="sx">%w(bin lib views)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>OK. Let&rsquo;s run this &hellip;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>» bundle install
+</span><span class='line'>Using rake 10.4.2
+</span><span class='line'>Using coderay 1.1.0
+</span><span class='line'>Using ffi 1.9.8
+</span><span class='line'>Using tilt 2.0.1
+</span><span class='line'>Using haml 4.0.6
+</span><span class='line'>Using jruby-jars 1.7.20
+</span><span class='line'>Using jruby-rack 1.1.18
+</span><span class='line'>Using method_source 0.8.2
+</span><span class='line'>Using slop 3.6.0
+</span><span class='line'>Using spoon 0.0.4
+</span><span class='line'>Using pry 0.10.1
+</span><span class='line'>Using rack 1.6.1
+</span><span class='line'>Using puma 2.11.2
+</span><span class='line'>Using rack-protection 1.5.3
+</span><span class='line'>Using rubyzip 1.1.7
+</span><span class='line'>Using sinatra 1.4.6
+</span><span class='line'>Using warbler 1.4.7
+</span><span class='line'>Using bundler 1.9.4
+</span><span class='line'>Bundle <span class="nb">complete</span>! 5 Gemfile dependencies, 18 gems now installed.
+</span><span class='line'>Bundled gems are installed into ./vendor.
+</span><span class='line'>
+</span><span class='line'>» bundle <span class="nb">exec </span>warble
+</span><span class='line'>No executable matching config.jar_name found, using bin/web.ru
+</span><span class='line'>rm -f awesome_sauce.jar
+</span><span class='line'>Creating awesome_sauce.jar
+</span><span class='line'>
+</span><span class='line'>» java -jar awesome_sauce.jar
+</span><span class='line'>Puma 2.11.2 starting...
+</span><span class='line'>* Min threads: 0, max threads: 16
+</span><span class='line'>* Environment: development
+</span><span class='line'>* Listening on tcp://localhost:4567
+</span><span class='line'><span class="o">==</span> Sinatra <span class="o">(</span>v1.4.6<span class="o">)</span> has taken the stage on 4567 <span class="k">for </span>development with backup from Puma
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Opening <code>localhost:4567</code> in a browser shows me something like:</p>
+
+<h2>The root of the sauce is awesome.</h2>
+
+<p>Sweet.</p>
+
+<p>Let&rsquo;s put that JAR file up on a server (in this case a Vagrant machine
+for testing) and try there.</p>
+
+<figure class='code'><figcaption><span>Running from</span><a href='/vagrant'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant@vagrant-ubuntu-trusty-64:/vagrant<span class="nv">$ </span>java -jar awesome_sauce.jar &amp;
+</span><span class='line'><span class="o">[</span>1<span class="o">]</span> 1588
+</span><span class='line'>vagrant@vagrant-ubuntu-trusty-64:/vagrant<span class="nv">$ </span>Puma 2.11.2 starting...
+</span><span class='line'>* Min threads: 0, max threads: 16
+</span><span class='line'>* Environment: development
+</span><span class='line'>* Listening on tcp://localhost:4567
+</span><span class='line'><span class="o">==</span> Sinatra <span class="o">(</span>v1.4.6<span class="o">)</span> has taken the stage on 4567 <span class="k">for </span>development with backup from Puma
+</span><span class='line'>
+</span><span class='line'>vagrant@vagrant-ubuntu-trusty-64:/vagrant<span class="nv">$ </span>curl localhost:4567
+</span><span class='line'>&lt;!DOCTYPE html&gt;
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>  &lt;head&gt;
+</span><span class='line'>    &lt;title&gt;Awesome Sauce&lt;/title&gt;
+</span><span class='line'>    &lt;meta <span class="nv">content</span><span class="o">=</span><span class="s1">&#39;text/html; charset=utf-8&#39;</span> http-equiv<span class="o">=</span><span class="s1">&#39;Content-Type&#39;</span>&gt;
+</span><span class='line'>  &lt;/head&gt;
+</span><span class='line'>  &lt;body&gt;
+</span><span class='line'>    &lt;h1&gt;The root of the sauce is awesome.&lt;/h1&gt;
+</span><span class='line'>  &lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;
+</span><span class='line'>127.0.0.1 - - <span class="o">[</span>09/May/2015:15:24:36 +0000<span class="o">]</span> <span class="s2">&quot;GET / HTTP/1.1&quot;</span> 200 221 0.1170
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cool. It works and I only had to install a Java runtime on the server.
+Let&rsquo;s try running it from a more production-like directory.</p>
+
+<p>:</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Robb Kidd</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-06T14:36:54-04:00" pubdate data-updated="true">May 6<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/jruby/'>JRuby</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/sinatra/'>Sinatra</a>, <a class='category' href='/blog/categories/warbler/'>Warbler</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/19/mind-the-gap-resources/" title="Previous Post: Mind the Gap: Resources">&laquo; Mind the Gap: Resources</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/11/reflections-on-9-11/" title="Next Post: Reflections on 9-11.">Reflections on 9-11. &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/03/10/run-dependency-services-in-docker/">Run Dependency Services in Docker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/">Closer to Environmental Bliss With Direnv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/11/reflections-on-9-11/">Reflections on 9-11.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar/">Cramming a Sinatra App Into a JAR</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/19/mind-the-gap-resources/">Mind the Gap: Resources</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/robbkidd">@robbkidd</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'robbkidd',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Robb Kidd -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'thekidds-org';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://thekidds.org/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar/';
+        var disqus_url = 'http://thekidds.org/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

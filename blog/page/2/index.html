@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>About - Slightly Ahead of Behind the Curve</title>
+  <title>Slightly Ahead of Behind the Curve</title>
   <meta name="author" content="Robb Kidd">
 
   
-  <meta name="description" content="About Jul 6th, 2012 This was going to be called &ldquo;Behind the Curve&rdquo;, but
-the name was stolen after a lunch
-conversation. Thief! Jul 6th, &hellip;">
+  <meta name="description" content="Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ conversation. Thief! Jul 6th, &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://thekidds.org/about">
+  <link rel="canonical" href="http://thekidds.org/blog/page/2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Slightly Ahead of Behind the Curve" type="application/atom+xml">
@@ -78,35 +76,19 @@ conversation. Thief! Jul 6th, &hellip;">
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
-    <h1 class="entry-title">About</h1>
-    <p class="meta">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-06T20:22:00-04:00" pubdate data-updated="true">Jul 6<span>th</span>, 2012</time></p>
-  </header>
-  
-  <p>This was going to be called &ldquo;Behind the Curve&rdquo;, but
-<a href="http://daveroberts.github.com">the name was stolen</a> after a lunch
-conversation. <em>Thief!</em></p>
-
-  
-    <footer>
+    
+      <h1 class="entry-title"><a href="/blog/2011/07/11/give-your-gems-some-context-for-selinux/">Give Your Gems Some Context for SELinux</a></h1>
+    
+    
       <p class="meta">
         
-        
 
 
 
@@ -118,29 +100,61 @@ conversation. <em>Thief!</em></p>
   
 
 
-<time datetime="2012-07-06T20:22:00-04:00" pubdate data-updated="true">Jul 6<span>th</span>, 2012</time>
+<time datetime="2011-07-11T18:55:00-04:00" pubdate data-updated="true">Jul 11<span>th</span>, 2011</time>
         
       </p>
-      
-        <div class="sharing">
-  
-  
-  
+    
+  </header>
+
+
+  <div class="entry-content"><p>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app&mdash;e.g. failed to map segment from shared object: Permission denied&mdash;despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo chcon -R -h -t httpd_sys_content_t &lt;gems path&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>chcon</code> :: Changes the security context for those executables and libraries.</li>
+<li><code>-R</code> :: (recursive) All the files here, please.</li>
+<li><code>-h</code> :: Affect symbolic links instead of any referenced file.</li>
+<li><code>-t httpd_sys_content_t</code> :: Set the TYPE in the security context.</li>
+</ul>
+
+
+<p>We deploy with capistrano, so I have added this as a task called after
+<code>bundle:install</code> vendors my gems to <code>&lt;appdir&gt;/shared/bundle</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:application</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">after</span> <span class="s1">&#39;bundle:install&#39;</span><span class="p">,</span> <span class="s1">&#39;application:update_selinux&#39;</span>
+</span><span class='line'>  <span class="n">task</span> <span class="ss">:update_selinux</span><span class="p">,</span> <span class="ss">:roles</span> <span class="o">=&gt;</span> <span class="ss">:web</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;Updating SELinux context for bundled gems&#39;</span>
+</span><span class='line'>    <span class="n">run</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">try_sudo</span><span class="si">}</span><span class="s2"> chcon -R -h -t httpd_sys_content_t </span><span class="si">#{</span><span class="n">applicationdir</span><span class="si">}</span><span class="s2">/shared/bundle/&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
-
-      
-    </footer>
   
-</article>
+  
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
   
     <section>
@@ -173,7 +187,7 @@ conversation. <em>Thief!</em></p>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/robbkidd">@robbkidd</a> on GitHub
@@ -206,7 +220,6 @@ conversation. <em>Thief!</em></p>
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -221,10 +234,7 @@ conversation. <em>Thief!</em></p>
       var disqus_shortname = 'thekidds-org';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://thekidds.org/about/index.html';
-        var disqus_url = 'http://thekidds.org/about/index.html';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

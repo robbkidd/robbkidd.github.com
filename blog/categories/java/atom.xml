@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Ruby | Slightly Ahead of Behind the Curve]]></title>
-  <link href="http://thekidds.org/blog/categories/ruby/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Java | Slightly Ahead of Behind the Curve]]></title>
+  <link href="http://thekidds.org/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
   <updated>2016-03-10T10:29:40-05:00</updated>
   <id>http://thekidds.org/</id>
@@ -196,139 +196,6 @@ vagrant@vagrant-ubuntu-trusty-64:/vagrant$ Puma 2.11.2 starting&hellip;
 Let&rsquo;s try running it from a more production-like directory.</p>
 
 <p>:</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Active Record, PostgreSQL and Sequence Naming]]></title>
-    <link href="http://thekidds.org/blog/2012/07/27/active-record-postgres-and-sequence-naming/"/>
-    <updated>2012-07-27T16:33:00-04:00</updated>
-    <id>http://thekidds.org/blog/2012/07/27/active-record-postgres-and-sequence-naming</id>
-    <content type="html"><![CDATA[<p>If you use PostgreSQL to back your Active Record models, you should
-check the current names for your tables and their sequences. Prior to
-Active Record 3.2.7, renaming a table did not rename the associated
-sequence for the table&rsquo;s primary key.</p>
-
-<p>A demonstration may be in order.</p>
-
-<!-- more -->
-
-
-<p>```
-robb@neoldian ~/code/pg_seq » rails generate model Product name:string description:text</p>
-
-<pre><code>  invoke  active_record
-  create    db/migrate/20120727210734_create_products.rb
-  create    app/models/product.rb
-  invoke    test_unit
-  create      test/unit/product_test.rb
-  create      test/fixtures/products.yml
-</code></pre>
-
-<p>robb@neoldian ~/code/pg_seq » rake db:migrate
-==  CreateProducts: migrating =================================================
-&mdash; create_table(:products)
-NOTICE:  CREATE TABLE will create implicit sequence &ldquo;products_id_seq&rdquo; for serial column &ldquo;products.id&rdquo;
-NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index &ldquo;products_pkey&rdquo; for table &ldquo;products&rdquo;
-   &ndash;> 0.0194s
-==  CreateProducts: migrated (0.0196s) ========================================
-```</p>
-
-<p>Note that on line 11 the <code>CREATE TABLE</code> created an implicit sequence
-<code>products_id_seq</code> for serial column <code>products.id</code>.</p>
-
-<p>Let&rsquo;s rename the table.</p>
-
-<p>```bash
-robb@neoldian ~/code/pg_seq » rails generate migration RenameProductsToWidgets</p>
-
-<pre><code>  invoke  active_record
-  create    db/migrate/20120727211235_rename_products_to_widgets.rb
-</code></pre>
-
-<p>```</p>
-
-<p>```ruby db/migrate/20120727211235_rename_products_to_widgets.rb
-class RenameProductsToWidgets &lt; ActiveRecord::Migration
-  def up</p>
-
-<pre><code>rename_table :products, :widgets
-</code></pre>
-
-<p>  end</p>
-
-<p>  def down</p>
-
-<pre><code>rename_table :widgets, :products
-</code></pre>
-
-<p>  end
-end
-```</p>
-
-<p><code>bash
-robb@neoldian ~/code/pg_seq » rake db:migrate
-==  RenameProductsToWidgets: migrating ========================================
--- rename_table(:products, :widgets)
-   -&gt; 0.0019s
-==  RenameProductsToWidgets: migrated (0.0020s) ===============================
-</code></p>
-
-<p>What do you expect the sequence for the <code>id</code> column in the <code>widgets</code>
-table to be named at this point? <code>widgets_id_seq</code>?</p>
-
-<p>```sh</p>
-
-<pre><code>                                  Table "public.widgets"
-</code></pre>
-
-<p>   Column    |            Type             |                       Modifiers
-&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;
- id          | integer                     | not null default nextval(&lsquo;products_id_seq&rsquo;::regclass)
- name        | character varying(255)      |
- description | text                        |
- created_at  | timestamp without time zone | not null
- updated_at  | timestamp without time zone | not null
-Indexes:</p>
-
-<pre><code>"products_pkey" PRIMARY KEY, btree (id)
-</code></pre>
-
-<p>```</p>
-
-<p>The who the what?</p>
-
-<p>On line 4, the next value for the <code>widgets.id</code> column is coming
-from a sequence named <code>products_id_seq</code>. This is not catastrophic
-for small code bases, but imagine coming across this database
-months or years from now. &ldquo;Why&rsquo;s the widget table have a sequence
-named &lsquo;products&rsquo;?&rdquo;</p>
-
-<p>The good news is that
-<a href="https://github.com/rails/rails/pull/7031">AR v3.2.7 includes a fix for this</a>.
-When you rename a table, if the name of the sequence for the table&rsquo;s
-primary key matches the AR default &ldquo;tablename_columnname_seq&rdquo;, then
-the sequence will be renamed as well. (I suppose the next order of
-business is to get that index renamed, too.)</p>
-
-<p>So you might want to go take a look at your PostgreSQL tables. Their sequences
-probably have names that do not make any sense now.</p>
-
-<p>You can use this gist in your Rails console as a quick way to check.</p>
-
-<p><div><script src='https://gist.github.com/3190645.js'></script>
-<noscript><pre><code>def check_table_and_sequence_names
-  connection = ActiveRecord::Base.connection
-  if connection.adapter_name == &quot;PostgreSQL&quot;
-    table_names = connection.tables.keep_if { |t| t !~ /schema_migrations/ }
-    table_names.map { |t| [t, connection.pk_and_sequence_for(t)].flatten }
-  end
-end
-
-check_table_and_sequence_names
-# =&gt; [[&quot;tablename&quot;, &quot;primarykeyname&quot;, &quot;sequencename&quot;]] 
-</code></pre></noscript></div>
-</p>
 ]]></content>
   </entry>
   

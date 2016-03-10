@@ -4,7 +4,7 @@
   <title><![CDATA[Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2016-03-07T17:05:36-05:00</updated>
+  <updated>2016-03-10T10:29:40-05:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -12,6 +12,260 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Run Dependency Services in Docker]]></title>
+    <link href="http://thekidds.org/blog/2016/03/10/run-dependency-services-in-docker/"/>
+    <updated>2016-03-10T08:47:17-05:00</updated>
+    <id>http://thekidds.org/blog/2016/03/10/run-dependency-services-in-docker</id>
+    <content type="html"><![CDATA[<p>My current primary project is a Rails app that depends on PostgreSQL and Redis.
+I used to run those services directly on my Mac OS development workstation, but
+didn&rsquo;t like the untidiness of having services I wasn&rsquo;t using all the time
+running all the time. Or that the default install might leave the services
+listening on all interfaces so that everyone in the coffee shop could poke at my
+test data. (Nah. I&rsquo;ve got a firewall and <a href="https://www.obdev.at/products/littlesnitch">so should you</a>.)
+I figured, &ldquo;Hey, I could use Docker to cordon these services off.&rdquo;</p>
+
+<!-- more -->
+
+
+<p><img src="http://thekidds.org/images/so-hot-right-now.jpg" alt="Docker, so hot right now" /></p>
+
+<h1>Prepare Your App</h1>
+
+<p>First, I had to make sure my config files would be happy with the usual defaults
+of services running on localhost.</p>
+
+<h2>PostgreSQL</h2>
+
+<p>For PostgreSQL, I updated the database configuration to accept an IP address
+from an environment variable, otherwise use localhost as it did before.</p>
+
+<figure class='code'><figcaption><span>config/database.yml</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">development:</span>
+</span><span class='line'><span class="x">  adapter: postgresql</span>
+</span><span class='line'><span class="x">  database: derelicte_development</span>
+</span><span class='line'><span class="x">  host: </span><span class="cp">&lt;%=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;POSTGRES_IP&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;localhost&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  pool: 30</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">test:</span>
+</span><span class='line'><span class="x">  adapter: postgresql</span>
+</span><span class='line'><span class="x">  database: derelicte_test</span>
+</span><span class='line'><span class="x">  host: </span><span class="cp">&lt;%=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;POSTGRES_IP&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;localhost&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>NOTE: You will still need a version of PostgreSQL installed—but not services
+<em>running</em>—on the local filesystem for development libraries to be available to
+be able to build the <code>pg</code> gem. Configure bundler to know where to find
+PostgreSQL libraries. For example, if you have
+<a href="https://www.codefellows.org/blog/three-battle-tested-ways-to-install-postgresql">PostgreSQL installed via Homebrew</a>,
+you would run the following to configure bundler:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>bundle config build.pg --with-pg-config<span class="o">=</span>/usr/local/bin/pg_config
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Redis</h2>
+
+<p>Our application had long received the Redis connection information via an
+environment variable in an initializer.</p>
+
+<figure class='code'><figcaption><span>config/initializers/redis.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># ...</span>
+</span><span class='line'>  <span class="n">redis_url</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;REDIS_URL&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;redis://localhost:6379/0/derelicte&#39;</span>
+</span><span class='line'><span class="c1"># ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Services in Docker</h1>
+
+<p>With the application configurable by environment variables (but with sensible
+defaults), we can move on to installing Docker and getting the services running.</p>
+
+<h2>Docker Prerequisites</h2>
+
+<p>Docker on a Mac requires some sort of hypervisor—like Virtualbox or VMware—to
+run a Linux virtual machine (VM) which supports the container features Docker
+uses. Virtualbox is the easiest to get started with.</p>
+
+<ul>
+<li><p><a href="https://www.virtualbox.org/wiki/Downloads">Download</a> and install Virtualbox.</p></li>
+<li><p>Install <code>docker-machine</code> and <code>docker</code>. With <a href="http://brew.sh/">Homebrew</a>:</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span>install the things</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>brew install docker docker-machine
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Create a <code>docker-machine</code> VM on which to run Docker services. The following command assumes your hypervisor is VirtualBox and that you will name this host &ldquo;default&rdquo;.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>create the docker-machine VM</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker-machine create --driver virtualbox default
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Set the environment variables for the application configuration. This can be
+done by hand or you can automate the setup with something like <code>direnv</code>. See
+<a href="http://thekidds.org/blog/2016/03/07/closer-to-environmental-bliss-with-direnv">Closer to Environmental Bliss with Direnv</a> for more on direnv.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>environment setup</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">eval</span> <span class="k">$(</span>docker-machine env default<span class="k">)</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">DOCKER_IP</span><span class="o">=</span><span class="k">$(</span>docker-machine ip default<span class="k">)</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">POSTGRES_IP</span><span class="o">=</span><span class="nv">$DOCKER_IP</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">REDIS_URL</span><span class="o">=</span><span class="s2">&quot;redis://${DOCKER_IP}:6379/0/supermarket&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Manage the Services</h2>
+
+<p>Now we can use <code>docker</code> to control the Docker services running in the <code>default</code>
+Docker Machine VM. Now we can actually run PostgreSQL and Redis.</p>
+
+<figure class='code'><figcaption><span>test docker command</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker info
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That should return lots of information about your running Docker services in the
+VM.</p>
+
+<figure class='code'><figcaption><span>start postgresql</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker run <span class="se">\</span>
+</span><span class='line'>      --detach<span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+</span><span class='line'>      --env <span class="nv">POSTGRES_USER</span><span class="o">=</span><span class="nv">$USER</span>  <span class="se">\</span>
+</span><span class='line'>      --publish 5432:5432 <span class="se">\</span>
+</span><span class='line'>      --name derelicte-pg <span class="se">\</span>
+</span><span class='line'>      postgres:9.3
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>start redis</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker run <span class="se">\</span>
+</span><span class='line'>      --detach<span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+</span><span class='line'>      --publish 6379:6379 <span class="se">\</span>
+</span><span class='line'>      --name derelicte-redis <span class="se">\</span>
+</span><span class='line'>      redis:3.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>These <code>docker run</code> commands retrieve already configured container images from
+DockerHub and runs them. Ports are forwarded from the running containers to the
+Docker Machine VM&rsquo;s network interface. The commands are a bit long, so I
+recommend scripting them, possibly by adding them to a rake task like
+<code>setup:docker</code>. Maybe go a step further and have a rake task that chains the
+docker runs with <code>db:create</code>, <code>db:migrate</code>, <code>db:test:prepare</code>.</p>
+
+<figure class='code'><figcaption><span>check on running containers</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker ps
+</span><span class='line'>CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+</span><span class='line'>9ca2dbac647e        redis:3.0           <span class="s2">&quot;/entrypoint.sh redis&quot;</span>   4 seconds ago       Up 3 seconds        0.0.0.0:6379-&gt;6379/tcp   derelicte-redis
+</span><span class='line'>5009b1db0c08        postgres:9.3        <span class="s2">&quot;/docker-entrypoint.s&quot;</span>   4 seconds ago       Up 3 seconds        0.0.0.0:5432-&gt;5432/tcp   derelicte-pg
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At this point, with your application configured and the services running, you
+can start running tests and a development server on your workstation. PostgreSQL
+and Redis are safely listening on a host-only interface on the Docker Machine VM. If you would like to scrap the services and start fresh you can stop the containers individually.</p>
+
+<figure class='code'><figcaption><span>blow away the database and redis containers - WILL LOSE DATA</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker rm -f derelicte-redis
+</span><span class='line'><span class="nv">$ </span>docker rm -f derelicte-pg
+</span><span class='line'><span class="nv">$ </span>docker ps
+</span><span class='line'>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, if you put those run commands into a rake task:</p>
+
+<figure class='code'><figcaption><span>run those containers again</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">time </span>be rake setup:docker
+</span><span class='line'><span class="c"># lotsa output</span>
+</span><span class='line'>8fb8df60a4aea74d84c87be8a16b10315c8d269e5c44b34df74ff53c76738357
+</span><span class='line'>d5f363fe1940fe39257c7a5f488d1c6007644c24039f091b634d5857ed69ab34
+</span><span class='line'>bundle <span class="nb">exec </span>rake setup:docker  2.61s user 0.93s system 91% cpu 3.868 total
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span><span class="nb">time </span>be rake db:create db:migrate db:seed db:test:prepare
+</span><span class='line'><span class="c"># a lot more output</span>
+</span><span class='line'>bundle <span class="nb">exec </span>rake db:create db:migrate db:seed db:test:prepare  4.41s user 1.64s system 73% cpu 8.175 total
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Aww yeah, 4 second recreate and 8 second setup and I&rsquo;m ready to test.</p>
+
+<p><img src="http://thekidds.org/images/beautiful.gif" alt="It's beautiful!" /></p>
+
+<p>You can blow away the entire Docker Machine VM for even more pave-the-earth
+destruction, but this will destroy <em>all</em> the containers in that VM. Beware if you start using the same Docker Machine for more than one project.</p>
+
+<figure class='code'><figcaption><span>destroy and recreate the docker machine</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker-machine rm default
+</span><span class='line'>About to remove default
+</span><span class='line'>Are you sure? <span class="o">(</span>y/n<span class="o">)</span>: y
+</span><span class='line'>Successfully removed default
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>docker-machine create -d virtualbox default
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You will need to reinitialize the environment variables set earlier—super handy
+if you control them with direnv: <code>direnv reload</code>—because the docker-machine IP
+may have changed after being recreated.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Closer to Environmental Bliss With Direnv]]></title>
@@ -301,6 +555,277 @@ style.</p>
 <p>&ldquo;Never Forgotten.&rdquo; Said like a promise. Those are my words.</p>
 
 <p>Thanks, Nick, for inspiring me to share.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cramming a Sinatra App Into a JAR]]></title>
+    <link href="http://thekidds.org/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar/"/>
+    <updated>2015-05-06T14:36:54-04:00</updated>
+    <id>http://thekidds.org/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar</id>
+    <content type="html"><![CDATA[<p>We recently solved a problem for allowing our internal users to easily update
+records in a legacy data store by providing a simple web interface via a Sinatra
+app. Sweet! Now we have to deploy it: Ruby runtime in production. Oh. Nuts. How?</p>
+
+<!-- more -->
+
+
+<p>The new hotness would be to generate a Docker image of the app, but the
+organization is still considering the security implications of Docker containers
+in production. Deploy to a Linux host and use the distribution&rsquo;s Ruby package?
+No, version is too old. Chef or Puppet to install an up-to-date MRI Ruby runtime
+on the host? Maybe, but we like to put as many of the dependencies into a
+component package as possible. Omnibus? On the to-learn list and our users would
+really like to use this interface soon. What one, trustworthy thing could I
+easily put on the server to let it run a Sinatra app?</p>
+
+<p>Java.</p>
+
+<p>Oh yeah. JRuby.</p>
+
+<p>An introduction to a fake version of the app might be in order for me to show
+the work.</p>
+
+<p>The libraries used in the app and to package the app as a JAR file.</p>
+
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s2">&quot;https://rubygems.org&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gem</span> <span class="s2">&quot;haml&quot;</span>      <span class="c1"># It&#39;s a simple app, yo.</span>
+</span><span class='line'><span class="n">gem</span> <span class="s2">&quot;sinatra&quot;</span>   <span class="c1"># Sing for me, Frank.</span>
+</span><span class='line'><span class="n">gem</span> <span class="s2">&quot;puma&quot;</span>      <span class="c1"># JRuby-friendly app server</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;pry&#39;</span>     <span class="c1"># prettier irb</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;warbler&#39;</span> <span class="c1"># heavy lifter for JAR&#39;ing the app</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The core of the app itself.</p>
+
+<figure class='code'><figcaption><span>lib/awesome_sauce.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">AwesomeSauce</span> <span class="o">&lt;</span> <span class="ss">Sinatra</span><span class="p">:</span><span class="ss">:Application</span>
+</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;haml&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">haml</span> <span class="ss">:root_sauciness</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The view for <code>:root_sauciness</code>.</p>
+
+<figure class='code'><figcaption><span>views/root_sauciness.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">!!!</span> <span class="no">XML</span>
+</span><span class='line'><span class="o">!!!</span>
+</span><span class='line'><span class="o">%</span><span class="n">html</span>
+</span><span class='line'> <span class="o">%</span><span class="n">head</span>
+</span><span class='line'>  <span class="o">%</span><span class="n">title</span> <span class="no">Awesome</span> <span class="no">Sauce</span>
+</span><span class='line'>  <span class="o">%</span><span class="n">meta</span><span class="p">{</span> <span class="s1">&#39;http-equiv&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="ss">:content</span> <span class="o">=&gt;</span> <span class="s1">&#39;text/html; charset=utf-8&#39;</span> <span class="p">}</span>
+</span><span class='line'> <span class="o">%</span><span class="n">body</span>
+</span><span class='line'> <span class="o">%</span><span class="n">h1</span> <span class="no">The</span> <span class="n">root</span> <span class="n">of</span> <span class="n">the</span> <span class="n">sauce</span> <span class="n">is</span> <span class="n">awesome</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A rackup file. Why not <code>config.ru</code>? Because by putting it in <code>bin/</code>, Warbler
+will create a JAR, not a WAR, and will by default use this file as the first
+thing run by the JAR.</p>
+
+<figure class='code'><figcaption><span>bin/web.ru</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#!/usr/bin/env jruby</span>
+</span><span class='line'>
+</span><span class='line'><span class="vg">$LOAD_PATH</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span><span class="si">}</span><span class="s2">/../lib&quot;</span><span class="p">))</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;puma&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;awesome_sauce&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">configure</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:views</span><span class="p">,</span> <span class="s1">&#39;./views&#39;</span> <span class="c1"># foreshadowing: this line will change later</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:server</span><span class="p">,</span> <span class="sx">%w[puma]</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">AwesomeSauce</span><span class="o">.</span><span class="n">run!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A Warbler configuration for making the JAR.</p>
+
+<figure class='code'><figcaption><span>config/warble.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Warbler</span><span class="p">:</span><span class="ss">:Config</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="sx">%w(executable)</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">dirs</span> <span class="o">=</span> <span class="sx">%w(bin lib views)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>OK. Let&rsquo;s run this &hellip;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>» bundle install
+</span><span class='line'>Using rake 10.4.2
+</span><span class='line'>Using coderay 1.1.0
+</span><span class='line'>Using ffi 1.9.8
+</span><span class='line'>Using tilt 2.0.1
+</span><span class='line'>Using haml 4.0.6
+</span><span class='line'>Using jruby-jars 1.7.20
+</span><span class='line'>Using jruby-rack 1.1.18
+</span><span class='line'>Using method_source 0.8.2
+</span><span class='line'>Using slop 3.6.0
+</span><span class='line'>Using spoon 0.0.4
+</span><span class='line'>Using pry 0.10.1
+</span><span class='line'>Using rack 1.6.1
+</span><span class='line'>Using puma 2.11.2
+</span><span class='line'>Using rack-protection 1.5.3
+</span><span class='line'>Using rubyzip 1.1.7
+</span><span class='line'>Using sinatra 1.4.6
+</span><span class='line'>Using warbler 1.4.7
+</span><span class='line'>Using bundler 1.9.4
+</span><span class='line'>Bundle <span class="nb">complete</span>! 5 Gemfile dependencies, 18 gems now installed.
+</span><span class='line'>Bundled gems are installed into ./vendor.
+</span><span class='line'>
+</span><span class='line'>» bundle <span class="nb">exec </span>warble
+</span><span class='line'>No executable matching config.jar_name found, using bin/web.ru
+</span><span class='line'>rm -f awesome_sauce.jar
+</span><span class='line'>Creating awesome_sauce.jar
+</span><span class='line'>
+</span><span class='line'>» java -jar awesome_sauce.jar
+</span><span class='line'>Puma 2.11.2 starting...
+</span><span class='line'>* Min threads: 0, max threads: 16
+</span><span class='line'>* Environment: development
+</span><span class='line'>* Listening on tcp://localhost:4567
+</span><span class='line'><span class="o">==</span> Sinatra <span class="o">(</span>v1.4.6<span class="o">)</span> has taken the stage on 4567 <span class="k">for </span>development with backup from Puma
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Opening <code>localhost:4567</code> in a browser shows me something like:</p>
+
+<h2>The root of the sauce is awesome.</h2>
+
+<p>Sweet.</p>
+
+<p>Let&rsquo;s put that JAR file up on a server (in this case a Vagrant machine
+for testing) and try there.</p>
+
+<figure class='code'><figcaption><span>Running from</span><a href='http://thekidds.org/vagrant'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vagrant@vagrant-ubuntu-trusty-64:/vagrant<span class="nv">$ </span>java -jar awesome_sauce.jar &amp;
+</span><span class='line'><span class="o">[</span>1<span class="o">]</span> 1588
+</span><span class='line'>vagrant@vagrant-ubuntu-trusty-64:/vagrant<span class="nv">$ </span>Puma 2.11.2 starting...
+</span><span class='line'>* Min threads: 0, max threads: 16
+</span><span class='line'>* Environment: development
+</span><span class='line'>* Listening on tcp://localhost:4567
+</span><span class='line'><span class="o">==</span> Sinatra <span class="o">(</span>v1.4.6<span class="o">)</span> has taken the stage on 4567 <span class="k">for </span>development with backup from Puma
+</span><span class='line'>
+</span><span class='line'>vagrant@vagrant-ubuntu-trusty-64:/vagrant<span class="nv">$ </span>curl localhost:4567
+</span><span class='line'>&lt;!DOCTYPE html&gt;
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>  &lt;head&gt;
+</span><span class='line'>    &lt;title&gt;Awesome Sauce&lt;/title&gt;
+</span><span class='line'>    &lt;meta <span class="nv">content</span><span class="o">=</span><span class="s1">&#39;text/html; charset=utf-8&#39;</span> http-equiv<span class="o">=</span><span class="s1">&#39;Content-Type&#39;</span>&gt;
+</span><span class='line'>  &lt;/head&gt;
+</span><span class='line'>  &lt;body&gt;
+</span><span class='line'>    &lt;h1&gt;The root of the sauce is awesome.&lt;/h1&gt;
+</span><span class='line'>  &lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;
+</span><span class='line'>127.0.0.1 - - <span class="o">[</span>09/May/2015:15:24:36 +0000<span class="o">]</span> <span class="s2">&quot;GET / HTTP/1.1&quot;</span> 200 221 0.1170
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cool. It works and I only had to install a Java runtime on the server.
+Let&rsquo;s try running it from a more production-like directory.</p>
+
+<p>:</p>
 ]]></content>
   </entry>
   

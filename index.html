@@ -9,9 +9,8 @@
   <meta name="author" content="Robb Kidd">
 
   
-  <meta name="description" content="I was a long time user of RVM for installing and switching
-Rubies. It made my life pretty easy even as I listened to others struggle with
-it. I was a &hellip;">
+  <meta name="description" content="My current primary project is a Rails app that depends on PostgreSQL and Redis.
+I used to run those services directly on my Mac OS development &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +79,53 @@ it. I was a &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/03/10/run-dependency-services-in-docker/">Run Dependency Services in Docker</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-10T08:47:17-05:00" pubdate data-updated="true">Mar 10<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>My current primary project is a Rails app that depends on PostgreSQL and Redis.
+I used to run those services directly on my Mac OS development workstation, but
+didn&rsquo;t like the untidiness of having services I wasn&rsquo;t using all the time
+running all the time. Or that the default install might leave the services
+listening on all interfaces so that everyone in the coffee shop could poke at my
+test data. (Nah. I&rsquo;ve got a firewall and <a href="https://www.obdev.at/products/littlesnitch">so should you</a>.)
+I figured, &ldquo;Hey, I could use Docker to cordon these services off.&rdquo;</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/03/10/run-dependency-services-in-docker/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -165,6 +211,49 @@ I broke down in the shower this morning, I think I probably should.</p>
   
     <footer>
       <a rel="full-article" href="/blog/2015/09/11/reflections-on-9-11/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar/">Cramming a Sinatra App Into a JAR</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-06T14:36:54-04:00" pubdate data-updated="true">May 6<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We recently solved a problem for allowing our internal users to easily update
+records in a legacy data store by providing a simple web interface via a Sinatra
+app. Sweet! Now we have to deploy it: Ruby runtime in production. Oh. Nuts. How?</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar/">Read on &rarr;</a>
     </footer>
   
 
@@ -520,75 +609,9 @@ configuration manager.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/07/11/give-your-gems-some-context-for-selinux/">Give Your Gems Some Context for SELinux</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-07-11T18:55:00-04:00" pubdate data-updated="true">Jul 11<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app&mdash;e.g. failed to map segment from shared object: Permission denied&mdash;despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo chcon -R -h -t httpd_sys_content_t &lt;gems path&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><code>chcon</code> :: Changes the security context for those executables and libraries.</li>
-<li><code>-R</code> :: (recursive) All the files here, please.</li>
-<li><code>-h</code> :: Affect symbolic links instead of any referenced file.</li>
-<li><code>-t httpd_sys_content_t</code> :: Set the TYPE in the security context.</li>
-</ul>
-
-
-<p>We deploy with capistrano, so I have added this as a task called after
-<code>bundle:install</code> vendors my gems to <code>&lt;appdir&gt;/shared/bundle</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:application</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">after</span> <span class="s1">&#39;bundle:install&#39;</span><span class="p">,</span> <span class="s1">&#39;application:update_selinux&#39;</span>
-</span><span class='line'>  <span class="n">task</span> <span class="ss">:update_selinux</span><span class="p">,</span> <span class="ss">:roles</span> <span class="o">=&gt;</span> <span class="ss">:web</span> <span class="k">do</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;Updating SELinux context for bundled gems&#39;</span>
-</span><span class='line'>    <span class="n">run</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">try_sudo</span><span class="si">}</span><span class="s2"> chcon -R -h -t httpd_sys_content_t </span><span class="si">#{</span><span class="n">applicationdir</span><span class="si">}</span><span class="s2">/shared/bundle/&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -601,6 +624,10 @@ configuration manager.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/10/run-dependency-services-in-docker/">Run Dependency Services in Docker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/">Closer to Environmental Bliss With Direnv</a>
       </li>
     
@@ -609,15 +636,11 @@ configuration manager.</p>
       </li>
     
       <li class="post">
+        <a href="/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar/">Cramming a Sinatra App Into a JAR</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/19/mind-the-gap-resources/">Mind the Gap: Resources</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/04/18/yes-this-blog-is-stale/">Yes This Blog Is Stale.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/04/readme-the-bare-necessities/">README: The Bare Necessities</a>
       </li>
     
   </ul>

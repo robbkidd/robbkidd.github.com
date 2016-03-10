@@ -1,0 +1,519 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Run Dependency Services in Docker - Slightly Ahead of Behind the Curve</title>
+  <meta name="author" content="Robb Kidd">
+
+  
+  <meta name="description" content="My current primary project is a Rails app that depends on PostgreSQL and Redis.
+I used to run those services directly on my Mac OS development &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://thekidds.org/blog/2016/03/10/run-dependency-services-in-docker">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Slightly Ahead of Behind the Curve" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-33215856-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Slightly Ahead of Behind the Curve</a></h1>
+  
+    <h2>Brain droppings found here.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:thekidds.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about/">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Run Dependency Services in Docker</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-10T08:47:17-05:00" pubdate data-updated="true">Mar 10<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>My current primary project is a Rails app that depends on PostgreSQL and Redis.
+I used to run those services directly on my Mac OS development workstation, but
+didn&rsquo;t like the untidiness of having services I wasn&rsquo;t using all the time
+running all the time. Or that the default install might leave the services
+listening on all interfaces so that everyone in the coffee shop could poke at my
+test data. (Nah. I&rsquo;ve got a firewall and <a href="https://www.obdev.at/products/littlesnitch">so should you</a>.)
+I figured, &ldquo;Hey, I could use Docker to cordon these services off.&rdquo;</p>
+
+<!-- more -->
+
+
+<p><img src="/images/so-hot-right-now.jpg" alt="Docker, so hot right now" /></p>
+
+<h1>Prepare Your App</h1>
+
+<p>First, I had to make sure my config files would be happy with the usual defaults
+of services running on localhost.</p>
+
+<h2>PostgreSQL</h2>
+
+<p>For PostgreSQL, I updated the database configuration to accept an IP address
+from an environment variable, otherwise use localhost as it did before.</p>
+
+<figure class='code'><figcaption><span>config/database.yml</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">development:</span>
+</span><span class='line'><span class="x">  adapter: postgresql</span>
+</span><span class='line'><span class="x">  database: derelicte_development</span>
+</span><span class='line'><span class="x">  host: </span><span class="cp">&lt;%=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;POSTGRES_IP&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;localhost&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  pool: 30</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">test:</span>
+</span><span class='line'><span class="x">  adapter: postgresql</span>
+</span><span class='line'><span class="x">  database: derelicte_test</span>
+</span><span class='line'><span class="x">  host: </span><span class="cp">&lt;%=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;POSTGRES_IP&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;localhost&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>NOTE: You will still need a version of PostgreSQL installed—but not services
+<em>running</em>—on the local filesystem for development libraries to be available to
+be able to build the <code>pg</code> gem. Configure bundler to know where to find
+PostgreSQL libraries. For example, if you have
+<a href="https://www.codefellows.org/blog/three-battle-tested-ways-to-install-postgresql">PostgreSQL installed via Homebrew</a>,
+you would run the following to configure bundler:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>bundle config build.pg --with-pg-config<span class="o">=</span>/usr/local/bin/pg_config
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Redis</h2>
+
+<p>Our application had long received the Redis connection information via an
+environment variable in an initializer.</p>
+
+<figure class='code'><figcaption><span>config/initializers/redis.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># ...</span>
+</span><span class='line'>  <span class="n">redis_url</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;REDIS_URL&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;redis://localhost:6379/0/derelicte&#39;</span>
+</span><span class='line'><span class="c1"># ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Services in Docker</h1>
+
+<p>With the application configurable by environment variables (but with sensible
+defaults), we can move on to installing Docker and getting the services running.</p>
+
+<h2>Docker Prerequisites</h2>
+
+<p>Docker on a Mac requires some sort of hypervisor—like Virtualbox or VMware—to
+run a Linux virtual machine (VM) which supports the container features Docker
+uses. Virtualbox is the easiest to get started with.</p>
+
+<ul>
+<li><p><a href="https://www.virtualbox.org/wiki/Downloads">Download</a> and install Virtualbox.</p></li>
+<li><p>Install <code>docker-machine</code> and <code>docker</code>. With <a href="http://brew.sh/">Homebrew</a>:</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span>install the things</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>brew install docker docker-machine
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Create a <code>docker-machine</code> VM on which to run Docker services. The following command assumes your hypervisor is VirtualBox and that you will name this host &ldquo;default&rdquo;.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>create the docker-machine VM</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker-machine create --driver virtualbox default
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Set the environment variables for the application configuration. This can be
+done by hand or you can automate the setup with something like <code>direnv</code>. See
+<a href="/blog/2016/03/07/closer-to-environmental-bliss-with-direnv">Closer to Environmental Bliss with Direnv</a> for more on direnv.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>environment setup</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">eval</span> <span class="k">$(</span>docker-machine env default<span class="k">)</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">DOCKER_IP</span><span class="o">=</span><span class="k">$(</span>docker-machine ip default<span class="k">)</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">POSTGRES_IP</span><span class="o">=</span><span class="nv">$DOCKER_IP</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">REDIS_URL</span><span class="o">=</span><span class="s2">&quot;redis://${DOCKER_IP}:6379/0/supermarket&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Manage the Services</h2>
+
+<p>Now we can use <code>docker</code> to control the Docker services running in the <code>default</code>
+Docker Machine VM. Now we can actually run PostgreSQL and Redis.</p>
+
+<figure class='code'><figcaption><span>test docker command</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker info
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That should return lots of information about your running Docker services in the
+VM.</p>
+
+<figure class='code'><figcaption><span>start postgresql</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker run <span class="se">\</span>
+</span><span class='line'>      --detach<span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+</span><span class='line'>      --env <span class="nv">POSTGRES_USER</span><span class="o">=</span><span class="nv">$USER</span>  <span class="se">\</span>
+</span><span class='line'>      --publish 5432:5432 <span class="se">\</span>
+</span><span class='line'>      --name derelicte-pg <span class="se">\</span>
+</span><span class='line'>      postgres:9.3
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>start redis</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker run <span class="se">\</span>
+</span><span class='line'>      --detach<span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+</span><span class='line'>      --publish 6379:6379 <span class="se">\</span>
+</span><span class='line'>      --name derelicte-redis <span class="se">\</span>
+</span><span class='line'>      redis:3.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>These <code>docker run</code> commands retrieve already configured container images from
+DockerHub and runs them. Ports are forwarded from the running containers to the
+Docker Machine VM&rsquo;s network interface. The commands are a bit long, so I
+recommend scripting them, possibly by adding them to a rake task like
+<code>setup:docker</code>. Maybe go a step further and have a rake task that chains the
+docker runs with <code>db:create</code>, <code>db:migrate</code>, <code>db:test:prepare</code>.</p>
+
+<figure class='code'><figcaption><span>check on running containers</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker ps
+</span><span class='line'>CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+</span><span class='line'>9ca2dbac647e        redis:3.0           <span class="s2">&quot;/entrypoint.sh redis&quot;</span>   4 seconds ago       Up 3 seconds        0.0.0.0:6379-&gt;6379/tcp   derelicte-redis
+</span><span class='line'>5009b1db0c08        postgres:9.3        <span class="s2">&quot;/docker-entrypoint.s&quot;</span>   4 seconds ago       Up 3 seconds        0.0.0.0:5432-&gt;5432/tcp   derelicte-pg
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At this point, with your application configured and the services running, you
+can start running tests and a development server on your workstation. PostgreSQL
+and Redis are safely listening on a host-only interface on the Docker Machine VM. If you would like to scrap the services and start fresh you can stop the containers individually.</p>
+
+<figure class='code'><figcaption><span>blow away the database and redis containers - WILL LOSE DATA</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker rm -f derelicte-redis
+</span><span class='line'><span class="nv">$ </span>docker rm -f derelicte-pg
+</span><span class='line'><span class="nv">$ </span>docker ps
+</span><span class='line'>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, if you put those run commands into a rake task:</p>
+
+<figure class='code'><figcaption><span>run those containers again</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">time </span>be rake setup:docker
+</span><span class='line'><span class="c"># lotsa output</span>
+</span><span class='line'>8fb8df60a4aea74d84c87be8a16b10315c8d269e5c44b34df74ff53c76738357
+</span><span class='line'>d5f363fe1940fe39257c7a5f488d1c6007644c24039f091b634d5857ed69ab34
+</span><span class='line'>bundle <span class="nb">exec </span>rake setup:docker  2.61s user 0.93s system 91% cpu 3.868 total
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span><span class="nb">time </span>be rake db:create db:migrate db:seed db:test:prepare
+</span><span class='line'><span class="c"># a lot more output</span>
+</span><span class='line'>bundle <span class="nb">exec </span>rake db:create db:migrate db:seed db:test:prepare  4.41s user 1.64s system 73% cpu 8.175 total
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Aww yeah, 4 second recreate and 8 second setup and I&rsquo;m ready to test.</p>
+
+<p><img src="/images/beautiful.gif" alt="It's beautiful!" /></p>
+
+<p>You can blow away the entire Docker Machine VM for even more pave-the-earth
+destruction, but this will destroy <em>all</em> the containers in that VM. Beware if you start using the same Docker Machine for more than one project.</p>
+
+<figure class='code'><figcaption><span>destroy and recreate the docker machine</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>docker-machine rm default
+</span><span class='line'>About to remove default
+</span><span class='line'>Are you sure? <span class="o">(</span>y/n<span class="o">)</span>: y
+</span><span class='line'>Successfully removed default
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>docker-machine create -d virtualbox default
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You will need to reinitialize the environment variables set earlier—super handy
+if you control them with direnv: <code>direnv reload</code>—because the docker-machine IP
+may have changed after being recreated.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Robb Kidd</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-10T08:47:17-05:00" pubdate data-updated="true">Mar 10<span>th</span>, 2016</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/" title="Previous Post: Closer to Environmental Bliss with direnv">&laquo; Closer to Environmental Bliss with direnv</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/03/10/run-dependency-services-in-docker/">Run Dependency Services in Docker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/">Closer to Environmental Bliss With Direnv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/11/reflections-on-9-11/">Reflections on 9-11.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar/">Cramming a Sinatra App Into a JAR</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/19/mind-the-gap-resources/">Mind the Gap: Resources</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/robbkidd">@robbkidd</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'robbkidd',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Robb Kidd -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'thekidds-org';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://thekidds.org/blog/2016/03/10/run-dependency-services-in-docker/';
+        var disqus_url = 'http://thekidds.org/blog/2016/03/10/run-dependency-services-in-docker/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
