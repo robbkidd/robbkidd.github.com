@@ -29,10 +29,6 @@
         <lastmod>2016-03-07T17:00:34-05:00</lastmod>
     </url>
     <url>
-        <loc>http://thekidds.org/blog/2015/05/06/cramming-a-sinatra-app-into-a-jar/</loc>
-        <lastmod>2016-03-07T17:00:34-05:00</lastmod>
-    </url>
-    <url>
         <loc>http://thekidds.org/blog/2015/09/11/reflections-on-9-11/</loc>
         <lastmod>2016-03-07T17:00:34-05:00</lastmod>
     </url>
@@ -42,7 +38,7 @@
     </url>
     <url>
         <loc>http://thekidds.org/blog/2016/03/10/run-dependency-services-in-docker/</loc>
-        <lastmod>2016-03-10T10:40:18-05:00</lastmod>
+        <lastmod>2016-03-30T11:31:21-04:00</lastmod>
     </url>
     <url>
         <loc>http://thekidds.org/about/</loc>
@@ -50,11 +46,11 @@
     </url>
     <url>
         <loc>http://thekidds.org/blog/archives/</loc>
-        <lastmod>2016-03-10T10:40:18-05:00</lastmod>
+        <lastmod>2016-03-30T11:31:21-04:00</lastmod>
     </url>
     <url>
         <loc>http://thekidds.org/</loc>
-        <lastmod>2016-03-10T10:40:18-05:00</lastmod>
+        <lastmod>2016-03-30T11:31:21-04:00</lastmod>
     </url>
     <url>
         <loc>http://thekidds.org/robots.txt</loc>

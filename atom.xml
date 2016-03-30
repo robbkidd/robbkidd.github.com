@@ -4,7 +4,7 @@
   <title><![CDATA[Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2016-03-10T10:40:58-05:00</updated>
+  <updated>2016-03-30T11:32:24-04:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -136,7 +136,7 @@ done by hand or we can automate the setup with something like <code>direnv</code
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">eval</span> <span class="k">$(</span>docker-machine env default<span class="k">)</span>
 </span><span class='line'><span class="nb">export </span><span class="nv">DOCKER_IP</span><span class="o">=</span><span class="k">$(</span>docker-machine ip default<span class="k">)</span>
 </span><span class='line'><span class="nb">export </span><span class="nv">POSTGRES_IP</span><span class="o">=</span><span class="nv">$DOCKER_IP</span>
-</span><span class='line'><span class="nb">export </span><span class="nv">REDIS_URL</span><span class="o">=</span><span class="s2">&quot;redis://${DOCKER_IP}:6379/0/supermarket&quot;</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">REDIS_URL</span><span class="o">=</span><span class="s2">&quot;redis://${DOCKER_IP}:6379/0/derelicte&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
