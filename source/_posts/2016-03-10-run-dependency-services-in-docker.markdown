@@ -96,7 +96,7 @@ done by hand or we can automate the setup with something like `direnv`. See
 eval $(docker-machine env default)
 export DOCKER_IP=$(docker-machine ip default)
 export POSTGRES_IP=$DOCKER_IP
-export REDIS_URL="redis://${DOCKER_IP}:6379/0/supermarket"
+export REDIS_URL="redis://${DOCKER_IP}:6379/0/derelicte"
 ```
 
 ## Manage the Services
