@@ -4,7 +4,7 @@
   <title><![CDATA[Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2016-07-30T16:47:48-04:00</updated>
+  <updated>2016-12-14T10:18:48-05:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Computing a Version for a Habitat Package]]></title>
+    <link href="http://thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/"/>
+    <updated>2016-12-05T09:53:44-05:00</updated>
+    <id>http://thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package</id>
+    <content type="html"><![CDATA[<p>Sometimes when packaging a thing in <a href="https://www.habitat.sh/">Habitat</a>, the plan really should not have the version hard-coded if the plan is packaging something from which the version could be computed.</p>
+
+<!-- more -->
+
+
+
+
+<iframe src="//giphy.com/embed/13RBYnxA3RBpOU?html5=true" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+
+
+<p><a href="https://giphy.com/gifs/realitytvgifs-lady-gaga-work-13RBYnxA3RBpOU">via GIPHY</a></p>
+
+
+<p>Take for example <a href="https://github.com/habitat-sh/core-plans/blob/master/cacerts/plan.sh">the core-plan for cacerts</a>. The plan downloads the latest cacerts and figures out what the specific version is from the &ldquo;source&rdquo; downloaded by calling a custom <code>update_pkg_version()</code> function in the plan right after download (the earliest possible moment to figure the version out). Here&rsquo;s what that function looks like today:</p>
+
+<figure class='code'><figcaption><span>cacert version look up</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>update_pkg_version<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="c"># Extract the build date of the certificates file</span>
+</span><span class='line'>  <span class="nb">local </span><span class="nv">build_date</span><span class="o">=</span><span class="k">$(</span>cat <span class="nv">$HAB_CACHE_SRC_PATH</span>/<span class="nv">$pkg_filename</span> <span class="se">\</span>
+</span><span class='line'>    | grep <span class="s1">&#39;Certificate data from Mozilla&#39;</span> <span class="se">\</span>
+</span><span class='line'>    | sed <span class="s1">&#39;s/^## Certificate data from Mozilla as of: //&#39;</span><span class="k">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># Update the `$pkg_version` value with the build date</span>
+</span><span class='line'>  <span class="nv">pkg_version</span><span class="o">=</span><span class="k">$(</span>date --date<span class="o">=</span><span class="s2">&quot;$build_date&quot;</span> <span class="s2">&quot;+%Y.%m.%d&quot;</span><span class="k">)</span>
+</span><span class='line'>  build_line <span class="s2">&quot;Version updated to $pkg_version from CA Certs file&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c"># Several metadata values get their defaults from the value of `$pkg_version`</span>
+</span><span class='line'>  <span class="c"># so we must update these as well</span>
+</span><span class='line'>  <span class="nv">pkg_dirname</span><span class="o">=</span><span class="k">${</span><span class="nv">pkg_name</span><span class="k">}</span>-<span class="k">${</span><span class="nv">pkg_version</span><span class="k">}</span>
+</span><span class='line'>  <span class="nv">pkg_prefix</span><span class="o">=</span><span class="nv">$HAB_PKG_PATH</span>/<span class="k">${</span><span class="nv">pkg_origin</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_name</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_version</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_release</span><span class="k">}</span>
+</span><span class='line'>  <span class="nv">pkg_artifact</span><span class="o">=</span><span class="s2">&quot;$HAB_CACHE_ARTIFACT_PATH/${pkg_origin}-${pkg_name}-${pkg_version}-${pkg_release}-${pkg_target}.${_artifact_ext}&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Cool. &ldquo;Just figure it out, Plan.&rdquo;</p>
+
+<p>That&rsquo;s the case for when a Habitat plan is packaging something downloaded from elsewhere. Another case is when Habitat is being used to package a Thing and the plan co-exists within the Thing&rsquo;s codebase. I&rsquo;m working through packaging an existing Rails application with Habitat. The app and the plan co-exist in a single git repository. The application already has a mechanism to declare its version using git tags. We can tell the plan to just figure it out in this case, too.</p>
+
+<figure class='code'><figcaption><span>app in git repo: version lookup</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">pkg_build_deps</span><span class="o">=(</span>
+</span><span class='line'>  ...
+</span><span class='line'>  core/git
+</span><span class='line'>  ...
+</span><span class='line'><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>determine_version<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nv">pkg_version</span><span class="o">=</span><span class="k">$(</span>git describe<span class="k">)</span>
+</span><span class='line'>  <span class="nv">pkg_dirname</span><span class="o">=</span><span class="k">${</span><span class="nv">pkg_name</span><span class="k">}</span>-<span class="k">${</span><span class="nv">pkg_version</span><span class="k">}</span>
+</span><span class='line'>  <span class="nv">pkg_filename</span><span class="o">=</span><span class="k">${</span><span class="nv">pkg_dirname</span><span class="k">}</span>.tar.gz
+</span><span class='line'>  <span class="nv">pkg_prefix</span><span class="o">=</span><span class="nv">$HAB_PKG_PATH</span>/<span class="k">${</span><span class="nv">pkg_origin</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_name</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_version</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_release</span><span class="k">}</span>
+</span><span class='line'>  <span class="nv">pkg_artifact</span><span class="o">=</span><span class="s2">&quot;$HAB_CACHE_ARTIFACT_PATH/${pkg_origin}-${pkg_name}-${pkg_version}-${pkg_release}-${pkg_target}.${_artifact_ext}&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>core/git</code> needs to be included in the plan&rsquo;s build dependencies and then we can use <code>git describe</code> to get the tag for the current commit (or nearest tag and how far away a commit is from it). This function needs to set one more metadata value than in cacerts—<code>pkg_filename</code>—which is based on the computed version. The plan is <em>in</em> the source repository, so we don&rsquo;t need to download anything. The Habitat <code>do_download()</code> and <code>do_verify()</code> functions get overridden with:</p>
+
+<figure class='code'><figcaption><span>app in git repo: fake out download</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>do_download<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  determine_version
+</span><span class='line'>
+</span><span class='line'>  build_line <span class="s2">&quot;Fake download! Creating archive of latest repository commit.&quot;</span>
+</span><span class='line'>  <span class="c"># source is in this repo, so we&#39;re going to create an archive from the</span>
+</span><span class='line'>  <span class="c"># appropriate path within the repo for the rest of the plan callback chain</span>
+</span><span class='line'>  <span class="c"># to pick up on</span>
+</span><span class='line'>  <span class="nb">cd</span> <span class="nv">$PLAN_CONTEXT</span>/../..
+</span><span class='line'>  git archive --prefix<span class="o">=</span><span class="k">${</span><span class="nv">pkg_name</span><span class="k">}</span>-<span class="k">${</span><span class="nv">pkg_version</span><span class="k">}</span>/ --output<span class="o">=</span><span class="nv">$HAB_CACHE_SRC_PATH</span>/<span class="k">${</span><span class="nv">pkg_filename</span><span class="k">}</span> HEAD src/
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>do_verify<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  build_line <span class="s2">&quot;Skipping checksum verification on the archive we just created.&quot;</span>
+</span><span class='line'>  <span class="k">return </span>0
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We use <code>git archive</code> to produce a tarball of the application source that follows the conventions of the default <code>do_download()</code> function. There&rsquo;s nothing to verify about it because we just created it. The default <code>do_unpack()</code> is left to run without being overridden because <code>do_download()</code> produced a conventional source tarball.</p>
+
+<p>With this in place, the existing process for version bumping the application remains unchanged and does not require any hard-coding in metadata.</p>
+
+<iframe src="//giphy.com/embed/l3nWqD4ViFej9REAw?html5=true" width="480" height="269" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+
+
+<p><a href="https://giphy.com/gifs/laughing-laugh-bill-nye-l3nWqD4ViFej9REAw">via GIPHY</a></p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Run Dependency Services in Docker]]></title>

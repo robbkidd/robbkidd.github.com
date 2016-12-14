@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: habitat | Slightly Ahead of Behind the Curve]]></title>
+  <link href="http://thekidds.org/blog/categories/habitat/atom.xml" rel="self"/>
+  <link href="http://thekidds.org/"/>
+  <updated>2016-12-14T10:18:48-05:00</updated>
+  <id>http://thekidds.org/</id>
+  <author>
+    <name><![CDATA[Robb Kidd]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Computing a Version for a Habitat Package]]></title>
+    <link href="http://thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/"/>
+    <updated>2016-12-05T09:53:44-05:00</updated>
+    <id>http://thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package</id>
+    <content type="html"><![CDATA[<p>Sometimes when packaging a thing in <a href="https://www.habitat.sh/">Habitat</a>, the plan really should not have the version hard-coded if the plan is packaging something from which the version could be computed.</p>
+
+<!-- more -->
+
+
+
+
+<iframe src="//giphy.com/embed/13RBYnxA3RBpOU?html5=true" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+
+
+<p><a href="https://giphy.com/gifs/realitytvgifs-lady-gaga-work-13RBYnxA3RBpOU">via GIPHY</a></p>
+
+
+<p>Take for example <a href="https://github.com/habitat-sh/core-plans/blob/master/cacerts/plan.sh">the core-plan for cacerts</a>. The plan downloads the latest cacerts and figures out what the specific version is from the &ldquo;source&rdquo; downloaded by calling a custom <code>update_pkg_version()</code> function in the plan right after download (the earliest possible moment to figure the version out). Here&rsquo;s what that function looks like today:</p>
+
+<p>```bash cacert version look up
+update_pkg_version() {
+  # Extract the build date of the certificates file
+  local build_date=$(cat $HAB_CACHE_SRC_PATH/$pkg_filename \</p>
+
+<pre><code>| grep 'Certificate data from Mozilla' \
+| sed 's/^## Certificate data from Mozilla as of: //')
+</code></pre>
+
+<p>  # Update the <code>$pkg_version</code> value with the build date
+  pkg_version=$(date &mdash;date=&ldquo;$build_date&rdquo; &ldquo;+%Y.%m.%d&rdquo;)
+  build_line &ldquo;Version updated to $pkg_version from CA Certs file&rdquo;</p>
+
+<p>  # Several metadata values get their defaults from the value of <code>$pkg_version</code>
+  # so we must update these as well
+  pkg_dirname=${pkg_name}&ndash;${pkg_version}
+  pkg_prefix=$HAB_PKG_PATH/${pkg_origin}/${pkg_name}/${pkg_version}/${pkg_release}
+  pkg_artifact=&ldquo;$HAB_CACHE_ARTIFACT_PATH/${pkg_origin}&ndash;${pkg_name}&ndash;${pkg_version}&ndash;${pkg_release}&ndash;${pkg_target}.${_artifact_ext}&rdquo;
+}
+```</p>
+
+<p>Cool. &ldquo;Just figure it out, Plan.&rdquo;</p>
+
+<p>That&rsquo;s the case for when a Habitat plan is packaging something downloaded from elsewhere. Another case is when Habitat is being used to package a Thing and the plan co-exists within the Thing&rsquo;s codebase. I&rsquo;m working through packaging an existing Rails application with Habitat. The app and the plan co-exist in a single git repository. The application already has a mechanism to declare its version using git tags. We can tell the plan to just figure it out in this case, too.</p>
+
+<p>```bash app in git repo: version lookup
+pkg_build_deps=(
+  &hellip;
+  core/git
+  &hellip;
+)</p>
+
+<p>determine_version() {
+  pkg_version=$(git describe)
+  pkg_dirname=${pkg_name}&ndash;${pkg_version}
+  pkg_filename=${pkg_dirname}.tar.gz
+  pkg_prefix=$HAB_PKG_PATH/${pkg_origin}/${pkg_name}/${pkg_version}/${pkg_release}
+  pkg_artifact=&ldquo;$HAB_CACHE_ARTIFACT_PATH/${pkg_origin}&ndash;${pkg_name}&ndash;${pkg_version}&ndash;${pkg_release}&ndash;${pkg_target}.${_artifact_ext}&rdquo;
+}
+```</p>
+
+<p><code>core/git</code> needs to be included in the plan&rsquo;s build dependencies and then we can use <code>git describe</code> to get the tag for the current commit (or nearest tag and how far away a commit is from it). This function needs to set one more metadata value than in cacerts—<code>pkg_filename</code>—which is based on the computed version. The plan is <em>in</em> the source repository, so we don&rsquo;t need to download anything. The Habitat <code>do_download()</code> and <code>do_verify()</code> functions get overridden with:</p>
+
+<p>```bash app in git repo: fake out download
+do_download() {
+  determine_version</p>
+
+<p>  build_line &ldquo;Fake download! Creating archive of latest repository commit.&rdquo;
+  # source is in this repo, so we&rsquo;re going to create an archive from the
+  # appropriate path within the repo for the rest of the plan callback chain
+  # to pick up on
+  cd $PLAN_CONTEXT/../..
+  git archive &mdash;prefix=${pkg_name}&ndash;${pkg_version}/ &mdash;output=$HAB_CACHE_SRC_PATH/${pkg_filename} HEAD src/
+}</p>
+
+<p>do_verify() {
+  build_line &ldquo;Skipping checksum verification on the archive we just created.&rdquo;
+  return 0
+}
+```</p>
+
+<p>We use <code>git archive</code> to produce a tarball of the application source that follows the conventions of the default <code>do_download()</code> function. There&rsquo;s nothing to verify about it because we just created it. The default <code>do_unpack()</code> is left to run without being overridden because <code>do_download()</code> produced a conventional source tarball.</p>
+
+<p>With this in place, the existing process for version bumping the application remains unchanged and does not require any hard-coding in metadata.</p>
+
+<iframe src="//giphy.com/embed/l3nWqD4ViFej9REAw?html5=true" width="480" height="269" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+
+
+<p><a href="https://giphy.com/gifs/laughing-laugh-bill-nye-l3nWqD4ViFej9REAw">via GIPHY</a></p>
+
+]]></content>
+  </entry>
+  
+</feed>
