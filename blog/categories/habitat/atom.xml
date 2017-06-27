@@ -4,7 +4,7 @@
   <title><![CDATA[Category: habitat | Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/blog/categories/habitat/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2016-12-14T10:18:48-05:00</updated>
+  <updated>2017-06-27T13:38:57-04:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -23,7 +23,7 @@
 <!-- more -->
 
 
-
+<p><strong>UPDATE:</strong> Since writing this, Habitat has baked a pattern for computing the package version into the plan syntax with the optional <a href="https://www.habitat.sh/docs/reference/plan-syntax/#utility-functions">utility functions</a> <code>pkg_version()</code> and <code>update_pkg_version()</code>. The concept described below remains valid, but implementation is now much more streamlined because the default <code>update_pkg_version()</code> utility function does the recomputing of the other variables that include <code>pkg_version</code> in their values so that you don&rsquo;t have to.</p>
 
 <iframe src="//giphy.com/embed/13RBYnxA3RBpOU?html5=true" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 
