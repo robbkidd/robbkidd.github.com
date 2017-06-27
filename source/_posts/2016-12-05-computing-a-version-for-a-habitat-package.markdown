@@ -10,6 +10,8 @@ Sometimes when packaging a thing in [Habitat](https://www.habitat.sh/), the plan
 
 <!-- more -->
 
+**UPDATE:** Since writing this, Habitat has baked a pattern for computing the package version into the plan syntax with the optional [utility functions](https://www.habitat.sh/docs/reference/plan-syntax/#utility-functions) `pkg_version()` and `update_pkg_version()`. The concept described below remains valid, but implementation is now much more streamlined because the default `update_pkg_version()` utility function does the recomputing of the other variables that include `pkg_version` in their values so that you don't have to.
+
 <iframe src="//giphy.com/embed/13RBYnxA3RBpOU?html5=true" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/realitytvgifs-lady-gaga-work-13RBYnxA3RBpOU">via GIPHY</a></p>
 
 Take for example [the core-plan for cacerts](https://github.com/habitat-sh/core-plans/blob/master/cacerts/plan.sh). The plan downloads the latest cacerts and figures out what the specific version is from the "source" downloaded by calling a custom `update_pkg_version()` function in the plan right after download (the earliest possible moment to figure the version out). Here's what that function looks like today:
