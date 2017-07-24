@@ -4,7 +4,7 @@
   <title><![CDATA[Slightly Ahead of Behind the Curve]]></title>
   <link href="http://thekidds.org/atom.xml" rel="self"/>
   <link href="http://thekidds.org/"/>
-  <updated>2017-06-27T13:38:57-04:00</updated>
+  <updated>2017-07-24T09:03:16-04:00</updated>
   <id>http://thekidds.org/</id>
   <author>
     <name><![CDATA[Robb Kidd]]></name>
@@ -592,16 +592,16 @@ about it. We can use <code>direnv</code> to twiddle the environment for Chef pro
 </span><span class='line'>  <span class="c"># Override the GEM environment</span>
 </span><span class='line'>
 </span><span class='line'>  log_status <span class="s2">&quot;Overriding default Ruby environment to use ChefDK&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nb">export </span><span class="nv">GEM_ROOT</span><span class="o">=</span><span class="s2">&quot;/opt/chefdk/embedded/lib/ruby/gems/2.1.0&quot;</span>
-</span><span class='line'>  <span class="nb">export </span><span class="nv">GEM_HOME</span><span class="o">=</span><span class="s2">&quot;$EXPANDED_HOME/.chefdk/gem/ruby/2.1.0&quot;</span>
-</span><span class='line'>  <span class="nb">export </span><span class="nv">GEM_PATH</span><span class="o">=</span><span class="s2">&quot;$EXPANDED_HOME/.chefdk/gem/ruby/2.1.0:/opt/chefdk/embedded/lib/ruby/gems/2.1.0&quot;</span>
+</span><span class='line'>  <span class="nv">RUBY_ABI_VERSION</span><span class="o">=</span><span class="sb">`</span>ls /opt/chefdk/embedded/lib/ruby/gems/<span class="sb">`</span>
+</span><span class='line'>  <span class="nb">export </span><span class="nv">GEM_ROOT</span><span class="o">=</span><span class="s2">&quot;/opt/chefdk/embedded/lib/ruby/gems/$RUBY_ABI_VERSION&quot;</span>
+</span><span class='line'>  <span class="nb">export </span><span class="nv">GEM_HOME</span><span class="o">=</span><span class="s2">&quot;$EXPANDED_HOME/.chefdk/gem/ruby/$RUBY_ABI_VERSION&quot;</span>
+</span><span class='line'>  <span class="nb">export </span><span class="nv">GEM_PATH</span><span class="o">=</span><span class="s2">&quot;$EXPANDED_HOME/.chefdk/gem/ruby/$RUBY_ABI_VERSION:/opt/chefdk/embedded/lib/ruby/gems/$RUBY_ABI_VERSION&quot;</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c"># Ensure ChefDK and its embedded tools are first in the PATH</span>
 </span><span class='line'>
 </span><span class='line'>  log_status <span class="s2">&quot;Ensuring ChefDK and it&#39;s embedded tools are first in the PATH&quot;</span>
 </span><span class='line'>
-</span><span class='line'>  PATH_add <span class="nv">$EXPANDED_HOME</span>/.chefdk/gem/ruby/2.1.0/bin/
+</span><span class='line'>  PATH_add <span class="nv">$EXPANDED_HOME</span>/.chefdk/gem/ruby/<span class="nv">$RUBY_ABI_VERSION</span>/bin/
 </span><span class='line'>  PATH_add /opt/chefdk/embedded/bin
 </span><span class='line'>  PATH_add /opt/chefdk/bin
 </span><span class='line'><span class="o">}</span>
@@ -620,9 +620,8 @@ function.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Eventually, I&rsquo;m going to have to solve the hard-coded Ruby version in the paths
-internal to Chef DK. But it&rsquo;s working for now and I can happily switch between
-Chef DK projects and projects needing their own Rubies (e.g. Rails sites).</p>
+<p>It&rsquo;s working for now and I can happily switch between Chef DK projects and
+projects needing their own Rubies (e.g. Rails sites).</p>
 ]]></content>
   </entry>
   
