@@ -128,16 +128,16 @@ use_chefdk() {
   # Override the GEM environment
 
   log_status "Overriding default Ruby environment to use ChefDK"
-
-  export GEM_ROOT="/opt/chefdk/embedded/lib/ruby/gems/2.1.0"
-  export GEM_HOME="$EXPANDED_HOME/.chefdk/gem/ruby/2.1.0"
-  export GEM_PATH="$EXPANDED_HOME/.chefdk/gem/ruby/2.1.0:/opt/chefdk/embedded/lib/ruby/gems/2.1.0"
+  RUBY_ABI_VERSION=`ls /opt/chefdk/embedded/lib/ruby/gems/`
+  export GEM_ROOT="/opt/chefdk/embedded/lib/ruby/gems/$RUBY_ABI_VERSION"
+  export GEM_HOME="$EXPANDED_HOME/.chefdk/gem/ruby/$RUBY_ABI_VERSION"
+  export GEM_PATH="$EXPANDED_HOME/.chefdk/gem/ruby/$RUBY_ABI_VERSION:/opt/chefdk/embedded/lib/ruby/gems/$RUBY_ABI_VERSION"
 
   # Ensure ChefDK and its embedded tools are first in the PATH
 
   log_status "Ensuring ChefDK and it's embedded tools are first in the PATH"
 
-  PATH_add $EXPANDED_HOME/.chefdk/gem/ruby/2.1.0/bin/
+  PATH_add $EXPANDED_HOME/.chefdk/gem/ruby/$RUBY_ABI_VERSION/bin/
   PATH_add /opt/chefdk/embedded/bin
   PATH_add /opt/chefdk/bin
 }
@@ -153,6 +153,5 @@ Now my `.envrc` files in Chef projects have a line like this:
 use chefdk
 ```
 
-Eventually, I'm going to have to solve the hard-coded Ruby version in the paths
-internal to Chef DK. But it's working for now and I can happily switch between
-Chef DK projects and projects needing their own Rubies (e.g. Rails sites).
+It's working for now and I can happily switch between Chef DK projects and
+projects needing their own Rubies (e.g. Rails sites).
