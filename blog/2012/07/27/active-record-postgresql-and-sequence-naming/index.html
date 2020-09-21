@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+  
+    
+    
+      <link href="/css/fonts.css" rel="stylesheet" type="text/css">
+    
+  
+
+  
+  <title>Active Record, PostgreSQL and Sequence Naming</title>
+
+  
+  
+  <link rel="stylesheet" href="/css/hugo-octopress.css">
+
+  
+  
+
+  
+    <link rel="stylesheet" href="/css/fork-awesome.min.css">
+  
+
+  
+  <link href="http://www.thekidds.org/favicon.png" rel="icon">
+
+  
+  
+
+  <meta name="description" content="" />
+  <meta name="keywords" content="">
+  <meta name="author" content="Robb Kidd">
+
+  
+  <meta name="generator" content="Hugo 0.69.2" />
+
+  
+  
+
+  
+  
+</head>
+<body>
+
+
+<header role="banner">
+<hgroup>
+  
+  <h1><a href="http://www.thekidds.org/">Slightly Ahead of Behind the Curve</a></h1>
+    <h2>Brain droppings found here.</h2>
+</hgroup></header>
+
+
+<nav role="navigation">
+<fieldset class="mobile-nav">
+  
+  <select onchange="location = this.value;">
+    <option value="">Navigate…</option>
+      
+        <option value="http://www.thekidds.org/">» Blog</option>
+      
+        <option value="http://www.thekidds.org/recipes/">» Recipes</option>
+      
+        <option value="http://www.thekidds.org/tags/">» Tags</option>
+      
+  </select>
+</fieldset>
+
+
+<ul class="main-navigation">
+  
+  
+    
+      <li><a href="http://www.thekidds.org/" title="Blog">Blog</a></li>
+    
+  
+    
+      <li><a href="http://www.thekidds.org/recipes/" title="Recipes" >Recipes</a></li>
+    
+  
+    
+      <li><a href="http://www.thekidds.org/tags/" title="Tags" >Tags</a></li>
+    
+  
+</ul>
+
+<ul class="subscription">
+  
+    
+        <a href="http://www.thekidds.org/index.xml" target="_blank" type="application/rss+xml" title="RSS"><i class="fa fa-rss-square fa-lg"></i></a>
+    
+  
+</ul>
+
+
+  <form action="https://www.google.com/search" method="get" target="_blank">
+    <fieldset role="search">
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+      <input type="hidden" name="q" value="site:http://www.thekidds.org/" />
+    </fieldset>
+  </form>
+
+</nav>
+
+
+<div id="main">
+  <div id="content">
+    <div>
+      <article class="hentry" role="article">
+
+        
+        
+
+<header>
+  <p class="meta">Jul 27, 2012
+     - 3 minute read 
+     - <a href="http://www.thekidds.org/blog/2012/07/27/active-record-postgresql-and-sequence-naming/#disqus_thread">Comments</a>
+
+    
+  </p>
+  <h1 class="entry-title">
+     Active Record, PostgreSQL and Sequence Naming 
+  </h1>
+</header>
+
+
+        <div class="entry-content">
+          
+          
+          
+          <p>If you use PostgreSQL to back your Active Record models, you should
+check the current names for your tables and their sequences. Prior to
+Active Record 3.2.7, renaming a table did not rename the associated
+sequence for the table&rsquo;s primary key.</p>
+<p>A demonstration may be in order.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">robb@neoldian ~/code/pg_seq &gt; rails generate model Product name:string description:text
+      invoke  active_record
+      create    db/migrate/20120727210734_create_products.rb
+      create    app/models/product.rb
+      invoke    test_unit
+      create      test/unit/product_test.rb
+      create      test/fixtures/products.yml
+
+robb@neoldian ~/code/pg_seq &gt; rake db:migrate
+==  CreateProducts: migrating =================================================
+-- create_table(:products)
+NOTICE:  CREATE TABLE will create implicit sequence &#34;products_id_seq&#34; for serial column &#34;products.id&#34;
+NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index &#34;products_pkey&#34; for table &#34;products&#34;
+   -&gt; 0.0194s
+==  CreateProducts: migrated (0.0196s) ========================================</code></pre></div>
+<p>Note that on line 11 the <code>CREATE TABLE</code> created an implicit sequence
+<code>products_id_seq</code> for serial column <code>products.id</code>.</p>
+<p>Let&rsquo;s rename the table.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">robb@neoldian ~/code/pg_seq &gt; rails generate migration RenameProductsToWidgets
+      invoke  active_record
+      create    db/migrate/20120727211235_rename_products_to_widgets.rb</code></pre></div>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#586e75"># db/migrate/20120727211235_rename_products_to_widgets.rb</span>
+<span style="color:#719e07">class</span> <span style="color:#268bd2">RenameProductsToWidgets</span> <span style="color:#719e07">&lt;</span> <span style="color:#cb4b16">ActiveRecord</span><span style="color:#719e07">::</span><span style="color:#cb4b16">Migration</span>
+  <span style="color:#719e07">def</span> <span style="color:#268bd2">up</span>
+    rename_table <span style="color:#2aa198">:products</span>, <span style="color:#2aa198">:widgets</span>
+  <span style="color:#719e07">end</span>
+
+  <span style="color:#719e07">def</span> <span style="color:#268bd2">down</span>
+    rename_table <span style="color:#2aa198">:widgets</span>, <span style="color:#2aa198">:products</span>
+  <span style="color:#719e07">end</span>
+<span style="color:#719e07">end</span></code></pre></div>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">robb@neoldian ~/code/pg_seq &gt; rake db:migrate
+==  RenameProductsToWidgets: migrating ========================================
+-- rename_table(:products, :widgets)
+   -&gt; 0.0019s
+==  RenameProductsToWidgets: migrated (0.0020s) ===============================</code></pre></div>
+<p>What do you expect the sequence for the <code>id</code> column in the <code>widgets</code>
+table to be named at this point? <code>widgets_id_seq</code>?</p>
+<pre><code>                                      Table &quot;public.widgets&quot;
+   Column    |            Type             |                       Modifiers
+-------------+-----------------------------+-------------------------------------------------------
+ id          | integer                     | not null default nextval('products_id_seq'::regclass)
+ name        | character varying(255)      |
+ description | text                        |
+ created_at  | timestamp without time zone | not null
+ updated_at  | timestamp without time zone | not null
+Indexes:
+    &quot;products_pkey&quot; PRIMARY KEY, btree (id)
+</code></pre><p>The who the what?</p>
+<p>On line 4, the next value for the <code>widgets.id</code> column is coming
+from a sequence named <code>products_id_seq</code>. This is not catastrophic
+for small code bases, but imagine coming across this database
+months or years from now. &ldquo;Why&rsquo;s the widget table have a sequence
+named &lsquo;products&rsquo;?&rdquo;</p>
+<p>The good news is that
+<a href="https://github.com/rails/rails/pull/7031">AR v3.2.7 includes a fix for this</a>.
+When you rename a table, if the name of the sequence for the table&rsquo;s
+primary key matches the AR default &ldquo;tablename_columnname_seq&rdquo;, then
+the sequence will be renamed as well. (I suppose the next order of
+business is to get that index renamed, too.)</p>
+<p>So you might want to go take a look at your PostgreSQL tables. Their sequences
+probably have names that do not make any sense now.</p>
+<p>You can use this method in your Rails console as a quick way to check.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#719e07">def</span> <span style="color:#268bd2">check_table_and_sequence_names</span>
+  connection <span style="color:#719e07">=</span> <span style="color:#cb4b16">ActiveRecord</span><span style="color:#719e07">::</span><span style="color:#cb4b16">Base</span><span style="color:#719e07">.</span>connection
+  <span style="color:#719e07">if</span> connection<span style="color:#719e07">.</span>adapter_name <span style="color:#719e07">==</span> <span style="color:#2aa198">&#34;PostgreSQL&#34;</span>
+    table_names <span style="color:#719e07">=</span> connection<span style="color:#719e07">.</span>tables<span style="color:#719e07">.</span>keep_if { <span style="color:#719e07">|</span>t<span style="color:#719e07">|</span> t <span style="color:#719e07">!~</span> <span style="color:#dc322f">/schema_migrations/</span> }
+    table_names<span style="color:#719e07">.</span>map { <span style="color:#719e07">|</span>t<span style="color:#719e07">|</span> <span style="color:#719e07">[</span>t, connection<span style="color:#719e07">.</span>pk_and_sequence_for(t)<span style="color:#719e07">].</span>flatten }
+  <span style="color:#719e07">end</span>
+<span style="color:#719e07">end</span>
+
+check_table_and_sequence_names
+<span style="color:#586e75"># =&gt; [[&#34;tablename&#34;, &#34;primarykeyname&#34;, &#34;sequencename&#34;]]</span></code></pre></div>
+        </div>
+        
+
+<footer>
+  <p class="meta">
+    <span class="byline author vcard">Posted by <span class="fn">Robb Kidd</span></span>
+    
+    <time>Jul 27, 2012</time>
+    
+      <span class="categories">
+        Tags:
+        
+          <a class="category" href="http://www.thekidds.org/tags/ruby">Ruby</a>  <a class="category" href="http://www.thekidds.org/tags/rails">Rails</a>  <a class="category" href="http://www.thekidds.org/tags/postgresql">PostgreSQL</a>  
+    
+    </span>
+  </p>
+
+  
+
+  <p class="meta">
+    
+        <a class="basic-alignment left" href="http://www.thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/" title="RC file for your Windows Command Prompt">RC file for your Windows Command Prompt</a>
+    
+
+    
+      <a class="basic-alignment right" href="http://www.thekidds.org/blog/2012/08/04/readme-the-bare-necessities/" title="README: the Bare Necessities">README: the Bare Necessities</a>
+    
+  </p>
+  
+    
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+      
+      
+      
+      if (window.location.hostname == "localhost")
+          return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'thekidds-org';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    
+  
+</footer>
+
+      </article>
+    </div>
+    
+
+<aside class="sidebar thirds">
+  <section class="first odd">
+
+    
+      <h1>Who?</h1>
+    
+
+    <p>
+      
+        <p><img src="https://s.gravatar.com/avatar/6340bd48e9f1248c6344d3008c0a08d7?s=80" alt=""></p>
+<p>I&rsquo;m Robb Kidd.
+I develop wares that are soft.
+I administer systems.
+I used to save lives as a hobby.
+I am good at starting books, but I am not good at finishing them.
+I am only a wannabe drummer.</p>
+
+      
+    </p>
+  </section>
+
+
+
+  
+  <ul class="sidebar-nav">
+    <li class="sidebar-nav-item">
+      <a target="_blank" href="https://github.com/robbkidd/" title="https://github.com/robbkidd/"><i class="fa fa-github fa-3x"></i></a>
+      
+      
+      <a target="_blank" href="https://twitter.com/robbkidd/" title="https://twitter.com/robbkidd/"><i class="fa fa-twitter fa-3x"></i></a>
+      
+        <a target="_blank" href="https://keybase.io/robbkidd/" title="https://keybase.io/robbkidd/"><i class="fa fa-keybase fa-3x"></i></a> 
+      
+      
+      
+      
+      
+      
+      
+      
+
+    
+    
+    </li>
+  </ul>
+
+  
+
+  
+
+  
+  
+  
+    
+      <section class="even">
+        <h1>Recent Posts</h1>
+        <ul id="recent_posts">
+          
+          
+            
+              <li class="post">
+                <a href="/blog/2019/09/07/multi-shell-shebangery/">Multi-Shell Shebangery</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2016/12/05/computing-a-version-for-a-habitat-package/">Computing a Version for a Habitat Package</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2016/03/10/run-dependency-services-in-docker/">Run Dependency Services in Docker</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/">Closer to Environmental Bliss with direnv</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2015/09/11/reflections-on-9-11/">Reflections on 9-11</a>
+              </li>
+            
+          
+        </ul>
+      </section>
+    
+  
+</aside>
+
+  </div>
+</div>
+
+    <footer role="contentinfo">
+      <p>Copyright &copy; 2020 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
+        <span class="credit">Powered by <a target="_blank" href="https://gohugo.io">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/">Hugo-Octopress</a> theme.
+      </p>
+    </footer>
+
+    
+    
+    
+
+    
+  </body>
+</html>
+

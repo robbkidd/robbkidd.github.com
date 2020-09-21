@@ -1,4 +1,7 @@
+---
+layout: nil
+---
 User-agent: *
 Disallow: 
 
-Sitemap: http://thekidds.org/sitemap.xml 
+Sitemap: {{ site.url }}/sitemap.xml 

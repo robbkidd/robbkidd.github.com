@@ -1,405 +1,361 @@
-
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-  <meta charset="utf-8">
-  <title>Computing a Version for a Habitat Package - Slightly Ahead of Behind the Curve</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+  
+    
+    
+      <link href="/css/fonts.css" rel="stylesheet" type="text/css">
+    
+  
+
+  
+  <title>Computing a Version for a Habitat Package</title>
+
+  
+  
+  <link rel="stylesheet" href="/css/hugo-octopress.css">
+
+  
+  
+
+  
+    <link rel="stylesheet" href="/css/fork-awesome.min.css">
+  
+
+  
+  <link href="http://www.thekidds.org/favicon.png" rel="icon">
+
+  
+  
+
+  <meta name="description" content="" />
+  <meta name="keywords" content="">
   <meta name="author" content="Robb Kidd">
 
   
-  <meta name="description" content="Sometimes when packaging a thing in Habitat, the plan really should not have the version hard-coded if the plan is packaging something from which the &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="Hugo 0.69.2" />
 
   
-  <link rel="canonical" href="http://thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Slightly Ahead of Behind the Curve" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  
 
   
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-33215856-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
+  
 </head>
+<body>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Slightly Ahead of Behind the Curve</a></h1>
+
+<header role="banner">
+<hgroup>
   
+  <h1><a href="http://www.thekidds.org/">Slightly Ahead of Behind the Curve</a></h1>
     <h2>Brain droppings found here.</h2>
-  
-</hgroup>
+</hgroup></header>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+
+<nav role="navigation">
+<fieldset class="mobile-nav">
   
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:thekidds.org" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
+  <select onchange="location = this.value;">
+    <option value="">Navigate…</option>
+      
+        <option value="http://www.thekidds.org/">» Blog</option>
+      
+        <option value="http://www.thekidds.org/recipes/">» Recipes</option>
+      
+        <option value="http://www.thekidds.org/tags/">» Tags</option>
+      
+  </select>
+</fieldset>
+
+
 <ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/about/">About</a></li>
+  
+  
+    
+      <li><a href="http://www.thekidds.org/" title="Blog">Blog</a></li>
+    
+  
+    
+      <li><a href="http://www.thekidds.org/recipes/" title="Recipes" >Recipes</a></li>
+    
+  
+    
+      <li><a href="http://www.thekidds.org/tags/" title="Tags" >Tags</a></li>
+    
+  
 </ul>
+
+<ul class="subscription">
+  
+    
+        <a href="http://www.thekidds.org/index.xml" target="_blank" type="application/rss+xml" title="RSS"><i class="fa fa-rss-square fa-lg"></i></a>
+    
+  
+</ul>
+
+
+  <form action="https://www.google.com/search" method="get" target="_blank">
+    <fieldset role="search">
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+      <input type="hidden" name="q" value="site:http://www.thekidds.org/" />
+    </fieldset>
+  </form>
 
 </nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Computing a Version for a Habitat Package</h1>
-    
-    
-      <p class="meta">
+
+
+<div id="main">
+  <div id="content">
+    <div>
+      <article class="hentry" role="article">
+
+        
         
 
+<header>
+  <p class="meta">Dec 5, 2016
+     - 3 minute read 
+     - <a href="http://www.thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/#disqus_thread">Comments</a>
 
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-12-05T09:53:44-05:00" pubdate data-updated="true">Dec 5<span>th</span>, 2016</time>
-        
-      </p>
     
-  </header>
+  </p>
+  <h1 class="entry-title">
+     Computing a Version for a Habitat Package 
+  </h1>
+</header>
 
 
-<div class="entry-content"><p>Sometimes when packaging a thing in <a href="https://www.habitat.sh/">Habitat</a>, the plan really should not have the version hard-coded if the plan is packaging something from which the version could be computed.</p>
-
-<!-- more -->
-
-
+        <div class="entry-content">
+          
+          
+          
+          <p>Sometimes when packaging a thing in <a href="https://www.habitat.sh/">Habitat</a>, the plan really should not have the version hard-coded if the plan is packaging something from which the version could be computed.</p>
 <p><strong>UPDATE:</strong> Since writing this, Habitat has baked a pattern for computing the package version into the plan syntax with the optional <a href="https://www.habitat.sh/docs/reference/plan-syntax/#utility-functions">utility functions</a> <code>pkg_version()</code> and <code>update_pkg_version()</code>. The concept described below remains valid, but implementation is now much more streamlined because the default <code>update_pkg_version()</code> utility function does the recomputing of the other variables that include <code>pkg_version</code> in their values so that you don&rsquo;t have to.</p>
-
-<iframe src="//giphy.com/embed/13RBYnxA3RBpOU?html5=true" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-
-
-<p><a href="https://giphy.com/gifs/realitytvgifs-lady-gaga-work-13RBYnxA3RBpOU">via GIPHY</a></p>
-
-
+<!-- raw HTML omitted -->
 <p>Take for example <a href="https://github.com/habitat-sh/core-plans/blob/master/cacerts/plan.sh">the core-plan for cacerts</a>. The plan downloads the latest cacerts and figures out what the specific version is from the &ldquo;source&rdquo; downloaded by calling a custom <code>update_pkg_version()</code> function in the plan right after download (the earliest possible moment to figure the version out). Here&rsquo;s what that function looks like today:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#586e75"># cacert version look up</span>
+update_pkg_version<span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+  <span style="color:#586e75"># Extract the build date of the certificates file</span>
+  <span style="color:#b58900">local</span> <span style="color:#268bd2">build_date</span><span style="color:#719e07">=</span><span style="color:#719e07">$(</span>cat <span style="color:#268bd2">$HAB_CACHE_SRC_PATH</span>/<span style="color:#268bd2">$pkg_filename</span> <span style="color:#cb4b16">\
+</span><span style="color:#cb4b16"></span>    | grep <span style="color:#2aa198">&#39;Certificate data from Mozilla&#39;</span> <span style="color:#cb4b16">\
+</span><span style="color:#cb4b16"></span>    | sed <span style="color:#2aa198">&#39;s/^## Certificate data from Mozilla as of: //&#39;</span><span style="color:#719e07">)</span>
 
-<figure class='code'><figcaption><span>cacert version look up</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>update_pkg_version<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  <span class="c"># Extract the build date of the certificates file</span>
-</span><span class='line'>  <span class="nb">local </span><span class="nv">build_date</span><span class="o">=</span><span class="k">$(</span>cat <span class="nv">$HAB_CACHE_SRC_PATH</span>/<span class="nv">$pkg_filename</span> <span class="se">\</span>
-</span><span class='line'>    | grep <span class="s1">&#39;Certificate data from Mozilla&#39;</span> <span class="se">\</span>
-</span><span class='line'>    | sed <span class="s1">&#39;s/^## Certificate data from Mozilla as of: //&#39;</span><span class="k">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c"># Update the `$pkg_version` value with the build date</span>
-</span><span class='line'>  <span class="nv">pkg_version</span><span class="o">=</span><span class="k">$(</span>date --date<span class="o">=</span><span class="s2">&quot;$build_date&quot;</span> <span class="s2">&quot;+%Y.%m.%d&quot;</span><span class="k">)</span>
-</span><span class='line'>  build_line <span class="s2">&quot;Version updated to $pkg_version from CA Certs file&quot;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c"># Several metadata values get their defaults from the value of `$pkg_version`</span>
-</span><span class='line'>  <span class="c"># so we must update these as well</span>
-</span><span class='line'>  <span class="nv">pkg_dirname</span><span class="o">=</span><span class="k">${</span><span class="nv">pkg_name</span><span class="k">}</span>-<span class="k">${</span><span class="nv">pkg_version</span><span class="k">}</span>
-</span><span class='line'>  <span class="nv">pkg_prefix</span><span class="o">=</span><span class="nv">$HAB_PKG_PATH</span>/<span class="k">${</span><span class="nv">pkg_origin</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_name</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_version</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_release</span><span class="k">}</span>
-</span><span class='line'>  <span class="nv">pkg_artifact</span><span class="o">=</span><span class="s2">&quot;$HAB_CACHE_ARTIFACT_PATH/${pkg_origin}-${pkg_name}-${pkg_version}-${pkg_release}-${pkg_target}.${_artifact_ext}&quot;</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
+  <span style="color:#586e75"># Update the `$pkg_version` value with the build date</span>
+  <span style="color:#268bd2">pkg_version</span><span style="color:#719e07">=</span><span style="color:#719e07">$(</span>date --date<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$build_date</span><span style="color:#2aa198">&#34;</span> <span style="color:#2aa198">&#34;+%Y.%m.%d&#34;</span><span style="color:#719e07">)</span>
+  build_line <span style="color:#2aa198">&#34;Version updated to </span><span style="color:#268bd2">$pkg_version</span><span style="color:#2aa198"> from CA Certs file&#34;</span>
 
-
+  <span style="color:#586e75"># Several metadata values get their defaults from the value of `$pkg_version`</span>
+  <span style="color:#586e75"># so we must update these as well</span>
+  <span style="color:#268bd2">pkg_dirname</span><span style="color:#719e07">=</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_name</span><span style="color:#2aa198">}</span>-<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_version</span><span style="color:#2aa198">}</span>
+  <span style="color:#268bd2">pkg_prefix</span><span style="color:#719e07">=</span><span style="color:#268bd2">$HAB_PKG_PATH</span>/<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_origin</span><span style="color:#2aa198">}</span>/<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_name</span><span style="color:#2aa198">}</span>/<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_version</span><span style="color:#2aa198">}</span>/<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_release</span><span style="color:#2aa198">}</span>
+  <span style="color:#268bd2">pkg_artifact</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$HAB_CACHE_ARTIFACT_PATH</span><span style="color:#2aa198">/</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_origin</span><span style="color:#2aa198">}</span><span style="color:#2aa198">-</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_name</span><span style="color:#2aa198">}</span><span style="color:#2aa198">-</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_version</span><span style="color:#2aa198">}</span><span style="color:#2aa198">-</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_release</span><span style="color:#2aa198">}</span><span style="color:#2aa198">-</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_target</span><span style="color:#2aa198">}</span><span style="color:#2aa198">.</span><span style="color:#2aa198">${</span><span style="color:#268bd2">_artifact_ext</span><span style="color:#2aa198">}</span><span style="color:#2aa198">&#34;</span>
+<span style="color:#719e07">}</span></code></pre></div>
 <p>Cool. &ldquo;Just figure it out, Plan.&rdquo;</p>
-
 <p>That&rsquo;s the case for when a Habitat plan is packaging something downloaded from elsewhere. Another case is when Habitat is being used to package a Thing and the plan co-exists within the Thing&rsquo;s codebase. I&rsquo;m working through packaging an existing Rails application with Habitat. The app and the plan co-exist in a single git repository. The application already has a mechanism to declare its version using git tags. We can tell the plan to just figure it out in this case, too.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#586e75"># app in git repo: version lookup</span>
+<span style="color:#268bd2">pkg_build_deps</span><span style="color:#719e07">=(</span>
+  ...
+  core/git
+  ...
+<span style="color:#719e07">)</span>
 
-<figure class='code'><figcaption><span>app in git repo: version lookup</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">pkg_build_deps</span><span class="o">=(</span>
-</span><span class='line'>  ...
-</span><span class='line'>  core/git
-</span><span class='line'>  ...
-</span><span class='line'><span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>determine_version<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  <span class="nv">pkg_version</span><span class="o">=</span><span class="k">$(</span>git describe<span class="k">)</span>
-</span><span class='line'>  <span class="nv">pkg_dirname</span><span class="o">=</span><span class="k">${</span><span class="nv">pkg_name</span><span class="k">}</span>-<span class="k">${</span><span class="nv">pkg_version</span><span class="k">}</span>
-</span><span class='line'>  <span class="nv">pkg_filename</span><span class="o">=</span><span class="k">${</span><span class="nv">pkg_dirname</span><span class="k">}</span>.tar.gz
-</span><span class='line'>  <span class="nv">pkg_prefix</span><span class="o">=</span><span class="nv">$HAB_PKG_PATH</span>/<span class="k">${</span><span class="nv">pkg_origin</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_name</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_version</span><span class="k">}</span>/<span class="k">${</span><span class="nv">pkg_release</span><span class="k">}</span>
-</span><span class='line'>  <span class="nv">pkg_artifact</span><span class="o">=</span><span class="s2">&quot;$HAB_CACHE_ARTIFACT_PATH/${pkg_origin}-${pkg_name}-${pkg_version}-${pkg_release}-${pkg_target}.${_artifact_ext}&quot;</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+determine_version<span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+  <span style="color:#268bd2">pkg_version</span><span style="color:#719e07">=</span><span style="color:#719e07">$(</span>git describe<span style="color:#719e07">)</span>
+  <span style="color:#268bd2">pkg_dirname</span><span style="color:#719e07">=</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_name</span><span style="color:#2aa198">}</span>-<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_version</span><span style="color:#2aa198">}</span>
+  <span style="color:#268bd2">pkg_filename</span><span style="color:#719e07">=</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_dirname</span><span style="color:#2aa198">}</span>.tar.gz
+  <span style="color:#268bd2">pkg_prefix</span><span style="color:#719e07">=</span><span style="color:#268bd2">$HAB_PKG_PATH</span>/<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_origin</span><span style="color:#2aa198">}</span>/<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_name</span><span style="color:#2aa198">}</span>/<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_version</span><span style="color:#2aa198">}</span>/<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_release</span><span style="color:#2aa198">}</span>
+  <span style="color:#268bd2">pkg_artifact</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$HAB_CACHE_ARTIFACT_PATH</span><span style="color:#2aa198">/</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_origin</span><span style="color:#2aa198">}</span><span style="color:#2aa198">-</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_name</span><span style="color:#2aa198">}</span><span style="color:#2aa198">-</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_version</span><span style="color:#2aa198">}</span><span style="color:#2aa198">-</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_release</span><span style="color:#2aa198">}</span><span style="color:#2aa198">-</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_target</span><span style="color:#2aa198">}</span><span style="color:#2aa198">.</span><span style="color:#2aa198">${</span><span style="color:#268bd2">_artifact_ext</span><span style="color:#2aa198">}</span><span style="color:#2aa198">&#34;</span>
+<span style="color:#719e07">}</span></code></pre></div>
 <p><code>core/git</code> needs to be included in the plan&rsquo;s build dependencies and then we can use <code>git describe</code> to get the tag for the current commit (or nearest tag and how far away a commit is from it). This function needs to set one more metadata value than in cacerts—<code>pkg_filename</code>—which is based on the computed version. The plan is <em>in</em> the source repository, so we don&rsquo;t need to download anything. The Habitat <code>do_download()</code> and <code>do_verify()</code> functions get overridden with:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#586e75"># app in git repo: fake out download</span>
+do_download<span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+  determine_version
 
-<figure class='code'><figcaption><span>app in git repo: fake out download</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>do_download<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  determine_version
-</span><span class='line'>
-</span><span class='line'>  build_line <span class="s2">&quot;Fake download! Creating archive of latest repository commit.&quot;</span>
-</span><span class='line'>  <span class="c"># source is in this repo, so we&#39;re going to create an archive from the</span>
-</span><span class='line'>  <span class="c"># appropriate path within the repo for the rest of the plan callback chain</span>
-</span><span class='line'>  <span class="c"># to pick up on</span>
-</span><span class='line'>  <span class="nb">cd</span> <span class="nv">$PLAN_CONTEXT</span>/../..
-</span><span class='line'>  git archive --prefix<span class="o">=</span><span class="k">${</span><span class="nv">pkg_name</span><span class="k">}</span>-<span class="k">${</span><span class="nv">pkg_version</span><span class="k">}</span>/ --output<span class="o">=</span><span class="nv">$HAB_CACHE_SRC_PATH</span>/<span class="k">${</span><span class="nv">pkg_filename</span><span class="k">}</span> HEAD src/
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>do_verify<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  build_line <span class="s2">&quot;Skipping checksum verification on the archive we just created.&quot;</span>
-</span><span class='line'>  <span class="k">return </span>0
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
+  build_line <span style="color:#2aa198">&#34;Fake download! Creating archive of latest repository commit.&#34;</span>
+  <span style="color:#586e75"># source is in this repo, so we&#39;re going to create an archive from the</span>
+  <span style="color:#586e75"># appropriate path within the repo for the rest of the plan callback chain</span>
+  <span style="color:#586e75"># to pick up on</span>
+  <span style="color:#b58900">cd</span> <span style="color:#268bd2">$PLAN_CONTEXT</span>/../..
+  git archive --prefix<span style="color:#719e07">=</span><span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_name</span><span style="color:#2aa198">}</span>-<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_version</span><span style="color:#2aa198">}</span>/ --output<span style="color:#719e07">=</span><span style="color:#268bd2">$HAB_CACHE_SRC_PATH</span>/<span style="color:#2aa198">${</span><span style="color:#268bd2">pkg_filename</span><span style="color:#2aa198">}</span> HEAD src/
+<span style="color:#719e07">}</span>
 
-
+do_verify<span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+  build_line <span style="color:#2aa198">&#34;Skipping checksum verification on the archive we just created.&#34;</span>
+  <span style="color:#719e07">return</span> <span style="color:#2aa198">0</span>
+<span style="color:#719e07">}</span></code></pre></div>
 <p>We use <code>git archive</code> to produce a tarball of the application source that follows the conventions of the default <code>do_download()</code> function. There&rsquo;s nothing to verify about it because we just created it. The default <code>do_unpack()</code> is left to run without being overridden because <code>do_download()</code> produced a conventional source tarball.</p>
-
 <p>With this in place, the existing process for version bumping the application remains unchanged and does not require any hard-coding in metadata.</p>
+<!-- raw HTML omitted -->
+        </div>
+        
 
-<iframe src="//giphy.com/embed/l3nWqD4ViFej9REAw?html5=true" width="480" height="269" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-
-
-<p><a href="https://giphy.com/gifs/laughing-laugh-bill-nye-l3nWqD4ViFej9REAw">via GIPHY</a></p>
-
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Robb Kidd</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-12-05T09:53:44-05:00" pubdate data-updated="true">Dec 5<span>th</span>, 2016</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/habitat/'>habitat</a>
-  
-</span>
-
-
-    </p>
+<footer>
+  <p class="meta">
+    <span class="byline author vcard">Posted by <span class="fn">Robb Kidd</span></span>
     
-      <div class="sharing">
+    <time>Dec 5, 2016</time>
+    
+      <span class="categories">
+        Tags:
+        
+          <a class="category" href="http://www.thekidds.org/tags/habitat">habitat</a>  
+    
+    </span>
+  </p>
+
   
-  
-  
-</div>
+
+  <p class="meta">
+    
+        <a class="basic-alignment left" href="http://www.thekidds.org/blog/2016/03/10/run-dependency-services-in-docker/" title="Run Dependency Services in Docker">Run Dependency Services in Docker</a>
+    
 
     
-    <p class="meta">
+      <a class="basic-alignment right" href="http://www.thekidds.org/blog/2019/09/07/multi-shell-shebangery/" title="Multi-Shell Shebangery">Multi-Shell Shebangery</a>
+    
+  </p>
+  
+    
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
       
-        <a class="basic-alignment left" href="/blog/2016/03/10/run-dependency-services-in-docker/" title="Previous Post: Run Dependency Services in Docker">&laquo; Run Dependency Services in Docker</a>
       
+      
+      if (window.location.hostname == "localhost")
+          return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'thekidds-org';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    
+  
+</footer>
+
+      </article>
+    </div>
+    
+
+<aside class="sidebar thirds">
+  <section class="first odd">
+
+    
+      <h1>Who?</h1>
+    
+
+    <p>
+      
+        <p><img src="https://s.gravatar.com/avatar/6340bd48e9f1248c6344d3008c0a08d7?s=80" alt=""></p>
+<p>I&rsquo;m Robb Kidd.
+I develop wares that are soft.
+I administer systems.
+I used to save lives as a hobby.
+I am good at starting books, but I am not good at finishing them.
+I am only a wannabe drummer.</p>
+
       
     </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
   </section>
 
-</div>
 
-<aside class="sidebar">
+
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
+  <ul class="sidebar-nav">
+    <li class="sidebar-nav-item">
+      <a target="_blank" href="https://github.com/robbkidd/" title="https://github.com/robbkidd/"><i class="fa fa-github fa-3x"></i></a>
+      
+      
+      <a target="_blank" href="https://twitter.com/robbkidd/" title="https://twitter.com/robbkidd/"><i class="fa fa-twitter fa-3x"></i></a>
+      
+        <a target="_blank" href="https://keybase.io/robbkidd/" title="https://keybase.io/robbkidd/"><i class="fa fa-keybase fa-3x"></i></a> 
+      
+      
+      
+      
+      
+      
+      
+      
+
     
-      <li class="post">
-        <a href="/blog/2016/12/05/computing-a-version-for-a-habitat-package/">Computing a Version for a Habitat Package</a>
-      </li>
     
-      <li class="post">
-        <a href="/blog/2016/03/10/run-dependency-services-in-docker/">Run Dependency Services in Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/">Closer to Environmental Bliss With Direnv</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/11/reflections-on-9-11/">Reflections on 9-11.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/04/19/mind-the-gap-resources/">Mind the Gap: Resources</a>
-      </li>
-    
+    </li>
   </ul>
-</section>
 
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
   
-  <a href="https://github.com/robbkidd">@robbkidd</a> on GitHub
+
   
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
 
-        github.showRepos({
-            user: 'robbkidd',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-
+  
+  
+  
+    
+      <section class="even">
+        <h1>Recent Posts</h1>
+        <ul id="recent_posts">
+          
+          
+            
+              <li class="post">
+                <a href="/blog/2019/09/07/multi-shell-shebangery/">Multi-Shell Shebangery</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2016/12/05/computing-a-version-for-a-habitat-package/">Computing a Version for a Habitat Package</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2016/03/10/run-dependency-services-in-docker/">Run Dependency Services in Docker</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/">Closer to Environmental Bliss with direnv</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2015/09/11/reflections-on-9-11/">Reflections on 9-11</a>
+              </li>
+            
+          
+        </ul>
+      </section>
+    
   
 </aside>
 
-
-    </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - Robb Kidd -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+</div>
 
-</footer>
-  
+    <footer role="contentinfo">
+      <p>Copyright &copy; 2020 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
+        <span class="credit">Powered by <a target="_blank" href="https://gohugo.io">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/">Hugo-Octopress</a> theme.
+      </p>
+    </footer>
 
-<script type="text/javascript">
-      var disqus_shortname = 'thekidds-org';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/';
-        var disqus_url = 'http://thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
+    
+    
+    
 
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
+    
+  </body>
 </html>
+

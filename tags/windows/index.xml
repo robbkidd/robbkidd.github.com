@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>windows on Slightly Ahead of Behind the Curve</title>
+    <link>http://www.thekidds.org/tags/windows/</link>
+    <description>Recent content in windows on Slightly Ahead of Behind the Curve</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 07 Sep 2019 19:47:44 -0500</lastBuildDate>
+    
+	<atom:link href="http://www.thekidds.org/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Multi-Shell Shebangery</title>
+      <link>http://www.thekidds.org/blog/2019/09/07/multi-shell-shebangery/</link>
+      <pubDate>Sat, 07 Sep 2019 19:47:44 -0500</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2019/09/07/multi-shell-shebangery/</guid>
+      <description>&lt;p&gt;I have been poking around inside RubyInstaller, the venerable package for installing a Ruby environment on a Windows host. I became entranced by the magical incantation that appears at the top of the Ruby binstubs installed by RubyInstaller. The incantation is what makes these binstubs work in either Windows Command Shell or in UNIXy sh/bash or even processed directly by the Ruby interpreter. It is a marvel, though it took me a while to work out how it does its magic. I thought I would pick it apart here, for my own memory and for anyone else lost wondering what&amp;rsquo;s going on in there.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>RC file for your Windows Command Prompt</title>
+      <link>http://www.thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/</link>
+      <pubDate>Fri, 06 Jul 2012 14:41:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/</guid>
+      <description>I had trouble today with my Windows %HOME% changing and throwing off Vagrant&amp;lsquo;s awareness of what boxes are installed. This may be your problem if Vagrant on Windows was working happily for you and then barks about no boxes.
+C:\Users\you&amp;gt; vagrant box list There are no installed boxes! Use `vagrant box add` to add some. C:\Users\you&amp;gt;dir /b .vagrant.d\boxes base-i-really-exist centos-does-too C:\Users\you&amp;gt;echo %HOME% &amp;lt;somewhere not C:\Users\you&amp;gt; C:\Users\you&amp;gt;set HOME=%USERPROFILE% C:\Users\you&amp;gt;vagrant box list base-i-really-exist centos-does-too %HOME% was different depending on whether I logged into Windows while on my Active Directory managed network or while I was offline.</description>
+    </item>
+    
+  </channel>
+</rss>

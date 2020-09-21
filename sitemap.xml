@@ -1,63 +1,174 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
-    <url>
-        <loc>http://thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux/</loc>
-        <lastmod>2016-03-07T17:00:34-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/blog/2012/04/05/one-unity-launcher/</loc>
-        <lastmod>2016-03-07T17:00:34-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/</loc>
-        <lastmod>2016-03-07T17:00:34-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/blog/2012/07/27/active-record-postgres-and-sequence-naming/</loc>
-        <lastmod>2016-03-07T17:00:34-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/blog/2012/08/04/readme-the-bare-necessities/</loc>
-        <lastmod>2016-03-07T17:00:34-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/blog/2014/04/18/yes-this-blog-is-stale/</loc>
-        <lastmod>2016-03-07T17:00:34-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/blog/2014/04/19/mind-the-gap-resources/</loc>
-        <lastmod>2016-03-07T17:00:34-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/blog/2015/09/11/reflections-on-9-11/</loc>
-        <lastmod>2016-03-07T17:00:34-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/</loc>
-        <lastmod>2017-07-24T09:02:31-04:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/blog/2016/03/10/run-dependency-services-in-docker/</loc>
-        <lastmod>2016-03-30T11:31:21-04:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/</loc>
-        <lastmod>2017-06-27T13:35:28-04:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/about/</loc>
-        <lastmod>2016-03-07T17:00:34-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/blog/archives/</loc>
-        <lastmod>2017-07-24T09:02:31-04:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/</loc>
-        <lastmod>2017-07-24T09:02:31-04:00</lastmod>
-    </url>
-    <url>
-        <loc>http://thekidds.org/robots.txt</loc>
-        <lastmod>2016-03-07T17:00:34-05:00</lastmod>
-    </url>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://www.thekidds.org/recipes/homage-to-bens-chili/</loc>
+    <lastmod>2020-05-15T09:16:06-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/recipes/</loc>
+    <lastmod>2020-05-15T09:16:06-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/</loc>
+    <lastmod>2020-05-15T09:16:06-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/recipes/garam-masala/</loc>
+    <lastmod>2020-05-15T09:05:39-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/bash/</loc>
+    <lastmod>2019-09-07T19:47:44-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/</loc>
+    <lastmod>2019-09-07T19:47:44-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2019/09/07/multi-shell-shebangery/</loc>
+    <lastmod>2019-09-07T19:47:44-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/ruby/</loc>
+    <lastmod>2019-09-07T19:47:44-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/sh/</loc>
+    <lastmod>2019-09-07T19:47:44-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/shell/</loc>
+    <lastmod>2019-09-07T19:47:44-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/</loc>
+    <lastmod>2019-09-07T19:47:44-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/windows/</loc>
+    <lastmod>2019-09-07T19:47:44-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/</loc>
+    <lastmod>2016-12-05T09:53:44-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/habitat/</loc>
+    <lastmod>2016-12-05T09:53:44-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2016/03/10/run-dependency-services-in-docker/</loc>
+    <lastmod>2016-03-10T08:47:17-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/</loc>
+    <lastmod>2016-03-07T16:10:55-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2015/09/11/reflections-on-9-11/</loc>
+    <lastmod>2015-09-11T09:36:28-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/chef/</loc>
+    <lastmod>2014-04-19T12:20:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2014/04/19/mind-the-gap-resources/</loc>
+    <lastmod>2014-04-19T12:20:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2014/04/18/yes-this-blog-is-stale/</loc>
+    <lastmod>2014-04-18T16:48:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2012/08/04/readme-the-bare-necessities/</loc>
+    <lastmod>2012-08-04T19:35:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2012/07/27/active-record-postgresql-and-sequence-naming/</loc>
+    <lastmod>2012-07-27T16:33:55-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/postgresql/</loc>
+    <lastmod>2012-07-27T16:33:55-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/rails/</loc>
+    <lastmod>2012-07-27T16:33:55-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/</loc>
+    <lastmod>2012-07-06T14:41:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/vagrant/</loc>
+    <lastmod>2012-07-06T14:41:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/linux/</loc>
+    <lastmod>2012-04-05T14:43:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2012/04/05/one-unity-launcher/</loc>
+    <lastmod>2012-04-05T14:43:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/ubuntu/</loc>
+    <lastmod>2012-04-05T14:43:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/centos/</loc>
+    <lastmod>2011-07-11T18:55:55-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux/</loc>
+    <lastmod>2011-07-11T18:55:55-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/rhel/</loc>
+    <lastmod>2011-07-11T18:55:55-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/tags/selinux/</loc>
+    <lastmod>2011-07-11T18:55:55-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.thekidds.org/categories/</loc>
+  </url>
+  
 </urlset>

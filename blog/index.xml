@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blogs on Slightly Ahead of Behind the Curve</title>
+    <link>http://www.thekidds.org/blog/</link>
+    <description>Recent content in Blogs on Slightly Ahead of Behind the Curve</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 07 Sep 2019 19:47:44 -0500</lastBuildDate>
+    
+	<atom:link href="http://www.thekidds.org/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Multi-Shell Shebangery</title>
+      <link>http://www.thekidds.org/blog/2019/09/07/multi-shell-shebangery/</link>
+      <pubDate>Sat, 07 Sep 2019 19:47:44 -0500</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2019/09/07/multi-shell-shebangery/</guid>
+      <description>&lt;p&gt;I have been poking around inside RubyInstaller, the venerable package for installing a Ruby environment on a Windows host. I became entranced by the magical incantation that appears at the top of the Ruby binstubs installed by RubyInstaller. The incantation is what makes these binstubs work in either Windows Command Shell or in UNIXy sh/bash or even processed directly by the Ruby interpreter. It is a marvel, though it took me a while to work out how it does its magic. I thought I would pick it apart here, for my own memory and for anyone else lost wondering what&amp;rsquo;s going on in there.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Computing a Version for a Habitat Package</title>
+      <link>http://www.thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/</link>
+      <pubDate>Mon, 05 Dec 2016 09:53:44 -0500</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/</guid>
+      <description>&lt;p&gt;Sometimes when packaging a thing in &lt;a href=&#34;https://www.habitat.sh/&#34;&gt;Habitat&lt;/a&gt;, the plan really should not have the version hard-coded if the plan is packaging something from which the version could be computed.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Run Dependency Services in Docker</title>
+      <link>http://www.thekidds.org/blog/2016/03/10/run-dependency-services-in-docker/</link>
+      <pubDate>Thu, 10 Mar 2016 08:47:17 -0500</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2016/03/10/run-dependency-services-in-docker/</guid>
+      <description>&lt;p&gt;My current primary project is a Rails app that depends on PostgreSQL and Redis.
+I used to run those services directly on my Mac OS development workstation, but
+didn&amp;rsquo;t like the untidiness of having services I wasn&amp;rsquo;t using all the time
+running all the time. Or that the default install might leave the services
+listening on all interfaces so that everyone in the coffee shop could poke at my
+test data. (Nah. I&amp;rsquo;ve got a firewall and &lt;a href=&#34;https://www.obdev.at/products/littlesnitch&#34;&gt;so should you&lt;/a&gt;.)
+I figured, &amp;ldquo;Hey, I could use Docker to cordon these services off.&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Closer to Environmental Bliss with direnv</title>
+      <link>http://www.thekidds.org/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/</link>
+      <pubDate>Mon, 07 Mar 2016 16:10:55 -0500</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/</guid>
+      <description>&lt;p&gt;I was a long time user of &lt;a href=&#34;https://rvm.io/&#34;&gt;RVM&lt;/a&gt; for installing and switching
+Rubies. It made my life pretty easy even as I listened to others struggle with
+it. I was a little uncomfortable putting other things like project-specific
+environment variables in my &lt;code&gt;.rvmrc&lt;/code&gt; files. It seemed dirty, but it worked and I
+rolled with it for many years.&lt;/p&gt;
+&lt;p&gt;Eventually, I tried something different. I&amp;rsquo;d been sold on the idea of using
+multiple, simpler tools together. Here&amp;rsquo;s the result.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Reflections on 9-11</title>
+      <link>http://www.thekidds.org/blog/2015/09/11/reflections-on-9-11/</link>
+      <pubDate>Fri, 11 Sep 2015 09:36:28 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2015/09/11/reflections-on-9-11/</guid>
+      <description>&lt;p&gt;I don&amp;rsquo;t think I&amp;rsquo;ve ever written down my experiences on September 11, 2001. Since
+I broke down in the shower this morning, I think I probably should.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mind the Gap: Resources</title>
+      <link>http://www.thekidds.org/blog/2014/04/19/mind-the-gap-resources/</link>
+      <pubDate>Sat, 19 Apr 2014 12:20:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2014/04/19/mind-the-gap-resources/</guid>
+      <description>&lt;p&gt;I spoke this week at &lt;a href=&#34;http://chefconf.opscode.com/chefconf/&#34;&gt;ChefConf&lt;/a&gt;
+about how we use Chef at &lt;a href=&#34;http://www.lgscout.com&#34;&gt;my company&lt;/a&gt; to produce
+an installer for our on-premises product.
+&lt;a href=&#34;https://speakerdeck.com/robbkidd/mind-the-gap&#34;&gt;Slides for the talk&lt;/a&gt; are
+up, but not very useful without my rambling that went with them. Instead of
+making attendees madly write down the resources slide, here are links to the
+resources and tools I mentioned in the talk.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Yes this blog is stale</title>
+      <link>http://www.thekidds.org/blog/2014/04/18/yes-this-blog-is-stale/</link>
+      <pubDate>Fri, 18 Apr 2014 16:48:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2014/04/18/yes-this-blog-is-stale/</guid>
+      <description>I spoke at ChefConf 2014 this week. A few folks who used their Google Fu on me said, &amp;ldquo;That&amp;rsquo;s not your blog, is it? Nothing has been posted in forever!&amp;rdquo;
+I come from a long-ish career in the security and defense industry where we are notorious for not talking about how we do things. It is taking time and effort to break habits of holding all cards close to the chest.</description>
+    </item>
+    
+    <item>
+      <title>README: the Bare Necessities</title>
+      <link>http://www.thekidds.org/blog/2012/08/04/readme-the-bare-necessities/</link>
+      <pubDate>Sat, 04 Aug 2012 19:35:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2012/08/04/readme-the-bare-necessities/</guid>
+      <description>&lt;p&gt;I gave a lightning talk at Steel City Ruby Conf 2012 today on writing a
+decent README. Instead of putting the slides up somewhere, I thought I
+would write up a more detailed post of the talk&amp;rsquo;s points.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Active Record, PostgreSQL and Sequence Naming</title>
+      <link>http://www.thekidds.org/blog/2012/07/27/active-record-postgresql-and-sequence-naming/</link>
+      <pubDate>Fri, 27 Jul 2012 16:33:55 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2012/07/27/active-record-postgresql-and-sequence-naming/</guid>
+      <description>&lt;p&gt;If you use PostgreSQL to back your Active Record models, you should
+check the current names for your tables and their sequences. Prior to
+Active Record 3.2.7, renaming a table did not rename the associated
+sequence for the table&amp;rsquo;s primary key.&lt;/p&gt;
+&lt;p&gt;A demonstration may be in order.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>RC file for your Windows Command Prompt</title>
+      <link>http://www.thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/</link>
+      <pubDate>Fri, 06 Jul 2012 14:41:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/</guid>
+      <description>I had trouble today with my Windows %HOME% changing and throwing off Vagrant&amp;lsquo;s awareness of what boxes are installed. This may be your problem if Vagrant on Windows was working happily for you and then barks about no boxes.
+C:\Users\you&amp;gt; vagrant box list There are no installed boxes! Use `vagrant box add` to add some. C:\Users\you&amp;gt;dir /b .vagrant.d\boxes base-i-really-exist centos-does-too C:\Users\you&amp;gt;echo %HOME% &amp;lt;somewhere not C:\Users\you&amp;gt; C:\Users\you&amp;gt;set HOME=%USERPROFILE% C:\Users\you&amp;gt;vagrant box list base-i-really-exist centos-does-too %HOME% was different depending on whether I logged into Windows while on my Active Directory managed network or while I was offline.</description>
+    </item>
+    
+    <item>
+      <title>One Unity Launcher</title>
+      <link>http://www.thekidds.org/blog/2012/04/05/one-unity-launcher/</link>
+      <pubDate>Thu, 05 Apr 2012 14:43:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2012/04/05/one-unity-launcher/</guid>
+      <description>T&amp;rsquo;was decided that the default behavior for Unity&amp;rsquo;s launcher will be to appear only on the primary monitor in Ubuntu 12.04. For some reason, when I upgraded to 12.04 (beta) today, my setting was for the launcher to appear on ALL desktops. Not a fan of it on all desktops.
+For those who want to change this setting, you&amp;rsquo;ll need to install the Compiz configuration manager.
+&amp;gt; sudo aptitude install compizconfig-settings-manager Once installed, run it.</description>
+    </item>
+    
+    <item>
+      <title>Give Your Gems Some Context for SELinux</title>
+      <link>http://www.thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux/</link>
+      <pubDate>Mon, 11 Jul 2011 18:55:55 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux/</guid>
+      <description>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app&amp;ndash;e.g. failed to map segment from shared object: Permission denied&amp;ndash;despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on Slightly Ahead of Behind the Curve</title>
+    <link>http://www.thekidds.org/tags/linux/</link>
+    <description>Recent content in Linux on Slightly Ahead of Behind the Curve</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 05 Apr 2012 14:43:00 -0400</lastBuildDate>
+    
+	<atom:link href="http://www.thekidds.org/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>One Unity Launcher</title>
+      <link>http://www.thekidds.org/blog/2012/04/05/one-unity-launcher/</link>
+      <pubDate>Thu, 05 Apr 2012 14:43:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2012/04/05/one-unity-launcher/</guid>
+      <description>T&amp;rsquo;was decided that the default behavior for Unity&amp;rsquo;s launcher will be to appear only on the primary monitor in Ubuntu 12.04. For some reason, when I upgraded to 12.04 (beta) today, my setting was for the launcher to appear on ALL desktops. Not a fan of it on all desktops.
+For those who want to change this setting, you&amp;rsquo;ll need to install the Compiz configuration manager.
+&amp;gt; sudo aptitude install compizconfig-settings-manager Once installed, run it.</description>
+    </item>
+    
+    <item>
+      <title>Give Your Gems Some Context for SELinux</title>
+      <link>http://www.thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux/</link>
+      <pubDate>Mon, 11 Jul 2011 18:55:55 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux/</guid>
+      <description>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app&amp;ndash;e.g. failed to map segment from shared object: Permission denied&amp;ndash;despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+
+  
+    
+    
+      <link href="/css/fonts.css" rel="stylesheet" type="text/css">
+    
+  
+
+  
+  <title>Multi-Shell Shebangery</title>
+
+  
+  
+  <link rel="stylesheet" href="/css/hugo-octopress.css">
+
+  
+  
+
+  
+    <link rel="stylesheet" href="/css/fork-awesome.min.css">
+  
+
+  
+  <link href="http://www.thekidds.org/favicon.png" rel="icon">
+
+  
+  
+
+  <meta name="description" content="" />
+  <meta name="keywords" content="">
+  <meta name="author" content="Robb Kidd">
+
+  
+  <meta name="generator" content="Hugo 0.69.2" />
+
+  
+  
+
+  
+  
+</head>
+<body>
+
+
+<header role="banner">
+<hgroup>
+  
+  <h1><a href="http://www.thekidds.org/">Slightly Ahead of Behind the Curve</a></h1>
+    <h2>Brain droppings found here.</h2>
+</hgroup></header>
+
+
+<nav role="navigation">
+<fieldset class="mobile-nav">
+  
+  <select onchange="location = this.value;">
+    <option value="">Navigate…</option>
+      
+        <option value="http://www.thekidds.org/">» Blog</option>
+      
+        <option value="http://www.thekidds.org/recipes/">» Recipes</option>
+      
+        <option value="http://www.thekidds.org/tags/">» Tags</option>
+      
+  </select>
+</fieldset>
+
+
+<ul class="main-navigation">
+  
+  
+    
+      <li><a href="http://www.thekidds.org/" title="Blog">Blog</a></li>
+    
+  
+    
+      <li><a href="http://www.thekidds.org/recipes/" title="Recipes" >Recipes</a></li>
+    
+  
+    
+      <li><a href="http://www.thekidds.org/tags/" title="Tags" >Tags</a></li>
+    
+  
+</ul>
+
+<ul class="subscription">
+  
+    
+        <a href="http://www.thekidds.org/index.xml" target="_blank" type="application/rss+xml" title="RSS"><i class="fa fa-rss-square fa-lg"></i></a>
+    
+  
+</ul>
+
+
+  <form action="https://www.google.com/search" method="get" target="_blank">
+    <fieldset role="search">
+      <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+      <input type="hidden" name="q" value="site:http://www.thekidds.org/" />
+    </fieldset>
+  </form>
+
+</nav>
+
+
+<div id="main">
+  <div id="content">
+    <div>
+      <article class="hentry" role="article">
+
+        
+        
+
+<header>
+  <p class="meta">Sep 7, 2019
+     - 7 minute read 
+     - <a href="http://www.thekidds.org/blog/2019/09/07/multi-shell-shebangery/#disqus_thread">Comments</a>
+
+    
+  </p>
+  <h1 class="entry-title">
+    <a href="http://www.thekidds.org/blog/2019/09/07/multi-shell-shebangery/">Multi-Shell Shebangery</a>
+  </h1>
+</header>
+
+
+        <div class="entry-content">
+          
+          
+          
+          <p>I have been poking around inside RubyInstaller, the venerable package for installing a Ruby environment on a Windows host. I became entranced by the magical incantation that appears at the top of the Ruby binstubs installed by RubyInstaller. The incantation is what makes these binstubs work in either Windows Command Shell or in UNIXy sh/bash or even processed directly by the Ruby interpreter. It is a marvel, though it took me a while to work out how it does its magic. I thought I would pick it apart here, for my own memory and for anyone else lost wondering what&rsquo;s going on in there.</p>
+<p>Here is the multi-shell shebangish header that appears at the beginning of <code>bundle.cmd</code>, <code>gem.cmd</code> and so on for the Windows install of Ruby with RubyInstaller.</p>
+
+
+
+
+<figure class="code">
+  <figcaption>
+  	<span>Head of Ruby .cmd files</span>
+  </figcaption>
+  <div class="codewrapper">
+    <div class="highlight"><div style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#495050">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">:&#34;&#34;||{ &#34;&#34;=&gt; %q&lt;-*- ruby -*-
+@&#34;%~dp0ruby&#34; -x &#34;%~f0&#34; %*
+@exit /b %ERRORLEVEL%
+};{ #
+bindir=&#34;${0%/*}&#34; #
+exec &#34;$bindir/ruby&#34; -x &#34;$0&#34; &#34;$@&#34; #
+&gt;, #
+} #
+#!/usr/bin/env ruby
+[ ... actual ruby code ... ]</code></pre></td></tr></table>
+</div>
+</div>
+  </div>
+</figure>
+<p>Hieroglyphs. What on earth is going on in here?</p>
+<h2 id="lets-take-an-easy-one-first">Let&rsquo;s Take an Easy One First</h2>
+<p><code>-*- ruby -*-</code> is a hint to text editors that this file is Ruby, despite the file extension. It is ignored by all the script interpretors through various means as described below.</p>
+<h2 id="as-windows-command-shell">As Windows Command Shell</h2>
+<p>First, let&rsquo;s interpret it from the perspective of execution from a Windows Command Shell. It looks like BATCH script.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">:&#34;&#34;||{ &#34;&#34;=&gt; %q&lt;-*- ruby -*-</code></pre></div>
+<p><code>:</code> is the start of a one-line comment in BATCH. So the rest of this line is ignored. We&rsquo;ll come back to the rest of this line later.</p>
+<pre><code>@&quot;%~dp0ruby&quot; -x &quot;%~f0&quot; %*
+</code></pre><p>This is the first line that the Windows Command Shell will attempt to interpret.</p>
+<ul>
+<li><code>@</code> means don&rsquo;t echo the contents of this line to the terminal. So the user does not see the command, only the command&rsquo;s output.</li>
+<li><code>&quot;%~dp0ruby&quot;</code>:
+<ul>
+<li><code>%0</code> is a variable representing the first parameter of the command line, this file itself. (<code>%1</code>-<code>%9</code> represent the parameters passed to the command.)</li>
+<li>The <code>~</code> allows modifiers to the applied to the variable expansion.</li>
+<li><code>d</code> is the drive letter for where the current file is located.</li>
+<li><code>p</code> is the path to the directory containing the current file.</li>
+<li><code>ruby</code> is a literal string added to that drive and path.</li>
+</ul>
+</li>
+<li><code>-x</code> is a switch to the Ruby interpreter inherited from perl. It means &ldquo;ignore all the lines above the shebang (<code>#!</code>) line in the file you&rsquo;re about to interpret.</li>
+<li><code>&quot;%~f0&quot;</code> is another tweak on &ldquo;the current file.&rdquo; In this case, it expands to the fully qualified path&ndash;drive letter, path to directory containing, and the file&rsquo;s name&ndash;of the current file.</li>
+<li><code>%*</code> is &ldquo;all the parameters <code>%1</code> on up from the command line.&rdquo;
+So, in English, this line executes the <code>ruby</code> runtime that exists in the same directory as this Ruby script, passing this Ruby script in for interpretation, and tells Ruby to ignore (i.e. <em>not</em> interpret) all of these shell shenanigans above the <code>#!</code> line.</li>
+</ul>
+<pre><code>@exit /b %ERRORLEVEL%
+</code></pre><ul>
+<li><code>@</code> our friend, no-echo. Don&rsquo;t show this line to the user when executing.</li>
+<li><code>exit</code> means exit or stop running this script.</li>
+<li><code>/b</code> is an option to <code>exit</code> to tell it to stop <em>only</em> this script, not to exit the shell itself.</li>
+<li><code>%ERRORLEVEL%</code> is a variable containing the exit code of the previous command. So, exit this script with the success/failure of the Ruby script run from the previous line.
+And thus endeth the processing by the Windows Command Shell. It doesn&rsquo;t try running the command on any of the lines that appear after.</li>
+</ul>
+<h2 id="as-unixy-shell">As UNIXy Shell</h2>
+<p>Things are much trickier for the sh/bash shells.
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">:<span style="color:#2aa198">&#34;&#34;</span><span style="color:#719e07">||{</span> <span style="color:#2aa198">&#34;&#34;</span><span style="color:#719e07">=</span>&gt; %q&lt;-*- ruby -*-
+@<span style="color:#2aa198">&#34;%~dp0ruby&#34;</span> -x <span style="color:#2aa198">&#34;%~f0&#34;</span> %*
+@exit /b %ERRORLEVEL%
+<span style="color:#719e07">}</span>;</code></pre></div></p>
+<p>This chunk sort of needs to be taken as a whole.</p>
+<ul>
+<li><code>:</code> means &ldquo;true&rdquo; from the olden days of sh and can work like a no-op operator.</li>
+<li><code>||</code> is a logical OR operator. So what&rsquo;s on the left of it is true.</li>
+<li><code>{ }</code> wraps some characters on the first line that we&rsquo;ll talk about later, plus the Windows Command Shell command into an inline group. So the Command Shell commands are treated as one thing and ignored.
+What does just this hunk look like when run through sh/bash? (sh uses <code>-x</code> differenly than Ruby and perl. To sh/bash/etc, <code>-x</code> means &ldquo;show each line before it is executed&rdquo; which is useful for debugging.)</li>
+</ul>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$ sh -x test.cmd
++ :</code></pre></div>
+<p>It sees nothing! It does nothing!
+So, it moves on to the second inline group it sees.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#719e07">{</span> #
+<span style="color:#268bd2">bindir</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;</span><span style="color:#2aa198">${</span><span style="color:#268bd2">0</span>%/*<span style="color:#2aa198">}</span><span style="color:#2aa198">&#34;</span> #
+<span style="color:#b58900">exec</span> <span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$bindir</span><span style="color:#2aa198">/ruby&#34;</span> -x <span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$0</span><span style="color:#2aa198">&#34;</span> <span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$@</span><span style="color:#2aa198">&#34;</span> #
+&gt;, #
+<span style="color:#719e07">}</span> #</code></pre></div>
+<ul>
+<li><code>{ #</code> starts a new inline group. The <code>#</code> on the same line appeases the sh interpreter that really doesn&rsquo;t like for the <code>{</code> to be lonesome on a line. This is what the <code>&quot;&quot;=&gt; %q&lt;-*- ruby -*-</code> characters on the very first line are doing for the opening of the first inline group.</li>
+</ul>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#268bd2">bindir</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;</span><span style="color:#2aa198">${</span><span style="color:#268bd2">0</span>%/*<span style="color:#2aa198">}</span><span style="color:#2aa198">&#34;</span> #</code></pre></div>
+<ul>
+<li><code>bindir=</code> is setting a local variable named <code>bindir</code></li>
+<li><code>&quot;${0%/*}&quot;</code> is the sh/bash means to determine the path to the directory containing the current file. <code>$0</code> is similarly the first command line parameter (this file executing) and <code>%/*</code> trims it to only the path of the directory containing this file.</li>
+<li><code>#</code> &hellip; I don&rsquo;t think the comment here matters.</li>
+</ul>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#b58900">exec</span> <span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$bindir</span><span style="color:#2aa198">/ruby&#34;</span> -x <span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$0</span><span style="color:#2aa198">&#34;</span> <span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$@</span><span style="color:#2aa198">&#34;</span> <span style="color:#586e75"># -x &#34;$0&#34; &#34;$@&#34; #</span></code></pre></div>
+<ul>
+<li><code>exec</code> is a shell built-in that replaces the current process being executed with a new one. This is what stops the sh/bash execution of the current script and runs it in Ruby instead.</li>
+<li><code>&quot;$bindir/ruby&quot;</code> is how Ruby gets executed, having determined the location of the current file in the line before. (Remember, these binstubs exist in RubyInstaller in the same directory as the installed <code>ruby.exe</code> executable.)</li>
+<li><code>-x</code> again, &ldquo;Dear Ruby, please ignore all the shenanigans above <code>#!</code>.&rdquo;</li>
+<li><code>&quot;$0&quot;</code> is as before but very specifically <em>this file</em> passed in as the input to be interpreted by Ruby.</li>
+<li><code>&quot;$@&quot;</code> is &ldquo;all the parameters from the command line.&rdquo;
+And because this was run with <code>exec</code>, thus endeth the sh/bash interpretation of this file.
+&hellip;
+But wait &hellip; what about that <code>&gt;, #</code>?
+Indeed. It is a &ldquo;redirect output to <code>,</code>.&rdquo; That is not run by sh/bash because of the <code>exec</code>, but is present as a parsible thing that is meaningful for the Ruby interpretation of this file.
+But wait &hellip; again &hellip; this file is interpreted by Ruby with the <code>-x</code> switch so that all of these lines are <em>ignored</em>, aren&rsquo;t they?
+Yes. But also, no.</li>
+</ul>
+<h2 id="the-ruby-way">The Ruby Way</h2>
+<p>Let&rsquo;s bring back the whole thing and interpret it like Ruby.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#2aa198">:&#34;&#34;</span><span style="color:#719e07">||</span>{ <span style="color:#2aa198">&#34;&#34;</span><span style="color:#719e07">=&gt;</span> <span style="color:#2aa198">%q&lt;-*- ruby -*-
+</span><span style="color:#2aa198">@&#34;%~dp0ruby&#34; -x &#34;%~f0&#34; %*
+</span><span style="color:#2aa198">@exit /b %ERRORLEVEL%
+</span><span style="color:#2aa198">};{ #
+</span><span style="color:#2aa198">bindir=&#34;${0%/*}&#34; #
+</span><span style="color:#2aa198">exec &#34;$bindir/ruby&#34; -x &#34;$0&#34; &#34;$@&#34; #
+</span><span style="color:#2aa198">&gt;</span>, <span style="color:#586e75">#</span>
+} <span style="color:#586e75">#</span>
+<span style="color:#586e75">#!/usr/bin/env ruby</span>
+<span style="color:#719e07">[</span> <span style="color:#719e07">...</span> actual ruby code <span style="color:#719e07">...</span> <span style="color:#719e07">]</span></code></pre></div>
+<p>Yes, when executed with <code>-x</code>, all the lines above <code>#!</code> are ignored. But what if, for some reason, someone passes this file in to <code>ruby</code> without the <code>-x</code>, will it blow up?
+No. Because now more of the hieroglyphs have meaning. Let&rsquo;s run some chunks of this through Ruby.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">$ irb
+irb(main):<span style="color:#2aa198">001</span>:<span style="color:#2aa198">0</span><span style="color:#719e07">&gt;</span> <span style="color:#2aa198">:&#34;&#34;</span>
+<span style="color:#719e07">=&gt;</span> <span style="color:#2aa198">:&#34;&#34;</span></code></pre></div>
+<p><code>:&quot;&quot;</code> is a symbol. Cool. Ruby symbols are true.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">irb(main):<span style="color:#2aa198">002</span>:<span style="color:#2aa198">0</span><span style="color:#719e07">&gt;</span> <span style="color:#2aa198">:&#34;&#34;</span> <span style="color:#719e07">||</span> <span style="color:#2aa198">&#39;nope&#39;</span>
+<span style="color:#719e07">=&gt;</span> <span style="color:#2aa198">:&#34;&#34;</span></code></pre></div>
+<p>So, whatever thing appears to the right of the logical OR (<code>||</code>) will be ignored. Let&rsquo;s trim away some things and lay out what&rsquo;s to the right as though it were styled as Ruby code.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">{ <span style="color:#2aa198">&#34;&#34;</span> <span style="color:#719e07">=&gt;</span> <span style="color:#2aa198">%q&lt;-*- ruby -*-
+</span><span style="color:#2aa198">  @&#34;%~dp0ruby&#34; -x &#34;%~f0&#34; %*
+</span><span style="color:#2aa198">  @exit /b %ERRORLEVEL%
+</span><span style="color:#2aa198">  };{ #
+</span><span style="color:#2aa198">  bindir=&#34;${0%/*}&#34; #
+</span><span style="color:#2aa198">  exec &#34;$bindir/ruby&#34; -x &#34;$0&#34; &#34;$@&#34; #
+</span><span style="color:#2aa198">&gt;</span>, <span style="color:#586e75">#</span>
+} <span style="color:#586e75">#</span></code></pre></div>
+<p>That&rsquo;s a hash with one key/value pair. The key is the symbol <code>:&quot;&quot;</code>. The value is a quoted, multiline string (<code>%q&lt; &gt;</code>).</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">irb(main):<span style="color:#2aa198">003</span>:<span style="color:#2aa198">0</span><span style="color:#719e07">&gt;</span> { <span style="color:#2aa198">&#34;&#34;</span> <span style="color:#719e07">=&gt;</span> <span style="color:#2aa198">%q&lt;-*- ruby -*-
+</span><span style="color:#2aa198">irb(main):004:1&#39; @&#34;%~dp0ruby&#34; -x &#34;%~f0&#34; %*
+</span><span style="color:#2aa198">irb(main):005:1&#39; @exit /b %ERRORLEVEL%
+</span><span style="color:#2aa198">irb(main):006:1&#39; };{ #
+</span><span style="color:#2aa198">irb(main):007:1&#39; bindir=&#34;${0%/*}&#34; #
+</span><span style="color:#2aa198">irb(main):008:1&#39; exec &#34;$bindir/ruby&#34; -x &#34;$0&#34; &#34;$@&#34; #
+</span><span style="color:#2aa198">irb(main):009:1&#39; &gt;</span>, <span style="color:#586e75">#</span>
+irb(main):<span style="color:#2aa198">010</span>:<span style="color:#2aa198">1</span><span style="color:#719e07">*</span> } <span style="color:#586e75">#</span>
+<span style="color:#719e07">=&gt;</span> {<span style="color:#2aa198">&#34;&#34;</span><span style="color:#719e07">=&gt;</span><span style="color:#2aa198">&#34;-*- ruby -*-</span><span style="color:#cb4b16">\n\n</span><span style="color:#2aa198">@</span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198">%~dp0ruby</span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198"> -x </span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198">%~f0</span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198"> %*</span><span style="color:#cb4b16">\n\n</span><span style="color:#2aa198">@exit /b %ERRORLEVEL%</span><span style="color:#cb4b16">\n\n</span><span style="color:#2aa198">};{ #</span><span style="color:#cb4b16">\n\n</span><span style="color:#2aa198">bindir=</span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198">${0%/*}</span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198"> #</span><span style="color:#cb4b16">\n\n</span><span style="color:#2aa198">exec </span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198">$bindir/ruby</span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198"> -x </span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198">$0</span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198"> </span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198">$@</span><span style="color:#cb4b16">\&#34;</span><span style="color:#2aa198"> #</span><span style="color:#cb4b16">\n\n</span><span style="color:#2aa198">&#34;</span>}</code></pre></div>
+<p>So the hieroglyphs handily wrap all the Windows Command Shell and sh/bash pieces into a string to avoid parsing it as Ruby. And then does nothing with that hash containing the string because it sits on the right side of an <code>||</code> with an always true item <code>:&quot;&quot;</code> on the left. The <code>#!</code> line starts with a <code>#</code> turning it into a comment. Then on into the actual Ruby portion of the script.
+So damn clever. A Ruby script that knows how to run itself through three interpreters.</p>
+        </div>
+        
+
+<footer>
+  <p class="meta">
+    <span class="byline author vcard">Posted by <span class="fn">Robb Kidd</span></span>
+    
+    <time>Sep 7, 2019</time>
+    
+      <span class="categories">
+        Tags:
+        
+          <a class="category" href="http://www.thekidds.org/tags/ruby">ruby</a>  <a class="category" href="http://www.thekidds.org/tags/windows">windows</a>  <a class="category" href="http://www.thekidds.org/tags/sh">sh</a>  <a class="category" href="http://www.thekidds.org/tags/bash">bash</a>  <a class="category" href="http://www.thekidds.org/tags/shell">shell</a>  
+    
+    </span>
+  </p>
+
+  
+
+  <p class="meta">
+    
+        <a class="basic-alignment left" href="http://www.thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/" title="Computing a Version for a Habitat Package">Computing a Version for a Habitat Package</a>
+    
+
+    
+  </p>
+  
+    
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+      
+      
+      
+      if (window.location.hostname == "localhost")
+          return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'thekidds-org';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    
+  
+</footer>
+
+      </article>
+    </div>
+    
+
+<aside class="sidebar thirds">
+  <section class="first odd">
+
+    
+      <h1>Who?</h1>
+    
+
+    <p>
+      
+        <p><img src="https://s.gravatar.com/avatar/6340bd48e9f1248c6344d3008c0a08d7?s=80" alt=""></p>
+<p>I&rsquo;m Robb Kidd.
+I develop wares that are soft.
+I administer systems.
+I used to save lives as a hobby.
+I am good at starting books, but I am not good at finishing them.
+I am only a wannabe drummer.</p>
+
+      
+    </p>
+  </section>
+
+
+
+  
+  <ul class="sidebar-nav">
+    <li class="sidebar-nav-item">
+      <a target="_blank" href="https://github.com/robbkidd/" title="https://github.com/robbkidd/"><i class="fa fa-github fa-3x"></i></a>
+      
+      
+      <a target="_blank" href="https://twitter.com/robbkidd/" title="https://twitter.com/robbkidd/"><i class="fa fa-twitter fa-3x"></i></a>
+      
+        <a target="_blank" href="https://keybase.io/robbkidd/" title="https://keybase.io/robbkidd/"><i class="fa fa-keybase fa-3x"></i></a> 
+      
+      
+      
+      
+      
+      
+      
+      
+
+    
+    
+    </li>
+  </ul>
+
+  
+
+  
+
+  
+  
+  
+    
+      <section class="even">
+        <h1>Recent Posts</h1>
+        <ul id="recent_posts">
+          
+          
+            
+              <li class="post">
+                <a href="/blog/2019/09/07/multi-shell-shebangery/">Multi-Shell Shebangery</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2016/12/05/computing-a-version-for-a-habitat-package/">Computing a Version for a Habitat Package</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2016/03/10/run-dependency-services-in-docker/">Run Dependency Services in Docker</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/">Closer to Environmental Bliss with direnv</a>
+              </li>
+            
+          
+            
+              <li class="post">
+                <a href="/blog/2015/09/11/reflections-on-9-11/">Reflections on 9-11</a>
+              </li>
+            
+          
+        </ul>
+      </section>
+    
+  
+</aside>
+
+  </div>
+</div>
+
+    <footer role="contentinfo">
+      <p>Copyright &copy; 2020 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
+        <span class="credit">Powered by <a target="_blank" href="https://gohugo.io">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/">Hugo-Octopress</a> theme.
+      </p>
+    </footer>
+
+    
+    
+    
+
+    
+  </body>
+</html>
+

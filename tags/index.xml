@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Slightly Ahead of Behind the Curve</title>
+    <link>http://www.thekidds.org/tags/</link>
+    <description>Recent content in Tags on Slightly Ahead of Behind the Curve</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 07 Sep 2019 19:47:44 -0500</lastBuildDate>
+    
+	<atom:link href="http://www.thekidds.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>bash</title>
+      <link>http://www.thekidds.org/tags/bash/</link>
+      <pubDate>Sat, 07 Sep 2019 19:47:44 -0500</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/bash/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ruby</title>
+      <link>http://www.thekidds.org/tags/ruby/</link>
+      <pubDate>Sat, 07 Sep 2019 19:47:44 -0500</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/ruby/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sh</title>
+      <link>http://www.thekidds.org/tags/sh/</link>
+      <pubDate>Sat, 07 Sep 2019 19:47:44 -0500</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/sh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>shell</title>
+      <link>http://www.thekidds.org/tags/shell/</link>
+      <pubDate>Sat, 07 Sep 2019 19:47:44 -0500</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/shell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>windows</title>
+      <link>http://www.thekidds.org/tags/windows/</link>
+      <pubDate>Sat, 07 Sep 2019 19:47:44 -0500</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/windows/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>habitat</title>
+      <link>http://www.thekidds.org/tags/habitat/</link>
+      <pubDate>Mon, 05 Dec 2016 09:53:44 -0500</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/habitat/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>chef</title>
+      <link>http://www.thekidds.org/tags/chef/</link>
+      <pubDate>Sat, 19 Apr 2014 12:20:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/chef/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PostgreSQL</title>
+      <link>http://www.thekidds.org/tags/postgresql/</link>
+      <pubDate>Fri, 27 Jul 2012 16:33:55 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rails</title>
+      <link>http://www.thekidds.org/tags/rails/</link>
+      <pubDate>Fri, 27 Jul 2012 16:33:55 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/rails/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Vagrant</title>
+      <link>http://www.thekidds.org/tags/vagrant/</link>
+      <pubDate>Fri, 06 Jul 2012 14:41:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/vagrant/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>http://www.thekidds.org/tags/linux/</link>
+      <pubDate>Thu, 05 Apr 2012 14:43:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ubuntu</title>
+      <link>http://www.thekidds.org/tags/ubuntu/</link>
+      <pubDate>Thu, 05 Apr 2012 14:43:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/ubuntu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CentOS</title>
+      <link>http://www.thekidds.org/tags/centos/</link>
+      <pubDate>Mon, 11 Jul 2011 18:55:55 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/centos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RHEL</title>
+      <link>http://www.thekidds.org/tags/rhel/</link>
+      <pubDate>Mon, 11 Jul 2011 18:55:55 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/rhel/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SELinux</title>
+      <link>http://www.thekidds.org/tags/selinux/</link>
+      <pubDate>Mon, 11 Jul 2011 18:55:55 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/tags/selinux/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

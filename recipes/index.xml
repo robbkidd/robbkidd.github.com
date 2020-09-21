@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Recipes on Slightly Ahead of Behind the Curve</title>
+    <link>http://www.thekidds.org/recipes/</link>
+    <description>Recent content in Recipes on Slightly Ahead of Behind the Curve</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 15 May 2020 09:16:06 -0400</lastBuildDate>
+    
+	<atom:link href="http://www.thekidds.org/recipes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Homage to Bens Chili</title>
+      <link>http://www.thekidds.org/recipes/homage-to-bens-chili/</link>
+      <pubDate>Fri, 15 May 2020 09:16:06 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/recipes/homage-to-bens-chili/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://benschilibowl.com/about&#34;&gt;Ben&amp;rsquo;s Chili Bowl&lt;/a&gt; is an icon in the Washington D.C. community and cuisine. If you&amp;rsquo;re in town, you should visit. Until then, this gets you pretty close.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Garam Masala</title>
+      <link>http://www.thekidds.org/recipes/garam-masala/</link>
+      <pubDate>Fri, 15 May 2020 09:05:39 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/recipes/garam-masala/</guid>
+      <description>&lt;p&gt;By Raghavan Iyer, via &lt;a href=&#34;https://smile.amazon.com/Indian-Instant-Pot%C2%AE-Cookbook-Traditional-ebook/dp/B075HHYXWF&#34;&gt;Dr. Urvashi Pitre&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Makes 1/2 cup&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

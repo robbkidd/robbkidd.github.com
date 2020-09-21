@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rails on Slightly Ahead of Behind the Curve</title>
+    <link>http://www.thekidds.org/tags/rails/</link>
+    <description>Recent content in Rails on Slightly Ahead of Behind the Curve</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 27 Jul 2012 16:33:55 -0400</lastBuildDate>
+    
+	<atom:link href="http://www.thekidds.org/tags/rails/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Active Record, PostgreSQL and Sequence Naming</title>
+      <link>http://www.thekidds.org/blog/2012/07/27/active-record-postgresql-and-sequence-naming/</link>
+      <pubDate>Fri, 27 Jul 2012 16:33:55 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2012/07/27/active-record-postgresql-and-sequence-naming/</guid>
+      <description>&lt;p&gt;If you use PostgreSQL to back your Active Record models, you should
+check the current names for your tables and their sequences. Prior to
+Active Record 3.2.7, renaming a table did not rename the associated
+sequence for the table&amp;rsquo;s primary key.&lt;/p&gt;
+&lt;p&gt;A demonstration may be in order.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

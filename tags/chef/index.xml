@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>chef on Slightly Ahead of Behind the Curve</title>
+    <link>http://www.thekidds.org/tags/chef/</link>
+    <description>Recent content in chef on Slightly Ahead of Behind the Curve</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 19 Apr 2014 12:20:00 -0400</lastBuildDate>
+    
+	<atom:link href="http://www.thekidds.org/tags/chef/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Mind the Gap: Resources</title>
+      <link>http://www.thekidds.org/blog/2014/04/19/mind-the-gap-resources/</link>
+      <pubDate>Sat, 19 Apr 2014 12:20:00 -0400</pubDate>
+      
+      <guid>http://www.thekidds.org/blog/2014/04/19/mind-the-gap-resources/</guid>
+      <description>&lt;p&gt;I spoke this week at &lt;a href=&#34;http://chefconf.opscode.com/chefconf/&#34;&gt;ChefConf&lt;/a&gt;
+about how we use Chef at &lt;a href=&#34;http://www.lgscout.com&#34;&gt;my company&lt;/a&gt; to produce
+an installer for our on-premises product.
+&lt;a href=&#34;https://speakerdeck.com/robbkidd/mind-the-gap&#34;&gt;Slides for the talk&lt;/a&gt; are
+up, but not very useful without my rambling that went with them. Instead of
+making attendees madly write down the resources slide, here are links to the
+resources and tools I mentioned in the talk.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
