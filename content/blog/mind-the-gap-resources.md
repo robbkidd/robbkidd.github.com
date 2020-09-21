@@ -1,9 +1,9 @@
 ---
-layout: post
+type: post
 title: "Mind the Gap: Resources"
-date: 2014-04-19 12:20
+date: 2014-04-19 12:20:00 -0400
 comments: true
-categories: chef
+tags: [chef]
 ---
 
 I spoke this week at [ChefConf](http://chefconf.opscode.com/chefconf/)
@@ -14,7 +14,7 @@ up, but not very useful without my rambling that went with them. Instead of
 making attendees madly write down the resources slide, here are links to the
 resources and tools I mentioned in the talk.
 
-<!-- more -->
+<!--more-->
 
 * [Vagrant](http://vagrantup.com) from [Mitchell Hashimoto](http://about.me/mitchellh)
   and Hashicorp. We use Vagrant in our chef repo to spin up a VM for each of our node
@@ -39,4 +39,3 @@ resources and tools I mentioned in the talk.
   end and here. `knife-solo` has made our lives easier by letting us get
   our chef repo up onto test and staging servers and starting a chef run
   is out chef-solo-oriented world.
-

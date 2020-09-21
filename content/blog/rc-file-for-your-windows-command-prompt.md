@@ -1,9 +1,9 @@
 ---
-layout: post
+type: post
 title: "RC file for your Windows Command Prompt"
-date: 2012-07-06 14:41
+date: 2012-07-06 14:41:00 -0400
 comments: true
-categories: [Windows, Vagrant]
+tags: [Windows, Vagrant]
 ---
 
 I had trouble today with my Windows `%HOME%` changing and throwing off
@@ -11,7 +11,7 @@ I had trouble today with my Windows `%HOME%` changing and throwing off
 This may be your problem if Vagrant on Windows was working happily for
 you and then barks about no boxes.
 
-```
+{{< highlight text >}}
 C:\Users\you> vagrant box list
 There are no installed boxes! Use `vagrant box add` to add some.
 
@@ -27,7 +27,7 @@ C:\Users\you>set HOME=%USERPROFILE%
 C:\Users\you>vagrant box list
 base-i-really-exist
 centos-does-too
-```
+{{< / highlight >}}
 
 `%HOME%` was different depending on whether I logged into Windows while
 on my Active Directory managed network or while I was offline. When on
@@ -40,18 +40,20 @@ on the AD network, Vagrant was no longer aware of the base boxes because
 
 Creating a batch file to set `%HOME%` to `%USERPROFILE%` solved the problem.
 
-```bat cmdrc.bat
+{{< highlight bat >}}
+# cmdrc.bat
 REM %USERPROFILE%/cmdrc.bat
 @echo off
 
 set HOME=%USERPROFILE%
-```
+{{< / highlight >}}
 
 For UNIXy goodness, name it `cmdrc.bat`, place it in `%USERPROFILE%` and then add the following to the registry so that this file is run whenever a command prompt opens.
 
-```text cmdrc.reg
+{{< highlight text >}}
+#text cmdrc.reg
 Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\Command Processor]
 "AutoRun"="%USERPROFILE%\\cmdrc.bat"
-```
+{{< / highlight >}}

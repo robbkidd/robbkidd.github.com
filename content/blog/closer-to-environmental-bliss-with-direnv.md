@@ -1,9 +1,9 @@
 ---
-layout: post
+type: post
 title: "Closer to Environmental Bliss with direnv"
 date: 2016-03-07 16:10:55 -0500
 comments: true
-categories:
+tags:
 ---
 
 I was a long time user of [RVM](https://rvm.io/) for installing and switching
@@ -15,35 +15,36 @@ rolled with it for many years.
 Eventually, I tried something different. I'd been sold on the idea of using
 multiple, simpler tools together. Here's the result.
 
-<!-- more -->
+<!--more-->
 
 ## Installing a Ruby: `ruby-install`
 
-`brew install ruby-install`
+{{< highlight text >}}
+> brew install ruby-install
+> ruby-install ruby-2.2
+{{< / highlight >}}
 
-And then `ruby-install ruby-2.2` got me the Ruby I wanted. "Too simple," I
-thought. "Now I won't be able to say I want to use that version."
+Got me the Ruby I wanted. "Too simple," I thought. "Now I won't be able to say I want to use that version."
 
 ## Use a Ruby: `chruby`
 
-`brew install chruby`
+{{< highlight text >}}
+> brew install chruby
+> chruby
+   ruby-2.2.4
+{{< / highlight >}}
 
 And then `chruby` spat out a list of installed Rubies.
 
-```
-» chruby
-   ruby-2.2.4
-```
-
 OK.
 
-```
-» chruby ruby-2.2.4
-» chruby
+{{< highlight text >}}
+> chruby ruby-2.2.4
+> chruby
  * ruby-2.2.4
-» ruby --version                                                           1 ↵
+> ruby --version
 ruby 2.2.4p230 (2015-12-16 revision 53155) [x86_64-darwin15]
-```
+{{< / highlight >}}
 
 "Hunh," thinks I. `chruby` will by default find Rubies installed in the default
 directory used by `ruby-install`: `/opt/rubies/` and `~/.rubies/`.
@@ -55,13 +56,16 @@ needs."
 
 Enter `direnv`.
 
-`brew install direnv`
+{{< highlight text >}}
+> brew install direnv
+{{< / highlight >}}
 
 Then create an `.envrc` file in a project root directory with the appropriate
 commands for the project. It can be made pretty convenient by adding the
 following function to a `.direnvrc` file in your HOME directory.
 
-```bash
+{{< highlight bash >}}
+
 # add to ~/.direnvrc
 use_ruby() {
   # enable the chruby command in an environment
@@ -91,20 +95,21 @@ use_ruby() {
   # directly instead of using the `bundle exec` prefix.
   layout_ruby
 }
-```
+
+{{< / highlight >}}
 
 Thanks to [Steve Tooke](http://tooky.co.uk/using-direnv-and-chruby-together/)
 for most of the above.
 
 So one of my projects is a Rails app. It's `.envrc` looks like:
 
-```
+{{< highlight bash >}}
 # .envrc for a Rails project
 export RUBY_GC_MALLOC_LIMIT=90000000
 export RUBY_GC_HEAP_FREE_SLOTS=200000
 
 use ruby 2.2.4
-```
+{{< / highlight >}}
 
 This sets some environment variables suitable for testing and switches my Ruby
 environment around. I get Ruby version 2.2.4 and GEM_HOME, GEM_PATH, and
@@ -120,7 +125,8 @@ is to [install the Chef DK](https://downloads.chef.io/chef-dk/). Chef DK
 includes its own embedded Ruby and gem environment and `chruby` knows nothing
 about it. We can use `direnv` to twiddle the environment for Chef projects.
 
-```
+{{< highlight bash >}}
+
 # add to ~/.direnvrc
 use_chefdk() {
   EXPANDED_HOME=`expand_path ~`
@@ -141,17 +147,18 @@ use_chefdk() {
   PATH_add /opt/chefdk/embedded/bin
   PATH_add /opt/chefdk/bin
 }
-```
+
+{{< / highlight >}}
 
 Thanks to [Seth Chisamore](https://github.com/schisamo) for the Chef DK
 function.
 
 Now my `.envrc` files in Chef projects have a line like this:
 
-```
+{{< highlight bash >}}
 # .envrc in a Chef project
 use chefdk
-```
+{{< / highlight >}}
 
 It's working for now and I can happily switch between Chef DK projects and
 projects needing their own Rubies (e.g. Rails sites).

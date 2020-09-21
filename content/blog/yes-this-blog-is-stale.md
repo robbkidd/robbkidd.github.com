@@ -1,9 +1,9 @@
 ---
-layout: post
-title: "Yes this blog is stale."
-date: 2014-04-18 16:48
+type: post
+title: "Yes this blog is stale"
+date: 2014-04-18 16:48:00 -0400
 comments: true
-categories:
+tags:
 ---
 
 I [spoke](http://chefconf2014.busyconf.com/schedule#activity_52ddec32fc59cd00880000c4)

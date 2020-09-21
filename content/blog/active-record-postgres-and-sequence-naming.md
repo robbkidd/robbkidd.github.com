@@ -1,9 +1,10 @@
 ---
 layout: post
+type: post
 title: "Active Record, PostgreSQL and Sequence Naming"
-date: 2012-07-27 16:33
+date: 2012-07-27 16:33:55 -0400
 comments: true
-categories: [Ruby, Rails, PostgreSQL]
+tags: [Ruby, Rails, PostgreSQL]
 ---
 
 If you use PostgreSQL to back your Active Record models, you should
@@ -13,10 +14,10 @@ sequence for the table's primary key.
 
 A demonstration may be in order.
 
-<!-- more -->
+<!--more-->
 
-```
-robb@neoldian ~/code/pg_seq » rails generate model Product name:string description:text
+{{< highlight text >}}
+robb@neoldian ~/code/pg_seq > rails generate model Product name:string description:text
       invoke  active_record
       create    db/migrate/20120727210734_create_products.rb
       create    app/models/product.rb
@@ -24,27 +25,28 @@ robb@neoldian ~/code/pg_seq » rails generate model Product name:string descript
       create      test/unit/product_test.rb
       create      test/fixtures/products.yml
 
-robb@neoldian ~/code/pg_seq » rake db:migrate
+robb@neoldian ~/code/pg_seq > rake db:migrate
 ==  CreateProducts: migrating =================================================
 -- create_table(:products)
 NOTICE:  CREATE TABLE will create implicit sequence "products_id_seq" for serial column "products.id"
 NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index "products_pkey" for table "products"
    -> 0.0194s
 ==  CreateProducts: migrated (0.0196s) ========================================
-```
+{{< / highlight >}}
 
 Note that on line 11 the `CREATE TABLE` created an implicit sequence
 `products_id_seq` for serial column `products.id`.
 
 Let's rename the table.
 
-```bash
-robb@neoldian ~/code/pg_seq » rails generate migration RenameProductsToWidgets
+{{< highlight text >}}
+robb@neoldian ~/code/pg_seq > rails generate migration RenameProductsToWidgets
       invoke  active_record
       create    db/migrate/20120727211235_rename_products_to_widgets.rb
-```
+{{< / highlight >}}
 
-```ruby db/migrate/20120727211235_rename_products_to_widgets.rb
+{{< highlight ruby >}}
+# db/migrate/20120727211235_rename_products_to_widgets.rb
 class RenameProductsToWidgets < ActiveRecord::Migration
   def up
     rename_table :products, :widgets
@@ -54,20 +56,20 @@ class RenameProductsToWidgets < ActiveRecord::Migration
     rename_table :widgets, :products
   end
 end
-```
+{{< / highlight >}}
 
-```bash
-robb@neoldian ~/code/pg_seq » rake db:migrate
+{{< highlight text >}}
+robb@neoldian ~/code/pg_seq > rake db:migrate
 ==  RenameProductsToWidgets: migrating ========================================
 -- rename_table(:products, :widgets)
    -> 0.0019s
 ==  RenameProductsToWidgets: migrated (0.0020s) ===============================
-```
+{{< / highlight >}}
 
 What do you expect the sequence for the `id` column in the `widgets`
 table to be named at this point? `widgets_id_seq`?
 
-```sh
+```
                                       Table "public.widgets"
    Column    |            Type             |                       Modifiers
 -------------+-----------------------------+-------------------------------------------------------
@@ -98,6 +100,17 @@ business is to get that index renamed, too.)
 So you might want to go take a look at your PostgreSQL tables. Their sequences
 probably have names that do not make any sense now.
 
-You can use this gist in your Rails console as a quick way to check.
+You can use this method in your Rails console as a quick way to check.
 
-{% gist 3190645 %}
+{{< highlight ruby >}}
+def check_table_and_sequence_names
+  connection = ActiveRecord::Base.connection
+  if connection.adapter_name == "PostgreSQL"
+    table_names = connection.tables.keep_if { |t| t !~ /schema_migrations/ }
+    table_names.map { |t| [t, connection.pk_and_sequence_for(t)].flatten }
+  end
+end
+
+check_table_and_sequence_names
+# => [["tablename", "primarykeyname", "sequencename"]]
+{{< / highlight >}}

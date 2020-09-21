@@ -1,9 +1,9 @@
 ---
-layout: post
+type: post
 title: "One Unity Launcher"
-date: 2012-04-05 14:43
+date: 2012-04-05 14:43:00 -0400
 comments: true
-categories: [Ubuntu, Linux]
+tags: [Ubuntu, Linux]
 ---
 
 T'was decided that [the default behavior for Unity's launcher will be to appear only on the primary monitor in Ubuntu 12.04](http://www.omgubuntu.co.uk/2012/03/ubuntu-12-04-multi-monitor-to-be/).
@@ -13,9 +13,9 @@ for the launcher to appear on ALL desktops. Not a fan of it on all desktops.
 For those who want to change this setting, you'll need to install the Compiz
 configuration manager.
 
-```
-sudo aptitude install compizconfig-settings-manager
-```
+{{< highlight text >}}
+> sudo aptitude install compizconfig-settings-manager
+{{< / highlight >}}
 
 Once installed, run it.
 

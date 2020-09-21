@@ -1,17 +1,17 @@
 ---
-layout: post
+type: post
 title: "Cramming a Sinatra App into a JAR"
 date: 2015-05-06 14:36:54 -0400
 comments: true
 published: false
-categories: [Ruby, JRuby, Sinatra, Warbler, Java]
+tags: [Ruby, JRuby, Sinatra, Warbler, Java]
 ---
 
 We recently solved a problem for allowing our internal users to easily update
 records in a legacy data store by providing a simple web interface via a Sinatra
 app. Sweet! Now we have to deploy it: Ruby runtime in production. Oh. Nuts. How?
 
-<!-- more -->
+<!--more-->
 
 The new hotness would be to generate a Docker image of the app, but the
 organization is still considering the security implications of Docker containers
@@ -31,7 +31,8 @@ the work.
 
 The libraries used in the app and to package the app as a JAR file.
 
-```ruby Gemfile
+{{< highlight ruby >}}
+# Gemfile
 source "https://rubygems.org"
 
 gem "haml"      # It's a simple app, yo.
@@ -42,11 +43,12 @@ group :development do
   gem 'pry'     # prettier irb
   gem 'warbler' # heavy lifter for JAR'ing the app
 end
-```
+{{< / highlight >}}
 
 The core of the app itself.
 
-```ruby lib/awesome_sauce.rb
+{{< highlight ruby >}}
+# lib/awesome_sauce.rb
 require 'sinatra'
 
 class AwesomeSauce < Sinatra::Application
@@ -56,11 +58,12 @@ class AwesomeSauce < Sinatra::Application
     haml :root_sauciness
   end
 end
-```
+{{< / highlight >}}
 
 The view for `:root_sauciness`.
 
-```ruby views/root_sauciness.rb
+{{< highlight ruby >}}
+# views/root_sauciness.rb
 !!! XML
 !!!
 %html
@@ -69,13 +72,14 @@ The view for `:root_sauciness`.
   %meta{ 'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8' }
  %body
  %h1 The root of the sauce is awesome.
-```
+{{< / highlight >}}
 
 A rackup file. Why not `config.ru`? Because by putting it in `bin/`, Warbler
 will create a JAR, not a WAR, and will by default use this file as the first
 thing run by the JAR.
 
-```ruby bin/web.ru
+{{< highlight ruby >}}
+# bin/web.ru
 #!/usr/bin/env jruby
 
 $LOAD_PATH.unshift(File.expand_path("#{File.dirname(__FILE__)}/../lib"))
@@ -88,21 +92,22 @@ configure do
 end
 
 AwesomeSauce.run!
-```
+{{< / highlight >}}
 
 A Warbler configuration for making the JAR.
 
-```ruby config/warble.rb
+{{< highlight ruby >}}
+# config/warble.rb
 Warbler::Config.new do |config|
   config.features = %w(executable)
   config.dirs = %w(bin lib views)
 end
-```
+{{< / highlight >}}
 
 OK. Let's run this ...
 
-``` bash
-» bundle install
+{{< highlight text >}}
+> bundle install
 Using rake 10.4.2
 Using coderay 1.1.0
 Using ffi 1.9.8
@@ -124,19 +129,19 @@ Using bundler 1.9.4
 Bundle complete! 5 Gemfile dependencies, 18 gems now installed.
 Bundled gems are installed into ./vendor.
 
-» bundle exec warble
+> bundle exec warble
 No executable matching config.jar_name found, using bin/web.ru
 rm -f awesome_sauce.jar
 Creating awesome_sauce.jar
 
-» java -jar awesome_sauce.jar
+> java -jar awesome_sauce.jar
 Puma 2.11.2 starting...
 * Min threads: 0, max threads: 16
 * Environment: development
 * Listening on tcp://localhost:4567
 == Sinatra (v1.4.6) has taken the stage on 4567 for development with backup from Puma
 
-```
+{{< / highlight >}}
 
 Opening `localhost:4567` in a browser shows me something like:
 
@@ -147,7 +152,8 @@ Sweet.
 Let's put that JAR file up on a server (in this case a Vagrant machine
 for testing) and try there.
 
-```bash Running from /vagrant
+{{< highlight text >}}
+# Running from /vagrant
 vagrant@vagrant-ubuntu-trusty-64:/vagrant$ java -jar awesome_sauce.jar &
 [1] 1588
 vagrant@vagrant-ubuntu-trusty-64:/vagrant$ Puma 2.11.2 starting...
@@ -168,7 +174,7 @@ vagrant@vagrant-ubuntu-trusty-64:/vagrant$ curl localhost:4567
   </body>
 </html>
 127.0.0.1 - - [09/May/2015:15:24:36 +0000] "GET / HTTP/1.1" 200 221 0.1170
-```
+{{< / highlight >}}
 
 Cool. It works and I only had to install a Java runtime on the server.
 Let's try running it from a more production-like directory.

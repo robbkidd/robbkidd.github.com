@@ -1,15 +1,15 @@
 ---
-layout: post
-title: "Reflections on 9-11."
+type: post
+title: "Reflections on 9-11"
 date: 2015-09-11 09:36:28 -0400
 comments: true
-categories:
+tags:
 ---
 
 I don't think I've ever written down my experiences on September 11, 2001. Since
 I broke down in the shower this morning, I think I probably should.
 
-<!-- more -->
+<!--more-->
 
 It was a Tuesday morning, bright and clear like today. Tuesday morning rituals
 for me at the time were wake up from an overnight ambulance shift at the fire

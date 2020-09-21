@@ -1,16 +1,16 @@
 ---
-layout: post
+type: post
 title: "README: the Bare Necessities"
-date: 2012-08-04 19:35
+date: 2012-08-04 19:35:00 -0400
 comments: true
-categories: 
+tags:
 ---
 
 I gave a lightning talk at Steel City Ruby Conf 2012 today on writing a
 decent README. Instead of putting the slides up somewhere, I thought I
 would write up a more detailed post of the talk's points.
 
-<!-- more -->
+<!--more-->
 
 ## Your README should ...
 
@@ -29,13 +29,13 @@ It could be as simple as:
 gem install awesome_tool
 ```
 
-```
+{{< highlight ruby >}}
 require 'awesome_tool'
 
 awesome_tool do
   awesome_stuff
 end
-```
+{{< / highlight >}}
 
 If things get complicated, use subsections or wiki pages, but try to
 provide steps and examples in the README and link to the complicated
@@ -77,8 +77,8 @@ Don't fight that.
 
 I would go farther and recommend you [write your README in Markdown](https://raw.github.com/robbkidd/activerecord-netezza-adapter/master/README.md). It
 is a simple plain text markup that is refreshingly free of noisy markup
-like HTML tags that I have to ignore. The benefit is that some tools 
-like GitHub and GitLabHQ 
+like HTML tags that I have to ignore. The benefit is that some tools
+like GitHub and GitLabHQ
 [turn your README.md into a web page](https://github.com/robbkidd/activerecord-netezza-adapter/blob/master/README.md).
 Yay! Your project has a README *and* a web page with structure,
 hyperlinks and syntax-highlighted code blocks.
@@ -86,11 +86,11 @@ hyperlinks and syntax-highlighted code blocks.
 Even better, a tool called [PanDoc](http://johnmacfarlane.net/pandoc/)
 can turn your README.md into a PDF. If you provided headings and
 sub-headings (with hash marks "#") in your markdown, you can tell PanDoc
-to include a table of contents in your PDF for easy navigation. 
+to include a table of contents in your PDF for easy navigation.
 
 ## Leveling Up?
 
-Tim Preston-Werner of GitHub fame has an argument for 
+Tim Preston-Werner of GitHub fame has an argument for
 [README Driven Development](http://tom.preston-werner.com/2010/08/23/readme-driven-development.html).
 Before you test-drive, before you behavior-drive, document your vision
 for what your code will do and write some examples of code you wish you
@@ -104,7 +104,7 @@ sort of audience you expect to have for the docs. Library code probably
 benefits best from rdoc-style embedded comments that can be compiled
 into a library reference. Web APIs can be documented with guide-style
 pages providing the lay of the land with references to tests written
-specifically as examples of use. 
+specifically as examples of use.
 
 End-user documentation can be deviously tricky. Simple, but
 time-consuming to write at the beginning, end-user docs end up
@@ -125,4 +125,4 @@ I've not cracked this last nut. If you are interested in when I do, let
 me know. If *you* have cracked this nut or have some insight into how, I
 would love to talk to you. If there is interest, I plan on writing more
 here or in another venue where collaboration can occur about techniques
-to make documentation less painful. 
+to make documentation less painful.
