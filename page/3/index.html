@@ -123,6 +123,33 @@
         
 
 <header>
+  <p class="meta">Jul 6, 2012
+     - 2 minute read 
+     - <a href="http://www.thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/#disqus_thread">Comments</a>
+
+    
+  </p>
+  <h1 class="entry-title">
+    <a href="http://www.thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/">RC file for your Windows Command Prompt</a>
+  </h1>
+</header>
+
+        
+          <p>I had trouble today with my Windows %HOME% changing and throwing off Vagrant&lsquo;s awareness of what boxes are installed. This may be your problem if Vagrant on Windows was working happily for you and then barks about no boxes.
+C:\Users\you&gt; vagrant box list There are no installed boxes! Use `vagrant box add` to add some. C:\Users\you&gt;dir /b .vagrant.d\boxes base-i-really-exist centos-does-too C:\Users\you&gt;echo %HOME% &lt;somewhere not C:\Users\you&gt; C:\Users\you&gt;set HOME=%USERPROFILE% C:\Users\you&gt;vagrant box list base-i-really-exist centos-does-too %HOME% was different depending on whether I logged into Windows while on my Active Directory managed network or while I was offline.</p>
+          
+            <footer>
+              <a href="http://www.thekidds.org/blog/2012/07/06/rc-file-for-your-windows-command-prompt/" rel="full-article">Would you like to know more? →</a>
+            </footer>
+          
+        
+      </article>
+      
+      <article>
+        
+        
+
+<header>
   <p class="meta">Apr 5, 2012
      - 1 minute read 
      - <a href="http://www.thekidds.org/blog/2012/04/05/one-unity-launcher/#disqus_thread">Comments</a>
