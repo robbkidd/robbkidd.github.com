@@ -38,7 +38,7 @@
   <meta name="author" content="Robb Kidd">
 
   
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.105.0">
 
   
   
@@ -142,67 +142,67 @@ rolled with it for many years.</p>
 <p>Eventually, I tried something different. I&rsquo;d been sold on the idea of using
 multiple, simpler tools together. Here&rsquo;s the result.</p>
 <h2 id="installing-a-ruby-ruby-install">Installing a Ruby: <code>ruby-install</code></h2>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&gt; brew install ruby-install
-&gt; ruby-install ruby-2.2</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>&gt; brew install ruby-install
+</span></span><span style="display:flex;"><span>&gt; ruby-install ruby-2.2</span></span></code></pre></div>
 <p>Got me the Ruby I wanted. &ldquo;Too simple,&rdquo; I thought. &ldquo;Now I won&rsquo;t be able to say I want to use that version.&rdquo;</p>
 <h2 id="use-a-ruby-chruby">Use a Ruby: <code>chruby</code></h2>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&gt; brew install chruby
-&gt; chruby
-   ruby-2.2.4</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>&gt; brew install chruby
+</span></span><span style="display:flex;"><span>&gt; chruby
+</span></span><span style="display:flex;"><span>   ruby-2.2.4</span></span></code></pre></div>
 <p>And then <code>chruby</code> spat out a list of installed Rubies.</p>
 <p>OK.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&gt; chruby ruby-2.2.4
-&gt; chruby
- * ruby-2.2.4
-&gt; ruby --version
-ruby 2.2.4p230 (2015-12-16 revision 53155) [x86_64-darwin15]</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>&gt; chruby ruby-2.2.4
+</span></span><span style="display:flex;"><span>&gt; chruby
+</span></span><span style="display:flex;"><span> * ruby-2.2.4
+</span></span><span style="display:flex;"><span>&gt; ruby --version
+</span></span><span style="display:flex;"><span>ruby 2.2.4p230 (2015-12-16 revision 53155) [x86_64-darwin15]</span></span></code></pre></div>
 <p>&ldquo;Hunh,&rdquo; thinks I. <code>chruby</code> will by default find Rubies installed in the default
 directory used by <code>ruby-install</code>: <code>/opt/rubies/</code> and <code>~/.rubies/</code>.</p>
 <p>&ldquo;OK. But now I have to run that for each project to get the Ruby the project
 needs.&rdquo;</p>
 <h2 id="project-specific-environments-direnv">Project-Specific Environments: <code>direnv</code></h2>
 <p>Enter <code>direnv</code>.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&gt; brew install direnv</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>&gt; brew install direnv</span></span></code></pre></div>
 <p>Then create an <code>.envrc</code> file in a project root directory with the appropriate
 commands for the project. It can be made pretty convenient by adding the
 following function to a <code>.direnvrc</code> file in your HOME directory.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#586e75"># add to ~/.direnvrc</span>
-use_ruby<span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
-  <span style="color:#586e75"># enable the chruby command in an environment</span>
-  <span style="color:#b58900">source</span> /usr/local/opt/chruby/share/chruby/chruby.sh
-
-  <span style="color:#586e75"># desired Ruby version as first parameter</span>
-  <span style="color:#b58900">local</span> <span style="color:#268bd2">ver</span><span style="color:#719e07">=</span><span style="color:#268bd2">$1</span>
-
-  <span style="color:#586e75"># if version not given as parameter and there is a .ruby-version file, get</span>
-  <span style="color:#586e75"># version from the file</span>
-  <span style="color:#719e07">if</span> <span style="color:#719e07">[[</span> -z <span style="color:#268bd2">$ver</span> <span style="color:#719e07">]]</span> <span style="color:#719e07">&amp;&amp;</span> <span style="color:#719e07">[[</span> -f .ruby-version <span style="color:#719e07">]]</span>; <span style="color:#719e07">then</span>
-    <span style="color:#268bd2">ver</span><span style="color:#719e07">=</span><span style="color:#719e07">$(</span>cat .ruby-version<span style="color:#719e07">)</span>
-  <span style="color:#719e07">fi</span>
-
-  <span style="color:#586e75"># if the version still isn&#39;t set, error cause we don&#39;t know what to do</span>
-  <span style="color:#719e07">if</span> <span style="color:#719e07">[[</span> -z <span style="color:#268bd2">$ver</span> <span style="color:#719e07">]]</span>; <span style="color:#719e07">then</span>
-    <span style="color:#b58900">echo</span> Unknown ruby version
-    <span style="color:#b58900">exit</span> <span style="color:#2aa198">1</span>
-  <span style="color:#719e07">fi</span>
-
-  <span style="color:#586e75"># switch to the desired ruby version</span>
-  chruby <span style="color:#268bd2">$ver</span>
-
-  <span style="color:#586e75"># Sets the GEM_HOME environment variable to `$PWD/.direnv/ruby/RUBY_VERSION`.</span>
-  <span style="color:#586e75"># This forces the installation of any gems into the project’s sub-folder. If</span>
-  <span style="color:#586e75"># you’re using bundler it will create wrapper programs that can be invoked</span>
-  <span style="color:#586e75"># directly instead of using the `bundle exec` prefix.</span>
-  layout_ruby
-<span style="color:#719e07">}</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#586e75"># add to ~/.direnvrc</span>
+</span></span><span style="display:flex;"><span>use_ruby<span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># enable the chruby command in an environment</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#b58900">source</span> /usr/local/opt/chruby/share/chruby/chruby.sh
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># desired Ruby version as first parameter</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#b58900">local</span> <span style="color:#268bd2">ver</span><span style="color:#719e07">=</span><span style="color:#268bd2">$1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># if version not given as parameter and there is a .ruby-version file, get</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># version from the file</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">if</span> <span style="color:#719e07">[[</span> -z <span style="color:#268bd2">$ver</span> <span style="color:#719e07">]]</span> <span style="color:#719e07">&amp;&amp;</span> <span style="color:#719e07">[[</span> -f .ruby-version <span style="color:#719e07">]]</span>; <span style="color:#719e07">then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">ver</span><span style="color:#719e07">=</span><span style="color:#719e07">$(</span>cat .ruby-version<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># if the version still isn&#39;t set, error cause we don&#39;t know what to do</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">if</span> <span style="color:#719e07">[[</span> -z <span style="color:#268bd2">$ver</span> <span style="color:#719e07">]]</span>; <span style="color:#719e07">then</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#b58900">echo</span> Unknown ruby version
+</span></span><span style="display:flex;"><span>    <span style="color:#b58900">exit</span> <span style="color:#2aa198">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># switch to the desired ruby version</span>
+</span></span><span style="display:flex;"><span>  chruby <span style="color:#268bd2">$ver</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># Sets the GEM_HOME environment variable to `$PWD/.direnv/ruby/RUBY_VERSION`.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># This forces the installation of any gems into the project’s sub-folder. If</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># you’re using bundler it will create wrapper programs that can be invoked</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># directly instead of using the `bundle exec` prefix.</span>
+</span></span><span style="display:flex;"><span>  layout_ruby
+</span></span><span style="display:flex;"><span><span style="color:#719e07">}</span></span></span></code></pre></div>
 <p>Thanks to <a href="http://tooky.co.uk/using-direnv-and-chruby-together/">Steve Tooke</a>
 for most of the above.</p>
 <p>So one of my projects is a Rails app. It&rsquo;s <code>.envrc</code> looks like:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#586e75"># .envrc for a Rails project</span>
-<span style="color:#b58900">export</span> <span style="color:#268bd2">RUBY_GC_MALLOC_LIMIT</span><span style="color:#719e07">=</span><span style="color:#2aa198">90000000</span>
-<span style="color:#b58900">export</span> <span style="color:#268bd2">RUBY_GC_HEAP_FREE_SLOTS</span><span style="color:#719e07">=</span><span style="color:#2aa198">200000</span>
-
-use ruby 2.2.4</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#586e75"># .envrc for a Rails project</span>
+</span></span><span style="display:flex;"><span><span style="color:#b58900">export</span> <span style="color:#268bd2">RUBY_GC_MALLOC_LIMIT</span><span style="color:#719e07">=</span><span style="color:#2aa198">90000000</span>
+</span></span><span style="display:flex;"><span><span style="color:#b58900">export</span> <span style="color:#268bd2">RUBY_GC_HEAP_FREE_SLOTS</span><span style="color:#719e07">=</span><span style="color:#2aa198">200000</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>use ruby 2.2.4</span></span></code></pre></div>
 <p>This sets some environment variables suitable for testing and switches my Ruby
 environment around. I get Ruby version 2.2.4 and GEM_HOME, GEM_PATH, and
 GEM_ROOT adjusted to bring in global gems from the 2.2.4 install and
@@ -214,31 +214,31 @@ I recommend adding <code>.direnv</code> to your project&rsquo;s <code>.gitignore
 is to <a href="https://downloads.chef.io/chef-dk/">install the Chef DK</a>. Chef DK
 includes its own embedded Ruby and gem environment and <code>chruby</code> knows nothing
 about it. We can use <code>direnv</code> to twiddle the environment for Chef projects.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#586e75"># add to ~/.direnvrc</span>
-use_chefdk<span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
-  <span style="color:#268bd2">EXPANDED_HOME</span><span style="color:#719e07">=</span><span style="color:#586e75">`</span>expand_path ~<span style="color:#586e75">`</span>
-
-  <span style="color:#586e75"># Override the GEM environment</span>
-
-  log_status <span style="color:#2aa198">&#34;Overriding default Ruby environment to use ChefDK&#34;</span>
-  <span style="color:#268bd2">RUBY_ABI_VERSION</span><span style="color:#719e07">=</span><span style="color:#586e75">`</span>ls /opt/chefdk/embedded/lib/ruby/gems/<span style="color:#586e75">`</span>
-  <span style="color:#b58900">export</span> <span style="color:#268bd2">GEM_ROOT</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;/opt/chefdk/embedded/lib/ruby/gems/</span><span style="color:#268bd2">$RUBY_ABI_VERSION</span><span style="color:#2aa198">&#34;</span>
-  <span style="color:#b58900">export</span> <span style="color:#268bd2">GEM_HOME</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$EXPANDED_HOME</span><span style="color:#2aa198">/.chefdk/gem/ruby/</span><span style="color:#268bd2">$RUBY_ABI_VERSION</span><span style="color:#2aa198">&#34;</span>
-  <span style="color:#b58900">export</span> <span style="color:#268bd2">GEM_PATH</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$EXPANDED_HOME</span><span style="color:#2aa198">/.chefdk/gem/ruby/</span><span style="color:#268bd2">$RUBY_ABI_VERSION</span><span style="color:#2aa198">:/opt/chefdk/embedded/lib/ruby/gems/</span><span style="color:#268bd2">$RUBY_ABI_VERSION</span><span style="color:#2aa198">&#34;</span>
-
-  <span style="color:#586e75"># Ensure ChefDK and its embedded tools are first in the PATH</span>
-
-  log_status <span style="color:#2aa198">&#34;Ensuring ChefDK and it&#39;s embedded tools are first in the PATH&#34;</span>
-
-  PATH_add <span style="color:#268bd2">$EXPANDED_HOME</span>/.chefdk/gem/ruby/<span style="color:#268bd2">$RUBY_ABI_VERSION</span>/bin/
-  PATH_add /opt/chefdk/embedded/bin
-  PATH_add /opt/chefdk/bin
-<span style="color:#719e07">}</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#586e75"># add to ~/.direnvrc</span>
+</span></span><span style="display:flex;"><span>use_chefdk<span style="color:#719e07">()</span> <span style="color:#719e07">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">EXPANDED_HOME</span><span style="color:#719e07">=</span><span style="color:#586e75">`</span>expand_path ~<span style="color:#586e75">`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># Override the GEM environment</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  log_status <span style="color:#2aa198">&#34;Overriding default Ruby environment to use ChefDK&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">RUBY_ABI_VERSION</span><span style="color:#719e07">=</span><span style="color:#586e75">`</span>ls /opt/chefdk/embedded/lib/ruby/gems/<span style="color:#586e75">`</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#b58900">export</span> <span style="color:#268bd2">GEM_ROOT</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;/opt/chefdk/embedded/lib/ruby/gems/</span><span style="color:#268bd2">$RUBY_ABI_VERSION</span><span style="color:#2aa198">&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#b58900">export</span> <span style="color:#268bd2">GEM_HOME</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$EXPANDED_HOME</span><span style="color:#2aa198">/.chefdk/gem/ruby/</span><span style="color:#268bd2">$RUBY_ABI_VERSION</span><span style="color:#2aa198">&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#b58900">export</span> <span style="color:#268bd2">GEM_PATH</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;</span><span style="color:#268bd2">$EXPANDED_HOME</span><span style="color:#2aa198">/.chefdk/gem/ruby/</span><span style="color:#268bd2">$RUBY_ABI_VERSION</span><span style="color:#2aa198">:/opt/chefdk/embedded/lib/ruby/gems/</span><span style="color:#268bd2">$RUBY_ABI_VERSION</span><span style="color:#2aa198">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#586e75"># Ensure ChefDK and its embedded tools are first in the PATH</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  log_status <span style="color:#2aa198">&#34;Ensuring ChefDK and it&#39;s embedded tools are first in the PATH&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  PATH_add <span style="color:#268bd2">$EXPANDED_HOME</span>/.chefdk/gem/ruby/<span style="color:#268bd2">$RUBY_ABI_VERSION</span>/bin/
+</span></span><span style="display:flex;"><span>  PATH_add /opt/chefdk/embedded/bin
+</span></span><span style="display:flex;"><span>  PATH_add /opt/chefdk/bin
+</span></span><span style="display:flex;"><span><span style="color:#719e07">}</span></span></span></code></pre></div>
 <p>Thanks to <a href="https://github.com/schisamo">Seth Chisamore</a> for the Chef DK
 function.</p>
 <p>Now my <code>.envrc</code> files in Chef projects have a line like this:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#586e75"># .envrc in a Chef project</span>
-use chefdk</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#586e75"># .envrc in a Chef project</span>
+</span></span><span style="display:flex;"><span>use chefdk</span></span></code></pre></div>
 <p>It&rsquo;s working for now and I can happily switch between Chef DK projects and
 projects needing their own Rubies (e.g. Rails sites).</p>
         </div>
@@ -346,6 +346,19 @@ I am only a wannabe drummer.</p>
   
 
   
+    
+      <section class="odd">
+        
+          <h1>Linkages</h1>
+        
+        
+          <li>
+            <a href="https://hachyderm.io/@robbkidd" title="🐘 Mastodon" >🐘 Mastodon</a>
+          </li>
+        
+      </section>
+    
+  
 
   
   
@@ -396,7 +409,7 @@ I am only a wannabe drummer.</p>
 </div>
 
     <footer role="contentinfo">
-      <p>Copyright &copy; 2020 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
+      <p>Copyright &copy; 2022 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
         <span class="credit">Powered by <a target="_blank" href="https://gohugo.io">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/">Hugo-Octopress</a> theme.
       </p>
     </footer>

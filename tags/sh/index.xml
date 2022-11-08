@@ -6,11 +6,7 @@
     <description>Recent content in sh on Slightly Ahead of Behind the Curve</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Sep 2019 19:47:44 -0500</lastBuildDate>
-    
-	<atom:link href="http://www.thekidds.org/tags/sh/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 07 Sep 2019 19:47:44 -0500</lastBuildDate><atom:link href="http://www.thekidds.org/tags/sh/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Multi-Shell Shebangery</title>
       <link>http://www.thekidds.org/blog/2019/09/07/multi-shell-shebangery/</link>

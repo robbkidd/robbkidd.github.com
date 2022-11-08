@@ -6,11 +6,7 @@
     <description>Recent content in CentOS on Slightly Ahead of Behind the Curve</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 11 Jul 2011 18:55:55 -0400</lastBuildDate>
-    
-	<atom:link href="http://www.thekidds.org/tags/centos/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 11 Jul 2011 18:55:55 -0400</lastBuildDate><atom:link href="http://www.thekidds.org/tags/centos/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Give Your Gems Some Context for SELinux</title>
       <link>http://www.thekidds.org/blog/2011/07/11/give-your-gems-some-context-for-selinux/</link>

@@ -38,7 +38,7 @@
   <meta name="author" content="Robb Kidd">
 
   
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.105.0">
 
   
   
@@ -139,54 +139,54 @@ check the current names for your tables and their sequences. Prior to
 Active Record 3.2.7, renaming a table did not rename the associated
 sequence for the table&rsquo;s primary key.</p>
 <p>A demonstration may be in order.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">robb@neoldian ~/code/pg_seq &gt; rails generate model Product name:string description:text
-      invoke  active_record
-      create    db/migrate/20120727210734_create_products.rb
-      create    app/models/product.rb
-      invoke    test_unit
-      create      test/unit/product_test.rb
-      create      test/fixtures/products.yml
-
-robb@neoldian ~/code/pg_seq &gt; rake db:migrate
-==  CreateProducts: migrating =================================================
--- create_table(:products)
-NOTICE:  CREATE TABLE will create implicit sequence &#34;products_id_seq&#34; for serial column &#34;products.id&#34;
-NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index &#34;products_pkey&#34; for table &#34;products&#34;
-   -&gt; 0.0194s
-==  CreateProducts: migrated (0.0196s) ========================================</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>robb@neoldian ~/code/pg_seq &gt; rails generate model Product name:string description:text
+</span></span><span style="display:flex;"><span>      invoke  active_record
+</span></span><span style="display:flex;"><span>      create    db/migrate/20120727210734_create_products.rb
+</span></span><span style="display:flex;"><span>      create    app/models/product.rb
+</span></span><span style="display:flex;"><span>      invoke    test_unit
+</span></span><span style="display:flex;"><span>      create      test/unit/product_test.rb
+</span></span><span style="display:flex;"><span>      create      test/fixtures/products.yml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>robb@neoldian ~/code/pg_seq &gt; rake db:migrate
+</span></span><span style="display:flex;"><span>==  CreateProducts: migrating =================================================
+</span></span><span style="display:flex;"><span>-- create_table(:products)
+</span></span><span style="display:flex;"><span>NOTICE:  CREATE TABLE will create implicit sequence &#34;products_id_seq&#34; for serial column &#34;products.id&#34;
+</span></span><span style="display:flex;"><span>NOTICE:  CREATE TABLE / PRIMARY KEY will create implicit index &#34;products_pkey&#34; for table &#34;products&#34;
+</span></span><span style="display:flex;"><span>   -&gt; 0.0194s
+</span></span><span style="display:flex;"><span>==  CreateProducts: migrated (0.0196s) ========================================</span></span></code></pre></div>
 <p>Note that on line 11 the <code>CREATE TABLE</code> created an implicit sequence
 <code>products_id_seq</code> for serial column <code>products.id</code>.</p>
 <p>Let&rsquo;s rename the table.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">robb@neoldian ~/code/pg_seq &gt; rails generate migration RenameProductsToWidgets
-      invoke  active_record
-      create    db/migrate/20120727211235_rename_products_to_widgets.rb</code></pre></div>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#586e75"># db/migrate/20120727211235_rename_products_to_widgets.rb</span>
-<span style="color:#719e07">class</span> <span style="color:#268bd2">RenameProductsToWidgets</span> <span style="color:#719e07">&lt;</span> <span style="color:#cb4b16">ActiveRecord</span><span style="color:#719e07">::</span><span style="color:#cb4b16">Migration</span>
-  <span style="color:#719e07">def</span> <span style="color:#268bd2">up</span>
-    rename_table <span style="color:#2aa198">:products</span>, <span style="color:#2aa198">:widgets</span>
-  <span style="color:#719e07">end</span>
-
-  <span style="color:#719e07">def</span> <span style="color:#268bd2">down</span>
-    rename_table <span style="color:#2aa198">:widgets</span>, <span style="color:#2aa198">:products</span>
-  <span style="color:#719e07">end</span>
-<span style="color:#719e07">end</span></code></pre></div>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">robb@neoldian ~/code/pg_seq &gt; rake db:migrate
-==  RenameProductsToWidgets: migrating ========================================
--- rename_table(:products, :widgets)
-   -&gt; 0.0019s
-==  RenameProductsToWidgets: migrated (0.0020s) ===============================</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>robb@neoldian ~/code/pg_seq &gt; rails generate migration RenameProductsToWidgets
+</span></span><span style="display:flex;"><span>      invoke  active_record
+</span></span><span style="display:flex;"><span>      create    db/migrate/20120727211235_rename_products_to_widgets.rb</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#586e75"># db/migrate/20120727211235_rename_products_to_widgets.rb</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">class</span> <span style="color:#268bd2">RenameProductsToWidgets</span> <span style="color:#719e07">&lt;</span> <span style="color:#cb4b16">ActiveRecord</span><span style="color:#719e07">::</span><span style="color:#cb4b16">Migration</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">def</span> <span style="color:#268bd2">up</span>
+</span></span><span style="display:flex;"><span>    rename_table <span style="color:#2aa198">:products</span>, <span style="color:#2aa198">:widgets</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">def</span> <span style="color:#268bd2">down</span>
+</span></span><span style="display:flex;"><span>    rename_table <span style="color:#2aa198">:widgets</span>, <span style="color:#2aa198">:products</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">end</span></span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>robb@neoldian ~/code/pg_seq &gt; rake db:migrate
+</span></span><span style="display:flex;"><span>==  RenameProductsToWidgets: migrating ========================================
+</span></span><span style="display:flex;"><span>-- rename_table(:products, :widgets)
+</span></span><span style="display:flex;"><span>   -&gt; 0.0019s
+</span></span><span style="display:flex;"><span>==  RenameProductsToWidgets: migrated (0.0020s) ===============================</span></span></code></pre></div>
 <p>What do you expect the sequence for the <code>id</code> column in the <code>widgets</code>
 table to be named at this point? <code>widgets_id_seq</code>?</p>
-<pre><code>                                      Table &quot;public.widgets&quot;
+<pre tabindex="0"><code>                                      Table &#34;public.widgets&#34;
    Column    |            Type             |                       Modifiers
 -------------+-----------------------------+-------------------------------------------------------
- id          | integer                     | not null default nextval('products_id_seq'::regclass)
+ id          | integer                     | not null default nextval(&#39;products_id_seq&#39;::regclass)
  name        | character varying(255)      |
  description | text                        |
  created_at  | timestamp without time zone | not null
  updated_at  | timestamp without time zone | not null
 Indexes:
-    &quot;products_pkey&quot; PRIMARY KEY, btree (id)
+    &#34;products_pkey&#34; PRIMARY KEY, btree (id)
 </code></pre><p>The who the what?</p>
 <p>On line 4, the next value for the <code>widgets.id</code> column is coming
 from a sequence named <code>products_id_seq</code>. This is not catastrophic
@@ -202,16 +202,16 @@ business is to get that index renamed, too.)</p>
 <p>So you might want to go take a look at your PostgreSQL tables. Their sequences
 probably have names that do not make any sense now.</p>
 <p>You can use this method in your Rails console as a quick way to check.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#719e07">def</span> <span style="color:#268bd2">check_table_and_sequence_names</span>
-  connection <span style="color:#719e07">=</span> <span style="color:#cb4b16">ActiveRecord</span><span style="color:#719e07">::</span><span style="color:#cb4b16">Base</span><span style="color:#719e07">.</span>connection
-  <span style="color:#719e07">if</span> connection<span style="color:#719e07">.</span>adapter_name <span style="color:#719e07">==</span> <span style="color:#2aa198">&#34;PostgreSQL&#34;</span>
-    table_names <span style="color:#719e07">=</span> connection<span style="color:#719e07">.</span>tables<span style="color:#719e07">.</span>keep_if { <span style="color:#719e07">|</span>t<span style="color:#719e07">|</span> t <span style="color:#719e07">!~</span> <span style="color:#dc322f">/schema_migrations/</span> }
-    table_names<span style="color:#719e07">.</span>map { <span style="color:#719e07">|</span>t<span style="color:#719e07">|</span> <span style="color:#719e07">[</span>t, connection<span style="color:#719e07">.</span>pk_and_sequence_for(t)<span style="color:#719e07">].</span>flatten }
-  <span style="color:#719e07">end</span>
-<span style="color:#719e07">end</span>
-
-check_table_and_sequence_names
-<span style="color:#586e75"># =&gt; [[&#34;tablename&#34;, &#34;primarykeyname&#34;, &#34;sequencename&#34;]]</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#719e07">def</span> <span style="color:#268bd2">check_table_and_sequence_names</span>
+</span></span><span style="display:flex;"><span>  connection <span style="color:#719e07">=</span> <span style="color:#cb4b16">ActiveRecord</span><span style="color:#719e07">::</span><span style="color:#cb4b16">Base</span><span style="color:#719e07">.</span>connection
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">if</span> connection<span style="color:#719e07">.</span>adapter_name <span style="color:#719e07">==</span> <span style="color:#2aa198">&#34;PostgreSQL&#34;</span>
+</span></span><span style="display:flex;"><span>    table_names <span style="color:#719e07">=</span> connection<span style="color:#719e07">.</span>tables<span style="color:#719e07">.</span>keep_if { <span style="color:#719e07">|</span>t<span style="color:#719e07">|</span> t <span style="color:#719e07">!~</span> <span style="color:#dc322f">/schema_migrations/</span> }
+</span></span><span style="display:flex;"><span>    table_names<span style="color:#719e07">.</span>map { <span style="color:#719e07">|</span>t<span style="color:#719e07">|</span> <span style="color:#719e07">[</span>t, connection<span style="color:#719e07">.</span>pk_and_sequence_for(t)<span style="color:#719e07">].</span>flatten }
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>check_table_and_sequence_names
+</span></span><span style="display:flex;"><span><span style="color:#586e75"># =&gt; [[&#34;tablename&#34;, &#34;primarykeyname&#34;, &#34;sequencename&#34;]]</span></span></span></code></pre></div>
         </div>
         
 
@@ -317,6 +317,19 @@ I am only a wannabe drummer.</p>
   
 
   
+    
+      <section class="odd">
+        
+          <h1>Linkages</h1>
+        
+        
+          <li>
+            <a href="https://hachyderm.io/@robbkidd" title="🐘 Mastodon" >🐘 Mastodon</a>
+          </li>
+        
+      </section>
+    
+  
 
   
   
@@ -367,7 +380,7 @@ I am only a wannabe drummer.</p>
 </div>
 
     <footer role="contentinfo">
-      <p>Copyright &copy; 2020 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
+      <p>Copyright &copy; 2022 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
         <span class="credit">Powered by <a target="_blank" href="https://gohugo.io">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/">Hugo-Octopress</a> theme.
       </p>
     </footer>

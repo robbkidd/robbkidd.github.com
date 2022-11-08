@@ -38,7 +38,7 @@
   <meta name="author" content="Robb Kidd">
 
   
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.105.0">
 
   
   
@@ -148,31 +148,31 @@ of services running on localhost.</p>
 <h2 id="postgresql">PostgreSQL</h2>
 <p>For PostgreSQL, we update the database configuration to accept an IP address
 from an environment variable, otherwise use localhost as it did before.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#586e75"># config/database.yml</span>
-<span style="color:#719e07">development</span>:
-  <span style="color:#719e07">adapter</span>: postgresql
-  <span style="color:#719e07">database</span>: derelicte_development
-  <span style="color:#719e07">host</span>: &lt;%= ENV[<span style="color:#2aa198">&#39;POSTGRES_IP&#39;</span>] || <span style="color:#2aa198">&#39;localhost&#39;</span> %<span style="color:#2aa198">&gt;
-</span><span style="color:#2aa198">  pool: 30</span>
-
-<span style="color:#719e07">test</span>:
-  <span style="color:#719e07">adapter</span>: postgresql
-  <span style="color:#719e07">database</span>: derelicte_test
-  <span style="color:#719e07">host</span>: &lt;%= ENV[<span style="color:#2aa198">&#39;POSTGRES_IP&#39;</span>] || <span style="color:#2aa198">&#39;localhost&#39;</span> %&gt;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#586e75"># config/database.yml</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">development</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">adapter</span>: postgresql
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">database</span>: derelicte_development
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">host</span>: &lt;%= ENV[&#39;POSTGRES_IP&#39;] || &#39;localhost&#39; %&gt;
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">pool</span>: <span style="color:#2aa198">30</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">test</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">adapter</span>: postgresql
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">database</span>: derelicte_test
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">host</span>: &lt;%= ENV[&#39;POSTGRES_IP&#39;] || &#39;localhost&#39; %&gt;</span></span></code></pre></div>
 <p>NOTE: We will still need a version of PostgreSQL installed—but not services
 <em>running</em>—on the local filesystem for development libraries to be available to
 be able to build the <code>pg</code> gem. Configure bundler to know where to find
 PostgreSQL libraries. For example, we have
 <a href="https://www.codefellows.org/blog/three-battle-tested-ways-to-install-postgresql">PostgreSQL installed via Homebrew</a>,
 so we run the following to configure bundler:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$ bundle config build.pg --with-pg-config=/usr/local/bin/pg_config</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>$ bundle config build.pg --with-pg-config=/usr/local/bin/pg_config</span></span></code></pre></div>
 <h2 id="redis">Redis</h2>
 <p>Our application had long received the Redis connection information via an
 environment variable in an initializer.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#586e75"># config/initializers/redis.rb</span>
-<span style="color:#586e75"># ...</span>
-  redis_url <span style="color:#719e07">=</span> <span style="color:#cb4b16">ENV</span><span style="color:#719e07">[</span><span style="color:#2aa198">&#39;REDIS_URL&#39;</span><span style="color:#719e07">]</span> <span style="color:#719e07">||</span> <span style="color:#2aa198">&#39;redis://localhost:6379/0/derelicte&#39;</span>
-<span style="color:#586e75"># ...</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#586e75"># config/initializers/redis.rb</span>
+</span></span><span style="display:flex;"><span><span style="color:#586e75"># ...</span>
+</span></span><span style="display:flex;"><span>  redis_url <span style="color:#719e07">=</span> <span style="color:#cb4b16">ENV</span><span style="color:#719e07">[</span><span style="color:#2aa198">&#39;REDIS_URL&#39;</span><span style="color:#719e07">]</span> <span style="color:#719e07">||</span> <span style="color:#2aa198">&#39;redis://localhost:6379/0/derelicte&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#586e75"># ...</span></span></span></code></pre></div>
 <h1 id="services-in-docker">Services in Docker</h1>
 <p>With the application configurable by environment variables (but with sensible
 defaults), we can move on to installing Docker and getting the services running.</p>
@@ -188,88 +188,88 @@ uses. Virtualbox is the easiest to get started with.</p>
 <p>Install <code>docker-machine</code> and <code>docker</code>. With <a href="http://brew.sh/">Homebrew</a>:</p>
 </li>
 </ul>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># install the things
-$ brew install docker docker-machine</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span># install the things
+</span></span><span style="display:flex;"><span>$ brew install docker docker-machine</span></span></code></pre></div>
 <ul>
 <li>Create a <code>docker-machine</code> VM on which to run Docker services. The following command assumes your hypervisor is VirtualBox and that you will name this host &ldquo;default&rdquo;.</li>
 </ul>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># create the docker-machine VM
-$ docker-machine create --driver virtualbox default</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span># create the docker-machine VM
+</span></span><span style="display:flex;"><span>$ docker-machine create --driver virtualbox default</span></span></code></pre></div>
 <ul>
 <li>Set the environment variables for the application configuration. This can be
 done by hand or we can automate the setup with something like <code>direnv</code>. See
 <a href="/blog/2016/03/07/closer-to-environmental-bliss-with-direnv">Closer to Environmental Bliss with Direnv</a> for more on direnv.</li>
 </ul>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#586e75"># environment setup</span>
-<span style="color:#b58900">eval</span> <span style="color:#719e07">$(</span>docker-machine env default<span style="color:#719e07">)</span>
-<span style="color:#b58900">export</span> <span style="color:#268bd2">DOCKER_IP</span><span style="color:#719e07">=</span><span style="color:#719e07">$(</span>docker-machine ip default<span style="color:#719e07">)</span>
-<span style="color:#b58900">export</span> <span style="color:#268bd2">POSTGRES_IP</span><span style="color:#719e07">=</span><span style="color:#268bd2">$DOCKER_IP</span>
-<span style="color:#b58900">export</span> <span style="color:#268bd2">REDIS_URL</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;redis://</span><span style="color:#2aa198">${</span><span style="color:#268bd2">DOCKER_IP</span><span style="color:#2aa198">}</span><span style="color:#2aa198">:6379/0/derelicte&#34;</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#586e75"># environment setup</span>
+</span></span><span style="display:flex;"><span><span style="color:#b58900">eval</span> <span style="color:#719e07">$(</span>docker-machine env default<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#b58900">export</span> <span style="color:#268bd2">DOCKER_IP</span><span style="color:#719e07">=</span><span style="color:#719e07">$(</span>docker-machine ip default<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#b58900">export</span> <span style="color:#268bd2">POSTGRES_IP</span><span style="color:#719e07">=</span><span style="color:#268bd2">$DOCKER_IP</span>
+</span></span><span style="display:flex;"><span><span style="color:#b58900">export</span> <span style="color:#268bd2">REDIS_URL</span><span style="color:#719e07">=</span><span style="color:#2aa198">&#34;redis://</span><span style="color:#2aa198">${</span><span style="color:#268bd2">DOCKER_IP</span><span style="color:#2aa198">}</span><span style="color:#2aa198">:6379/0/derelicte&#34;</span></span></span></code></pre></div>
 <h2 id="manage-the-services">Manage the Services</h2>
 <p>Now we can use <code>docker</code> to control the Docker services running in the <code>default</code>
 Docker Machine VM. Now we can actually run PostgreSQL and Redis.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># test docker command
-$ docker info</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span># test docker command
+</span></span><span style="display:flex;"><span>$ docker info</span></span></code></pre></div>
 <p>That should return lots of information about the running Docker services in the
 VM.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># start postgresql
-$ docker run \
-      --detach=true \
-      --env POSTGRES_USER=$USER  \
-      --publish 5432:5432 \
-      --name derelicte-pg \
-      postgres:9.3</code></pre></div>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># start redis
-$ docker run \
-      --detach=true \
-      --publish 6379:6379 \
-      --name derelicte-redis \
-      redis:3.0</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span># start postgresql
+</span></span><span style="display:flex;"><span>$ docker run \
+</span></span><span style="display:flex;"><span>      --detach=true \
+</span></span><span style="display:flex;"><span>      --env POSTGRES_USER=$USER  \
+</span></span><span style="display:flex;"><span>      --publish 5432:5432 \
+</span></span><span style="display:flex;"><span>      --name derelicte-pg \
+</span></span><span style="display:flex;"><span>      postgres:9.3</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span># start redis
+</span></span><span style="display:flex;"><span>$ docker run \
+</span></span><span style="display:flex;"><span>      --detach=true \
+</span></span><span style="display:flex;"><span>      --publish 6379:6379 \
+</span></span><span style="display:flex;"><span>      --name derelicte-redis \
+</span></span><span style="display:flex;"><span>      redis:3.0</span></span></code></pre></div>
 <p>These <code>docker run</code> commands retrieve already configured container images from
 DockerHub and runs them. Ports are forwarded from the running containers to the
 Docker Machine VM&rsquo;s network interface. The commands are a bit long, so I
 recommend scripting them, possibly by adding them to a rake task like
 <code>setup:docker</code>. Maybe go a step further and have a rake task that chains the
 docker runs with <code>db:create</code>, <code>db:migrate</code>, <code>db:test:prepare</code>.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># check on running containers
-$ docker ps
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
-9ca2dbac647e        redis:3.0           &#34;/entrypoint.sh redis&#34;   4 seconds ago       Up 3 seconds        0.0.0.0:6379-&gt;6379/tcp   derelicte-redis
-5009b1db0c08        postgres:9.3        &#34;/docker-entrypoint.s&#34;   4 seconds ago       Up 3 seconds        0.0.0.0:5432-&gt;5432/tcp   derelicte-pg</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span># check on running containers
+</span></span><span style="display:flex;"><span>$ docker ps
+</span></span><span style="display:flex;"><span>CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+</span></span><span style="display:flex;"><span>9ca2dbac647e        redis:3.0           &#34;/entrypoint.sh redis&#34;   4 seconds ago       Up 3 seconds        0.0.0.0:6379-&gt;6379/tcp   derelicte-redis
+</span></span><span style="display:flex;"><span>5009b1db0c08        postgres:9.3        &#34;/docker-entrypoint.s&#34;   4 seconds ago       Up 3 seconds        0.0.0.0:5432-&gt;5432/tcp   derelicte-pg</span></span></code></pre></div>
 <p>At this point, with the application configured and the services running, we can
 start running tests and a development server on the workstation. PostgreSQL and
 Redis are safely listening on a host-only interface on the Docker Machine VM. To
 scrap the services and start fresh, stop the containers individually.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># blow away the database and redis containers - WILL LOSE DATA
-$ docker rm -f derelicte-redis
-$ docker rm -f derelicte-pg
-$ docker ps
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span># blow away the database and redis containers - WILL LOSE DATA
+</span></span><span style="display:flex;"><span>$ docker rm -f derelicte-redis
+</span></span><span style="display:flex;"><span>$ docker rm -f derelicte-pg
+</span></span><span style="display:flex;"><span>$ docker ps
+</span></span><span style="display:flex;"><span>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span></span></code></pre></div>
 <p>Then, if those run commands are in a rake task:</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># run those containers again
-$ time be rake setup:docker
-# lotsa output
-8fb8df60a4aea74d84c87be8a16b10315c8d269e5c44b34df74ff53c76738357
-d5f363fe1940fe39257c7a5f488d1c6007644c24039f091b634d5857ed69ab34
-bundle exec rake setup:docker  2.61s user 0.93s system 91% cpu 3.868 total
-
-$ time be rake db:create db:migrate db:seed db:test:prepare
-# a lot more output
-bundle exec rake db:create db:migrate db:seed db:test:prepare  4.41s user 1.64s system 73% cpu 8.175 total</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span># run those containers again
+</span></span><span style="display:flex;"><span>$ time be rake setup:docker
+</span></span><span style="display:flex;"><span># lotsa output
+</span></span><span style="display:flex;"><span>8fb8df60a4aea74d84c87be8a16b10315c8d269e5c44b34df74ff53c76738357
+</span></span><span style="display:flex;"><span>d5f363fe1940fe39257c7a5f488d1c6007644c24039f091b634d5857ed69ab34
+</span></span><span style="display:flex;"><span>bundle exec rake setup:docker  2.61s user 0.93s system 91% cpu 3.868 total
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ time be rake db:create db:migrate db:seed db:test:prepare
+</span></span><span style="display:flex;"><span># a lot more output
+</span></span><span style="display:flex;"><span>bundle exec rake db:create db:migrate db:seed db:test:prepare  4.41s user 1.64s system 73% cpu 8.175 total</span></span></code></pre></div>
 <p>Aww yeah, 4 second recreate and 8 second setup and we&rsquo;re ready to test.</p>
-<p><img src="/images/beautiful.gif" alt="It&rsquo;s beautiful!"></p>
+<p><img src="/images/beautiful.gif" alt="It&amp;rsquo;s beautiful!"></p>
 <p>We can blow away the entire Docker Machine VM for even more pave-the-earth
 destruction, but this will destroy <em>all</em> the containers in that VM and will
 lengthen the next startup because images will need to be downloaded from
 DockerHub again. Beware if using the same Docker Machine for more than
 one project.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># destroy and recreate the docker machine
-$ docker-machine rm default
-About to remove default
-Are you sure? (y/n): y
-Successfully removed default
-
-$ docker-machine create -d virtualbox default</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span># destroy and recreate the docker machine
+</span></span><span style="display:flex;"><span>$ docker-machine rm default
+</span></span><span style="display:flex;"><span>About to remove default
+</span></span><span style="display:flex;"><span>Are you sure? (y/n): y
+</span></span><span style="display:flex;"><span>Successfully removed default
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ docker-machine create -d virtualbox default</span></span></code></pre></div>
 <p>We should reinitialize the environment variables set earlier—super handy if you
 control them with direnv: <code>direnv reload</code>—because the docker-machine IP may have
 changed after being recreated.</p>
@@ -378,6 +378,19 @@ I am only a wannabe drummer.</p>
   
 
   
+    
+      <section class="odd">
+        
+          <h1>Linkages</h1>
+        
+        
+          <li>
+            <a href="https://hachyderm.io/@robbkidd" title="🐘 Mastodon" >🐘 Mastodon</a>
+          </li>
+        
+      </section>
+    
+  
 
   
   
@@ -428,7 +441,7 @@ I am only a wannabe drummer.</p>
 </div>
 
     <footer role="contentinfo">
-      <p>Copyright &copy; 2020 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
+      <p>Copyright &copy; 2022 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
         <span class="credit">Powered by <a target="_blank" href="https://gohugo.io">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/">Hugo-Octopress</a> theme.
       </p>
     </footer>

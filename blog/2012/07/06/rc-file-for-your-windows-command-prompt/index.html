@@ -38,7 +38,7 @@
   <meta name="author" content="Robb Kidd">
 
   
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.105.0">
 
   
   
@@ -135,24 +135,24 @@
           
           
           <p>I had trouble today with my Windows <code>%HOME%</code> changing and throwing off
-<a href="http://vagrantup.com">Vagrant</a>&lsquo;s awareness of what boxes are installed.
+<a href="http://vagrantup.com">Vagrant</a>&rsquo;s awareness of what boxes are installed.
 This may be your problem if Vagrant on Windows was working happily for
 you and then barks about no boxes.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">C:\Users\you&gt; vagrant box list
-There are no installed boxes! Use `vagrant box add` to add some.
-
-C:\Users\you&gt;dir /b .vagrant.d\boxes
-base-i-really-exist
-centos-does-too
-
-C:\Users\you&gt;echo %HOME%
-&lt;somewhere not C:\Users\you&gt;
-
-C:\Users\you&gt;set HOME=%USERPROFILE%
-
-C:\Users\you&gt;vagrant box list
-base-i-really-exist
-centos-does-too</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>C:\Users\you&gt; vagrant box list
+</span></span><span style="display:flex;"><span>There are no installed boxes! Use `vagrant box add` to add some.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:\Users\you&gt;dir /b .vagrant.d\boxes
+</span></span><span style="display:flex;"><span>base-i-really-exist
+</span></span><span style="display:flex;"><span>centos-does-too
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:\Users\you&gt;echo %HOME%
+</span></span><span style="display:flex;"><span>&lt;somewhere not C:\Users\you&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:\Users\you&gt;set HOME=%USERPROFILE%
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>C:\Users\you&gt;vagrant box list
+</span></span><span style="display:flex;"><span>base-i-really-exist
+</span></span><span style="display:flex;"><span>centos-does-too</span></span></code></pre></div>
 <p><code>%HOME%</code> was different depending on whether I logged into Windows while
 on my Active Directory managed network or while I was offline. When on
 the AD network, <code>%HOME%</code> is set by policy to a mapped drive. When offline,
@@ -162,17 +162,17 @@ were added to <code>%USERPROFILE%/.vagrant.d/</code>. Back in the office and log
 on the AD network, Vagrant was no longer aware of the base boxes because
 <code>%HOME%</code> now pointed at my personal mapped drive.</p>
 <p>Creating a batch file to set <code>%HOME%</code> to <code>%USERPROFILE%</code> solved the problem.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bat" data-lang="bat"># cmdrc.bat
-<span style="color:#586e75">REM %USERPROFILE%/cmdrc.bat</span>
-@<span style="color:#719e07">echo</span> off
-
-<span style="color:#719e07">set</span> <span style="color:#268bd2">HOME</span>=<span style="color:#268bd2">%USERPROFILE%</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span># cmdrc.bat
+</span></span><span style="display:flex;"><span><span style="color:#586e75">REM %USERPROFILE%/cmdrc.bat</span>
+</span></span><span style="display:flex;"><span>@<span style="color:#719e07">echo</span> off
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">set</span> <span style="color:#268bd2">HOME</span>=<span style="color:#268bd2">%USERPROFILE%</span></span></span></code></pre></div>
 <p>For UNIXy goodness, name it <code>cmdrc.bat</code>, place it in <code>%USERPROFILE%</code> and then add the following to the registry so that this file is run whenever a command prompt opens.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">#text cmdrc.reg
-Windows Registry Editor Version 5.00
-
-[HKEY_CURRENT_USER\Software\Microsoft\Command Processor]
-&#34;AutoRun&#34;=&#34;%USERPROFILE%\\cmdrc.bat&#34;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>#text cmdrc.reg
+</span></span><span style="display:flex;"><span>Windows Registry Editor Version 5.00
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[HKEY_CURRENT_USER\Software\Microsoft\Command Processor]
+</span></span><span style="display:flex;"><span>&#34;AutoRun&#34;=&#34;%USERPROFILE%\\cmdrc.bat&#34;</span></span></code></pre></div>
 
         </div>
         
@@ -279,6 +279,19 @@ I am only a wannabe drummer.</p>
   
 
   
+    
+      <section class="odd">
+        
+          <h1>Linkages</h1>
+        
+        
+          <li>
+            <a href="https://hachyderm.io/@robbkidd" title="🐘 Mastodon" >🐘 Mastodon</a>
+          </li>
+        
+      </section>
+    
+  
 
   
   
@@ -329,7 +342,7 @@ I am only a wannabe drummer.</p>
 </div>
 
     <footer role="contentinfo">
-      <p>Copyright &copy; 2020 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
+      <p>Copyright &copy; 2022 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
         <span class="credit">Powered by <a target="_blank" href="https://gohugo.io">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/">Hugo-Octopress</a> theme.
       </p>
     </footer>

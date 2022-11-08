@@ -38,7 +38,7 @@
   <meta name="author" content="Robb Kidd">
 
   
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.105.0">
 
   
   
@@ -135,7 +135,7 @@
           
           
           <p>Are you deploying your Ruby app to Red Hat or CentOS? Is Passenger complaining about not having permission to load the gems you have bundled with your app&ndash;e.g. failed to map segment from shared object: Permission denied&ndash;despite all the basic filesystem permissions looking correct? Would you like to avoid the nearly ubiquitous advice to disable SELinux, thus turning off the security that comes out of the box with SELinux enabled?</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&gt; sudo chcon -R -h -t httpd_sys_content_t &lt;gems path&gt;</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>&gt; sudo chcon -R -h -t httpd_sys_content_t &lt;gems path&gt;</span></span></code></pre></div>
 <ul>
 <li><code>chcon</code> :: Changes the security context for those executables and libraries.</li>
 <li><code>-R</code> :: (recursive) All the files here, please.</li>
@@ -144,13 +144,13 @@
 </ul>
 <p>We deploy with capistrano, so I have added this as a task called after
 <code>bundle:install</code> vendors my gems to <code>&lt;appdir&gt;/shared/bundle</code>.</p>
-<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">namespace <span style="color:#2aa198">:application</span> <span style="color:#719e07">do</span>
-  after <span style="color:#2aa198">&#39;bundle:install&#39;</span>, <span style="color:#2aa198">&#39;application:update_selinux&#39;</span>
-  task <span style="color:#2aa198">:update_selinux</span>, <span style="color:#2aa198">:roles</span> <span style="color:#719e07">=&gt;</span> <span style="color:#2aa198">:web</span> <span style="color:#719e07">do</span>
-    <span style="color:#b58900">puts</span> <span style="color:#2aa198">&#39;Updating SELinux context for bundled gems&#39;</span>
-    run <span style="color:#2aa198">&#34;</span><span style="color:#2aa198">#{</span>try_sudo<span style="color:#2aa198">}</span><span style="color:#2aa198"> chcon -R -h -t httpd_sys_content_t </span><span style="color:#2aa198">#{</span>applicationdir<span style="color:#2aa198">}</span><span style="color:#2aa198">/shared/bundle/&#34;</span>
-  <span style="color:#719e07">end</span>
-<span style="color:#719e07">end</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>namespace <span style="color:#2aa198">:application</span> <span style="color:#719e07">do</span>
+</span></span><span style="display:flex;"><span>  after <span style="color:#2aa198">&#39;bundle:install&#39;</span>, <span style="color:#2aa198">&#39;application:update_selinux&#39;</span>
+</span></span><span style="display:flex;"><span>  task <span style="color:#2aa198">:update_selinux</span>, <span style="color:#2aa198">:roles</span> <span style="color:#719e07">=&gt;</span> <span style="color:#2aa198">:web</span> <span style="color:#719e07">do</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#b58900">puts</span> <span style="color:#2aa198">&#39;Updating SELinux context for bundled gems&#39;</span>
+</span></span><span style="display:flex;"><span>    run <span style="color:#2aa198">&#34;</span><span style="color:#2aa198">#{</span>try_sudo<span style="color:#2aa198">}</span><span style="color:#2aa198"> chcon -R -h -t httpd_sys_content_t </span><span style="color:#2aa198">#{</span>applicationdir<span style="color:#2aa198">}</span><span style="color:#2aa198">/shared/bundle/&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#719e07">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">end</span></span></span></code></pre></div>
 
         </div>
         
@@ -255,6 +255,19 @@ I am only a wannabe drummer.</p>
   
 
   
+    
+      <section class="odd">
+        
+          <h1>Linkages</h1>
+        
+        
+          <li>
+            <a href="https://hachyderm.io/@robbkidd" title="🐘 Mastodon" >🐘 Mastodon</a>
+          </li>
+        
+      </section>
+    
+  
 
   
   
@@ -305,7 +318,7 @@ I am only a wannabe drummer.</p>
 </div>
 
     <footer role="contentinfo">
-      <p>Copyright &copy; 2020 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
+      <p>Copyright &copy; 2022 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
         <span class="credit">Powered by <a target="_blank" href="https://gohugo.io">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/">Hugo-Octopress</a> theme.
       </p>
     </footer>
