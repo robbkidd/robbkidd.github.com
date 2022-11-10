@@ -13,7 +13,8 @@
       <pubDate>Mon, 05 Dec 2016 09:53:44 -0500</pubDate>
       
       <guid>http://www.thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/</guid>
-      <description>&lt;p&gt;Sometimes when packaging a thing in &lt;a href=&#34;https://www.habitat.sh/&#34;&gt;Habitat&lt;/a&gt;, the plan really should not have the version hard-coded if the plan is packaging something from which the version could be computed.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Sometimes when packaging a thing in 
+&lt;a href=&#34;https://www.habitat.sh/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Habitat&lt;/a&gt;, the plan really should not have the version hard-coded if the plan is packaging something from which the version could be computed.&lt;/p&gt;</description>
     </item>
     
   </channel>

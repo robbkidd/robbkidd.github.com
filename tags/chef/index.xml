@@ -13,10 +13,13 @@
       <pubDate>Sat, 19 Apr 2014 12:20:00 -0400</pubDate>
       
       <guid>http://www.thekidds.org/blog/2014/04/19/mind-the-gap-resources/</guid>
-      <description>&lt;p&gt;I spoke this week at &lt;a href=&#34;http://chefconf.opscode.com/chefconf/&#34;&gt;ChefConf&lt;/a&gt;
-about how we use Chef at &lt;a href=&#34;http://www.lgscout.com&#34;&gt;my company&lt;/a&gt; to produce
+      <description>&lt;p&gt;I spoke this week at 
+&lt;a href=&#34;http://chefconf.opscode.com/chefconf/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ChefConf&lt;/a&gt;
+about how we use Chef at 
+&lt;a href=&#34;http://www.lgscout.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;my company&lt;/a&gt; to produce
 an installer for our on-premises product.
-&lt;a href=&#34;https://speakerdeck.com/robbkidd/mind-the-gap&#34;&gt;Slides for the talk&lt;/a&gt; are
+
+&lt;a href=&#34;https://speakerdeck.com/robbkidd/mind-the-gap&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Slides for the talk&lt;/a&gt; are
 up, but not very useful without my rambling that went with them. Instead of
 making attendees madly write down the resources slide, here are links to the
 resources and tools I mentioned in the talk.&lt;/p&gt;</description>

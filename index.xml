@@ -22,7 +22,8 @@
       <pubDate>Fri, 15 May 2020 09:16:06 -0400</pubDate>
       
       <guid>http://www.thekidds.org/recipes/homage-to-bens-chili/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://benschilibowl.com/about&#34;&gt;Ben&amp;rsquo;s Chili Bowl&lt;/a&gt; is an icon in the Washington D.C. community and cuisine. If you&amp;rsquo;re in town, you should visit. Until then, this gets you pretty close.&lt;/p&gt;</description>
+      <description>&lt;p&gt;
+&lt;a href=&#34;https://benschilibowl.com/about&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Ben&amp;rsquo;s Chili Bowl&lt;/a&gt; is an icon in the Washington D.C. community and cuisine. If you&amp;rsquo;re in town, you should visit. Until then, this gets you pretty close.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -31,7 +32,8 @@
       <pubDate>Fri, 15 May 2020 09:05:39 -0400</pubDate>
       
       <guid>http://www.thekidds.org/recipes/garam-masala/</guid>
-      <description>&lt;p&gt;By Raghavan Iyer, via &lt;a href=&#34;https://smile.amazon.com/Indian-Instant-Pot%C2%AE-Cookbook-Traditional-ebook/dp/B075HHYXWF&#34;&gt;Dr. Urvashi Pitre&lt;/a&gt;&lt;/p&gt;
+      <description>&lt;p&gt;By Raghavan Iyer, via 
+&lt;a href=&#34;https://smile.amazon.com/Indian-Instant-Pot%C2%AE-Cookbook-Traditional-ebook/dp/B075HHYXWF&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Dr. Urvashi Pitre&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Makes 1/2 cup&lt;/p&gt;</description>
     </item>
     
@@ -50,7 +52,8 @@
       <pubDate>Mon, 05 Dec 2016 09:53:44 -0500</pubDate>
       
       <guid>http://www.thekidds.org/blog/2016/12/05/computing-a-version-for-a-habitat-package/</guid>
-      <description>&lt;p&gt;Sometimes when packaging a thing in &lt;a href=&#34;https://www.habitat.sh/&#34;&gt;Habitat&lt;/a&gt;, the plan really should not have the version hard-coded if the plan is packaging something from which the version could be computed.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Sometimes when packaging a thing in 
+&lt;a href=&#34;https://www.habitat.sh/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Habitat&lt;/a&gt;, the plan really should not have the version hard-coded if the plan is packaging something from which the version could be computed.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -64,7 +67,8 @@ I used to run those services directly on my Mac OS development workstation, but
 didn&amp;rsquo;t like the untidiness of having services I wasn&amp;rsquo;t using all the time
 running all the time. Or that the default install might leave the services
 listening on all interfaces so that everyone in the coffee shop could poke at my
-test data. (Nah. I&amp;rsquo;ve got a firewall and &lt;a href=&#34;https://www.obdev.at/products/littlesnitch&#34;&gt;so should you&lt;/a&gt;.)
+test data. (Nah. I&amp;rsquo;ve got a firewall and 
+&lt;a href=&#34;https://www.obdev.at/products/littlesnitch&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;so should you&lt;/a&gt;.)
 I figured, &amp;ldquo;Hey, I could use Docker to cordon these services off.&amp;rdquo;&lt;/p&gt;</description>
     </item>
     
@@ -74,7 +78,8 @@ I figured, &amp;ldquo;Hey, I could use Docker to cordon these services off.&amp;
       <pubDate>Mon, 07 Mar 2016 16:10:55 -0500</pubDate>
       
       <guid>http://www.thekidds.org/blog/2016/03/07/closer-to-environmental-bliss-with-direnv/</guid>
-      <description>&lt;p&gt;I was a long time user of &lt;a href=&#34;https://rvm.io/&#34;&gt;RVM&lt;/a&gt; for installing and switching
+      <description>&lt;p&gt;I was a long time user of 
+&lt;a href=&#34;https://rvm.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;RVM&lt;/a&gt; for installing and switching
 Rubies. It made my life pretty easy even as I listened to others struggle with
 it. I was a little uncomfortable putting other things like project-specific
 environment variables in my &lt;code&gt;.rvmrc&lt;/code&gt; files. It seemed dirty, but it worked and I
@@ -99,10 +104,13 @@ I broke down in the shower this morning, I think I probably should.&lt;/p&gt;</d
       <pubDate>Sat, 19 Apr 2014 12:20:00 -0400</pubDate>
       
       <guid>http://www.thekidds.org/blog/2014/04/19/mind-the-gap-resources/</guid>
-      <description>&lt;p&gt;I spoke this week at &lt;a href=&#34;http://chefconf.opscode.com/chefconf/&#34;&gt;ChefConf&lt;/a&gt;
-about how we use Chef at &lt;a href=&#34;http://www.lgscout.com&#34;&gt;my company&lt;/a&gt; to produce
+      <description>&lt;p&gt;I spoke this week at 
+&lt;a href=&#34;http://chefconf.opscode.com/chefconf/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ChefConf&lt;/a&gt;
+about how we use Chef at 
+&lt;a href=&#34;http://www.lgscout.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;my company&lt;/a&gt; to produce
 an installer for our on-premises product.
-&lt;a href=&#34;https://speakerdeck.com/robbkidd/mind-the-gap&#34;&gt;Slides for the talk&lt;/a&gt; are
+
+&lt;a href=&#34;https://speakerdeck.com/robbkidd/mind-the-gap&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Slides for the talk&lt;/a&gt; are
 up, but not very useful without my rambling that went with them. Instead of
 making attendees madly write down the resources slide, here are links to the
 resources and tools I mentioned in the talk.&lt;/p&gt;</description>

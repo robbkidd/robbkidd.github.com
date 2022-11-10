@@ -45,6 +45,12 @@
 
   
   
+
+  
+  
+
+
+
 </head>
 <body>
 
@@ -81,11 +87,11 @@
     
   
     
-      <li><a href="http://www.thekidds.org/recipes/" title="Recipes" >Recipes</a></li>
+      <li><a href="http://www.thekidds.org/recipes/" title="Recipes"  rel="noopener noreferrer">Recipes</a></li>
     
   
     
-      <li><a href="http://www.thekidds.org/tags/" title="Tags" >Tags</a></li>
+      <li><a href="http://www.thekidds.org/tags/" title="Tags"  rel="noopener noreferrer">Tags</a></li>
     
   
 </ul>
@@ -93,13 +99,13 @@
 <ul class="subscription">
   
     
-        <a href="http://www.thekidds.org/index.xml" target="_blank" type="application/rss+xml" title="RSS"><i class="fa fa-rss-square fa-lg"></i></a>
+        <a href="http://www.thekidds.org/index.xml" target="_blank" type="application/rss+xml" title="RSS" rel="noopener noreferrer"><i class="fa fa-rss-square fa-lg"></i></a>
     
   
 </ul>
 
 
-  <form action="https://www.google.com/search" method="get" target="_blank">
+  <form action="https://www.google.com/search" method="get" target="_blank" rel="noopener noreferrer">
     <fieldset role="search">
       <input class="search" type="text" name="q" results="0" placeholder="Search"/>
       <input type="hidden" name="q" value="site:http://www.thekidds.org/" />
@@ -134,33 +140,45 @@
           
           
           
-          <p>I spoke this week at <a href="http://chefconf.opscode.com/chefconf/">ChefConf</a>
-about how we use Chef at <a href="http://www.lgscout.com">my company</a> to produce
+          <p>I spoke this week at 
+<a href="http://chefconf.opscode.com/chefconf/" target="_blank" rel="noopener">ChefConf</a>
+about how we use Chef at 
+<a href="http://www.lgscout.com" target="_blank" rel="noopener">my company</a> to produce
 an installer for our on-premises product.
-<a href="https://speakerdeck.com/robbkidd/mind-the-gap">Slides for the talk</a> are
+
+<a href="https://speakerdeck.com/robbkidd/mind-the-gap" target="_blank" rel="noopener">Slides for the talk</a> are
 up, but not very useful without my rambling that went with them. Instead of
 making attendees madly write down the resources slide, here are links to the
 resources and tools I mentioned in the talk.</p>
 <ul>
-<li><a href="http://vagrantup.com">Vagrant</a> from <a href="http://about.me/mitchellh">Mitchell Hashimoto</a>
+<li>
+<a href="http://vagrantup.com" target="_blank" rel="noopener">Vagrant</a> from 
+<a href="http://about.me/mitchellh" target="_blank" rel="noopener">Mitchell Hashimoto</a>
 and Hashicorp. We use Vagrant in our chef repo to spin up a VM for each of our node
 types and perform chef runs to populate caches of things retrieved from
 the network.</li>
-<li><a href="https://github.com/fgrehm/vagrant-cachier">vagrant-cachier</a> by <a href="http://fabiorehm.com/">Fabio Rehm</a>
+<li>
+<a href="https://github.com/fgrehm/vagrant-cachier" target="_blank" rel="noopener">vagrant-cachier</a> by 
+<a href="http://fabiorehm.com/" target="_blank" rel="noopener">Fabio Rehm</a>
 is used for centralizing the node&rsquo;s Chef cache into a single shared
 folder located in the chef repo. We do not use it for caching APT
 packages.</li>
-<li><a href="https://www.unix-ag.uni-kl.de/~bloch/acng/">apt-cacher-ng</a> (ACNG) is what we
+<li>
+<a href="https://www.unix-ag.uni-kl.de/~bloch/acng/" target="_blank" rel="noopener">apt-cacher-ng</a> (ACNG) is what we
 use for caching APT packages. On one node at chef compile time, ACNG
 is installed and configured. All nodes are configured to <code>apt-get</code> with
 the ACNG node as their proxy. After a successful convergence on all
 nodes, the ACNG cache of downloaded packages is copied into the chef
 repo.</li>
-<li><a href="https://github.com/jordansissel/fpm">fpm</a> by <a href="http://www.semicomplete.com/">Jordan Sissel</a>
+<li>
+<a href="https://github.com/jordansissel/fpm" target="_blank" rel="noopener">fpm</a> by 
+<a href="http://www.semicomplete.com/" target="_blank" rel="noopener">Jordan Sissel</a>
 is the wonderment with which we package our own components and package
 up the chef repo with a chef installer and the populated caches. Super
 time saver for producing a variety of package formats.</li>
-<li><a href="https://matschaffer.github.io/knife-solo/">knife-solo</a> by <a href="http://matschaffer.com/">Mat Schaffer</a>
+<li>
+<a href="https://matschaffer.github.io/knife-solo/" target="_blank" rel="noopener">knife-solo</a> by 
+<a href="http://matschaffer.com/" target="_blank" rel="noopener">Mat Schaffer</a>
 was not explicitly mentioned in the talk, but gets a shout out at the
 end and here. <code>knife-solo</code> has made our lives easier by letting us get
 our chef repo up onto test and staging servers and starting a chef run
@@ -197,23 +215,25 @@ is out chef-solo-oriented world.</li>
   
     
       <div id="disqus_thread"></div>
-<script type="text/javascript">
-  (function() {
-      
-      
-      
-      if (window.location.hostname == "localhost")
-          return;
-
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      var disqus_shortname = 'thekidds-org';
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thekidds-org" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     
   
 </footer>
@@ -248,13 +268,13 @@ I am only a wannabe drummer.</p>
   
   <ul class="sidebar-nav">
     <li class="sidebar-nav-item">
-      <a target="_blank" href="https://github.com/robbkidd/" title="https://github.com/robbkidd/"><i class="fa fa-github fa-3x"></i></a>
+      <a target="_blank" rel="noopener noreferrer" href="https://github.com/robbkidd/" title="https://github.com/robbkidd/"><i class="fa fa-github fa-3x"></i></a>
       
       
-      <a target="_blank" href="https://twitter.com/robbkidd/" title="https://twitter.com/robbkidd/"><i class="fa fa-twitter fa-3x"></i></a>
+      <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/robbkidd/" title="https://twitter.com/robbkidd/"><i class="fa fa-twitter fa-3x"></i></a>
+      <a target="_blank" rel="me noopener noreferrer" href="https://hachyderm.io/@robbkidd" title="https://hachyderm.io/@robbkidd"><i class="fa fa-mastodon fa-3x"></i></a>
       
-        <a target="_blank" href="https://keybase.io/robbkidd/" title="https://keybase.io/robbkidd/"><i class="fa fa-keybase fa-3x"></i></a> 
-      
+        <a target="_blank" rel="noopener noreferrer" href="https://keybase.io/robbkidd/" title="https://keybase.io/robbkidd/"><i class="fa fa-keybase fa-3x"></i></a> 
       
       
       
@@ -270,19 +290,6 @@ I am only a wannabe drummer.</p>
 
   
 
-  
-    
-      <section class="odd">
-        
-          <h1>Linkages</h1>
-        
-        
-          <li>
-            <a href="https://hachyderm.io/@robbkidd" title="🐘 Mastodon" >🐘 Mastodon</a>
-          </li>
-        
-      </section>
-    
   
 
   
@@ -335,9 +342,14 @@ I am only a wannabe drummer.</p>
 
     <footer role="contentinfo">
       <p>Copyright &copy; 2022 Robb Kidd - <a href="http://www.thekidds.org/license/">License</a> -
-        <span class="credit">Powered by <a target="_blank" href="https://gohugo.io">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/">Hugo-Octopress</a> theme.
+        <span class="credit">Powered by <a target="_blank" href="https://gohugo.io" rel="noopener noreferrer">Hugo</a> and <a target="_blank" href="https://github.com/parsiya/hugo-octopress/" rel="noopener noreferrer">Hugo-Octopress</a> theme.
       </p>
     </footer>
+
+    
+    
+
+
 
     
     
