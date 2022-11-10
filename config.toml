@@ -29,11 +29,6 @@ pygmentsStyle = "solarized-dark"
 [permalinks]
 blog = "/blog/:year/:month/:day/:title/" # change the post URL to look like the old ones
 
-[[menu.sidebar]]
-  Name = "🐘 Mastodon"
-  URL = "https://hachyderm.io/@robbkidd"
-  weight = 0
-
 [params]
 
   # --- Start sidebar options ---
@@ -56,13 +51,14 @@ blog = "/blog/:year/:month/:day/:title/" # change the post URL to look like the 
   I am only a wannabe drummer.
   """
   # Sidebar menu - if true will add a sidebar menu between sidebar text and recent posts
-  sidebarMenuEnabled = true
+  sidebarMenuEnabled = false
   sidebarMenuHeader = "Linkages"
 
   # social links
   github = "https://github.com/robbkidd/"
   twitter = "https://twitter.com/robbkidd/"
   keybase = "https://keybase.io/robbkidd/"
+  mastodon = "https://hachyderm.io/@robbkidd"
 
   # --- End sidebar options ---
 

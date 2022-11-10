@@ -1,3 +1,4 @@
 [submodule "themes/octopress"]
 	path = themes/octopress
-	url = https://github.com/parsiya/Hugo-Octopress.git
+	url = https://github.com/robbkidd/Hugo-Octopress.git
+	branch = add-mastodon-to-sidebar
