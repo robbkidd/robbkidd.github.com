@@ -2,10 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://www.thekidds.org/recipes/</loc>
-    <lastmod>2020-09-23T19:52:06-04:00</lastmod>
+    <loc>http://www.thekidds.org/blog/</loc>
+    <lastmod>2023-09-03T11:43:07-04:00</lastmod>
+  </url><url>
+    <loc>http://www.thekidds.org/blog/2023/09/03/jedi-devs-and-sith-ops/</loc>
+    <lastmod>2023-09-03T11:43:07-04:00</lastmod>
   </url><url>
     <loc>http://www.thekidds.org/</loc>
+    <lastmod>2023-09-03T11:43:07-04:00</lastmod>
+  </url><url>
+    <loc>http://www.thekidds.org/recipes/</loc>
     <lastmod>2020-09-23T19:52:06-04:00</lastmod>
   </url><url>
     <loc>http://www.thekidds.org/recipes/white-pizza-sauce/</loc>
@@ -18,9 +24,6 @@
     <lastmod>2020-05-15T09:05:39-04:00</lastmod>
   </url><url>
     <loc>http://www.thekidds.org/tags/bash/</loc>
-    <lastmod>2019-09-07T19:47:44-05:00</lastmod>
-  </url><url>
-    <loc>http://www.thekidds.org/blog/</loc>
     <lastmod>2019-09-07T19:47:44-05:00</lastmod>
   </url><url>
     <loc>http://www.thekidds.org/blog/2019/09/07/multi-shell-shebangery/</loc>
